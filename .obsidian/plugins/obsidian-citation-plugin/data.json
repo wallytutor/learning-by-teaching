@@ -5,5 +5,5 @@
   "literatureNoteContentTemplate": "---\ntitle: {{title}}\nauthors: {{authorString}}\nyear: {{year}}\n---\n\n",
   "markdownCitationTemplate": "[@{{citekey}}]",
   "alternativeMarkdownCitationTemplate": "@{{citekey}}",
-  "citationExportPath": "/home/walter/Data/Dossiers/programs/WallyToolbox.jl/data/bibtex/references.bib"
+  "citationExportPath": "../Dossiers/programs/WallyToolbox.jl/data/bibtex/references.bib"
 }

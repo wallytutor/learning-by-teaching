@@ -1,4 +1,6 @@
 {
   "cssTheme": "Shimmering Focus",
-  "theme": "obsidian"
+  "theme": "obsidian",
+  "accentColor": "",
+  "baseFontSize": 12
 }
