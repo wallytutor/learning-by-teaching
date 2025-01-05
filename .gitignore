@@ -1,2 +1,5 @@
 # Ignore Obsidian workspace file
 .obsidian/workspace.json
+
+# Generated PDF files
+outputs/*.pdf
