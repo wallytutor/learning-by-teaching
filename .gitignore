@@ -3,3 +3,6 @@
 
 # Generated PDF files
 outputs/*.pdf
+
+# Stored PDF files
+*/**/*.pdf
