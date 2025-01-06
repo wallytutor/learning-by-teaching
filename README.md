@@ -9,7 +9,7 @@ Please visit the repository [webpage](https://wallytutor.github.io/learning-by-t
 ### Thermodynamics
 
 1. [Course *Thermodynamics and Phase Equilibria*](thermodynamics/SOE.XMATSCI0001.md)
-
+1. [Course *Thermodynamics of Materials*](thermodynamics/MITx3.012Tx.md)
 ### Fluids
 
 ### Kinetics

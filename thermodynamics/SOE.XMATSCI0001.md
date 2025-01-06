@@ -41,9 +41,43 @@ A class of materials is a group that share the same constitutive coordinates. Fo
 > [!IMPORTANT]
 > It must be emphasized that in most practical applications an additional set of constitutive coordinates need to be added to a fluid description, the mass fractions $Y_k$ of its various components.
 
-To wrap up this section, we can also provide a type to a material of a given class. All materials of the same class described by the same specific constitutive equation are said to be of the same type. In a complex model, different materials of the same class composing a system may eventually be described as being of different types (models).
+To wrap up this section, we can also provide a type to a material of a given class. All materials of the same class described by the same specific constitutive equation are said to be of the same type. In a complex model, different materials of the same class composing a system may eventually be described as being of different types (models), for instance, as an *ideal gas* or obeying *Van der Waals* equation.
 
 #material/type 
+
+### Laws of thermodynamics
+
+The expression of the laws of thermodynamics is built upon relationships between heat and work and how they change the internal state of the system. Although all of them are expressed in units of energy, they are fundamentally different. Work is provided by *organized* motion of particles with net displacement, while heat is related to *random fluctuations* with zero displacement. Everything else is accounted for the *internal energy*, which is linked to the microscopic scales (essentially atomic motion) not described in thermodynamics.
+
+#energy/heat #energy/work #energy/internal
+
+#quantity/extensive
+#quantity/intensive
+
+#process/reversible
+#process/irreversible
+
+#process/isothermal
+
+### Equations summary
+
+$$
+\begin{align*}
+dU &= \delta{}Q + \delta{}W \qquad \delta{}W=-p_{ext}dV
+\\[12pt]
+dU &= TdS - pdV
+\end{align*}
+$$
+
+$$
+dS = \frac{\delta{}Q_{rev}}{T}
+\qquad
+dS \ge \frac{\delta{}Q}{T}
+$$
+
+$$
+S = k\log(w)
+$$
 
 ## Tools for materials equilibria
 
