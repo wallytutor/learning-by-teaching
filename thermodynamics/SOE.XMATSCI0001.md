@@ -73,6 +73,9 @@ In the previous expression we have work defined as the product of a field $p$ mu
 
 #process/isothermal
 
+### Entropy and second law
+
+
 ### Equations summary
 
 $$
@@ -107,6 +110,12 @@ $$
 
 - What is the force pertaining to expansion work? $-p$.
 
+- In what scenario does the temperature of an ideal gas decrease upon adiabatic expansion?
+	- [ ] Work is performed on the system
+	- [x] Work is performed by the system; Work performed *by* the system is negative under the defined sign convention. Since $\delta{}Q = 0$ for adiabatic systems, the first law simplifies to $dU = \delta{}W$. A decrease in temperature corresponds to a decrease in internal energy of the system, so $\delta{}W$ must be negative as well.
+	- [ ] Heat is provided to the system
+	- [ ] Heat is removed from the system
+	
 ## Tools for materials equilibria
 
 ## Unary systems
