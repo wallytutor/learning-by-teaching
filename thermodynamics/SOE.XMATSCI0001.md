@@ -45,17 +45,31 @@ To wrap up this section, we can also provide a type to a material of a given cla
 
 #material/type 
 
-### Laws of thermodynamics
+### Heat and work
 
-The expression of the laws of thermodynamics is built upon relationships between heat and work and how they change the internal state of the system. Although all of them are expressed in units of energy, they are fundamentally different. Work is provided by *organized* motion of particles with net displacement, while heat is related to *random fluctuations* with zero displacement. Everything else is accounted for the *internal energy*, which is linked to the microscopic scales (essentially atomic motion) not described in thermodynamics.
+The expression of the laws of thermodynamics is built upon relationships between heat and work and how they change the internal state of the system. Although all of them are expressed in units of energy, they are fundamentally different. Work is provided by *organized* motion of particles with net displacement, while heat is related to *random fluctuations* with zero displacement. Everything else is accounted for the *internal energy*, which is linked to the microscopic scales (essentially atomic motion) not described in thermodynamics. Joule demonstrated the equivalence between heat and work, disproving the belief that, at his time, heat was intrinsically contained in the material being submitted to work.
 
 #energy/heat #energy/work #energy/internal
 
-#quantity/extensive
-#quantity/intensive
+It is important to keep a consistent sign convention for work and heat in thermodynamics; here we adopt a system-centric approach where work *performed on* the system, *e.g.* by reducing its volume, is positive, while work *performed by* the system - consequently reducing its internal energy - is negative. By the definition of pressure $p$, for a piston, we have
 
-#process/reversible
-#process/irreversible
+$$
+W = \int_{1}^{2}p_{ext}Adx = -p_{ext}\Delta{}V
+$$
+
+where the external pressure $p_{ext}$ is used because it is the value that performs work or upon which work is performed against, until equilibrium is reached. The sign convention displays the above definitions, meaning that a reduction of volume $\Delta{}V<0$ would imply work performed on the system. Following the same logic, heat $Q$ provided to the system has a positive sign, while heat transferred from the system to its surroundings has a negative sign.
+
+In the previous expression we have work defined as the product of a field $p$ multiplied by an *extensive* quantity $V$. Fields is what in thermodynamics we call *intensive* variables, those defined as a distribution in space; their *extensive* counterpart hold the property of being additive and can only be defined for the system as a whole. There are always pairs of *conjugate* intensive and extensive variables as we will show later. Work will always be represented by an intensive quantity multiplied by a change in an extensive quantity.
+
+#quantity/extensive #quantity/intensive
+
+### First law of thermodynamics
+
+
+#variable/state #variable/path
+
+
+#process/reversible #process/irreversible
 
 #process/isothermal
 
@@ -78,6 +92,20 @@ $$
 $$
 S = k\log(w)
 $$
+
+### Knowledge check
+
+- A permeable membrane cannot be adiabatic: *true*.
+
+- The chemical identity of the atoms is a constitutive coordinate of an ideal gas: *false*.
+
+- The internal energy of all materials is 0J at T=0K: *false*. Internal energy is not an absolute number.
+
+- If a system completes a cycle, $\Delta{}U_{sys}=0$ and $\Delta{}U_{surroundings}=0$ no matter what: *true*. Internal energy $U$ is a state function.
+
+- The internal energy of a system is always conserved: *false*. The energy of the Universe is conserved, but individually, the energy of the system or surrounding are not always.
+
+- What is the force pertaining to expansion work? $-p$.
 
 ## Tools for materials equilibria
 
