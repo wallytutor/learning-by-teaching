@@ -75,6 +75,7 @@ In the previous expression we have work defined as the product of a field $p$ mu
 
 ### Entropy and second law
 
+#entropy/empirical #entropy/metrical
 
 ### Equations summary
 
@@ -115,7 +116,19 @@ $$
 	- [x] Work is performed by the system; Work performed *by* the system is negative under the defined sign convention. Since $\delta{}Q = 0$ for adiabatic systems, the first law simplifies to $dU = \delta{}W$. A decrease in temperature corresponds to a decrease in internal energy of the system, so $\delta{}W$ must be negative as well.
 	- [ ] Heat is provided to the system
 	- [ ] Heat is removed from the system
-	
+
+- Any spontaneous adiabatic transformation of a material increases its entropy: *true*.
+
+- In going from a state A to a state B, an adiabatic system can either take a reversible path or an irreversible path: *false*. Entropy $S$ is a state function. Along the irreversible path $\Delta{}S>0$ while along the other $\Delta{}S=0$, this is a contradiction.
+
+- Why can't adiabatic lines ever cross?
+	- [ ] Higher energy states would be accessible
+	- [ ] Lower energy states would be accessible
+	- [ ] Higher entropy states would be accessible
+	- [x] Lower entropy states would be accessible
+
+- It is possible to have an adiabatic cycle with an irreversible leg: *false*.
+
 ## Tools for materials equilibria
 
 ## Unary systems
