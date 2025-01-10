@@ -2,6 +2,30 @@
 
 Notes taken while following this [course](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.XMATSCI0001+1T2020/home) by [Alberto Salleo](https://profiles.stanford.edu/alberto-salleo).
 
+- Preamble
+	- [Thermodynamics and Phase Equilibria: Introduction](https://www.youtube.com/watch?v=bEUiUfunnvI)
+	- [Historical overview](https://www.youtube.com/watch?v=GKO3MXExI2s)
+	- [Definitions of Fundamental Concepts](https://www.youtube.com/watch?v=INwjv9HDCt0)
+
+- Chapter 1
+	- [Foundations](https://www.youtube.com/watch?v=s4UAlDe9-l8)
+	- [Heat and Work](https://www.youtube.com/watch?v=4on5epShTrU)
+	- [James Joule](https://www.youtube.com/watch?v=id8kgbaYpKM)
+	- [Definition and Sign Convention for Work](https://www.youtube.com/watch?v=7nWm_KXV8Mo)
+	- [First Law of Thermodynamics](https://www.youtube.com/watch?v=XTx-su6s_sA)
+	- [Caloric Equation of State](https://www.youtube.com/watch?v=K90C6w-FP8I)
+	- [Generalized Form of the First Law](https://www.youtube.com/watch?v=7h2tcB9fxN0)
+	- [Internal Energy of an Ideal Gas](https://www.youtube.com/watch?v=vVySRn5vpHY)
+	- [Need for Entropy](https://www.youtube.com/watch?v=tz0mm8zwj9k)
+	- [Inaccessibility and Empirical Entropy](https://www.youtube.com/watch?v=AN2ndlPuOiE)
+	- [Metrical Entropy](https://www.youtube.com/watch?v=2Kd0eJFO3U4)
+	- [Adiabatic Processes](https://www.youtube.com/watch?v=G27IGHhMhQE)
+	- [Carnot Inequality](https://www.youtube.com/watch?v=Tso3_y8gKIM)
+	- [Isothermal Processes](https://www.youtube.com/watch?v=rN9RDoCThIk)
+	- [Sadi Carnot](https://www.youtube.com/watch?v=CJM-hHHG28Q)
+	- [Second Law of Thermodynamics](https://www.youtube.com/watch?v=AQ8SMZdoRFY)
+	- [Equilibrium](https://www.youtube.com/watch?v=rVK77TYw1hE)
+
 ## Foundations
 
 Thermodynamics is not good at predicting what will happen - that is generally governed by kinetics - but can tell you what cannot happen. All observable processes have to be allowed by thermodynamics. Our goal in what follows is to understand which properties of materials must be measured so that predictions can be made regarding their phase transformations and how to assemble the equations to perform such predictions.
@@ -9,7 +33,6 @@ Thermodynamics is not good at predicting what will happen - that is generally go
 Historically, thermodynamics is a science born from practical engineering needs. In fact, it arose as England needed to develop the steam engine to be able to mine coal. At the same time, in France, its political rival at the time, Sadi Carnot developed further the science introducing the concept of entropy and maximum efficiency of an engine. Later on, in Austria, Boltzmann highly theoretical work linked entropy to atomistic behavior, what became fundamental in many fields. Currently the concept of entropy is used in cosmology, information science, linguistics, and so on, revealing the importance of thermodynamics as a general framework for describing the macroscopic world.
 
 A large part of thermodynamics relies on the classification of systems, their boundaries, and the constitutive laws closing the description of the physics governing the system. That said, thermodynamics is an intrinsically semi-empirical science. The most basic type of system is the isolated system, for which no form of energy (heat, work, etc.) or mass exchanges is allowed. On the other hand, a system can be adiabatic, so that heat exchanges are not possible but work can be exerted by/upon the system. Adiabatic systems cannot exchange matter with their surroundings.
-
 ### System classification
 
 #system/isolated #system/adiabatic
@@ -64,7 +87,6 @@ In the previous expression we have work defined as the product of a field $p$ mu
 #quantity/extensive #quantity/intensive
 
 ### First law of thermodynamics
-
 
 #variable/state #variable/path
 
@@ -128,6 +150,12 @@ $$
 	- [x] Lower entropy states would be accessible
 
 - It is possible to have an adiabatic cycle with an irreversible leg: *false*.
+
+- In going from a state A to a state B, an isothermal system can either take a reversible path or an irreversible path: *true*.
+
+- What is the entropy change of a system undergoing an irreversible isothermal cycle? *0*. Even though the cycle is irreversible, the system is able to return to its original state.
+
+- What about the surroundings? *>0*. The surroundings will gain more heat after the cycle completes. Therefore, $S_{surr}>0$.
 
 ## Tools for materials equilibria
 
