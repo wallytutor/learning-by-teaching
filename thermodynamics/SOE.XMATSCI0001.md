@@ -25,7 +25,8 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [Sadi Carnot](https://www.youtube.com/watch?v=CJM-hHHG28Q)
 	- [Second Law of Thermodynamics](https://www.youtube.com/watch?v=AQ8SMZdoRFY)
 	- [Equilibrium](https://www.youtube.com/watch?v=rVK77TYw1hE)
-
+	- [3rd Law Measurability of Entropy](https://www.youtube.com/watch?v=tNekt9tBbwY)
+	
 ## Foundations
 
 Thermodynamics is not good at predicting what will happen - that is generally governed by kinetics - but can tell you what cannot happen. All observable processes have to be allowed by thermodynamics. Our goal in what follows is to understand which properties of materials must be measured so that predictions can be made regarding their phase transformations and how to assemble the equations to perform such predictions.
@@ -156,6 +157,10 @@ $$
 - What is the entropy change of a system undergoing an irreversible isothermal cycle? *0*. Even though the cycle is irreversible, the system is able to return to its original state.
 
 - What about the surroundings? *>0*. The surroundings will gain more heat after the cycle completes. Therefore, $S_{surr}>0$.
+
+- The entropy of the Universe always increases when a system spontaneously evolves towards equilibrium: *true*.
+
+- If a system completes a cycle, $\Delta{}S_{sys}=0$ and $\Delta{}S_{surr}=0$ no matter what: *false*. If the cycle contains an irreversible leg $\Delta{}S_{surr}>0$.
 
 ## Tools for materials equilibria
 
