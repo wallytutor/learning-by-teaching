@@ -27,6 +27,7 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [Equilibrium](https://www.youtube.com/watch?v=rVK77TYw1hE)
 	- [3rd Law Measurability of Entropy](https://www.youtube.com/watch?v=tNekt9tBbwY)
 	- [Combined Statement](https://www.youtube.com/watch?v=Ocm_rrOU-Oc)
+	- [Statistical Definition of Entropy](https://www.youtube.com/watch?v=vl_UGp6-Tkc)
 	
 ## Foundations
 
@@ -162,6 +163,8 @@ $$
 - The entropy of the Universe always increases when a system spontaneously evolves towards equilibrium: *true*.
 
 - If a system completes a cycle, $\Delta{}S_{sys}=0$ and $\Delta{}S_{surr}=0$ no matter what: *false*. If the cycle contains an irreversible leg $\Delta{}S_{surr}>0$.
+
+- The combined statement only applies to reversible processes: *false*.
 
 ## Tools for materials equilibria
 
