@@ -26,6 +26,7 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [Second Law of Thermodynamics](https://www.youtube.com/watch?v=AQ8SMZdoRFY)
 	- [Equilibrium](https://www.youtube.com/watch?v=rVK77TYw1hE)
 	- [3rd Law Measurability of Entropy](https://www.youtube.com/watch?v=tNekt9tBbwY)
+	- [Combined Statement](https://www.youtube.com/watch?v=Ocm_rrOU-Oc)
 	
 ## Foundations
 

@@ -10,6 +10,7 @@ Please visit the repository [webpage](https://wallytutor.github.io/learning-by-t
 
 1. [Course *Thermodynamics and Phase Equilibria*](thermodynamics/SOE.XMATSCI0001.md)
 1. [Course *Thermodynamics of Materials*](thermodynamics/MITx3.012Tx.md)
+
 ### Fluids
 
 ### Kinetics
@@ -20,8 +21,20 @@ Please visit the repository [webpage](https://wallytutor.github.io/learning-by-t
 1. [Energy sources](combustion/energy-sources.md)
 1. [Environmental aspects](combustion/environmental-aspects.md)
 
-### Software
+## Software
 
-#### FreeCAD
+1. [Scientific computing](software/scientific.md)
+1. [General tips](software/general.md)
+1. [Git version control](software/git.md)
+1. [Work on Windows](software/windows.md)
+1. [Work on Linux](software/linux.md)
+1. [LaTeX typesetting](software/latex.md)
+1. [Regex tips](software/regex.md)
+
+### FreeCAD
 
 1. [Basics](software/freecad/basics.md)
+
+### ParaView
+
+1. [Basics](software/paraview/basics.md)
