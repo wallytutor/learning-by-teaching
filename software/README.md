@@ -20,6 +20,10 @@
 1. [User functions](elmer/udf.md)
 1. [Elmer showcase](elmer/samples/README.md)
 
+## gmsh
+
+1. [Basics](gmsh/basics.md)
+
 ## FreeCAD
 
 1. [Basics](freecad/basics.md)

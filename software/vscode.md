@@ -20,7 +20,7 @@ If you copied a command from a tutorial, you **CANNOT** use `Ctrl+V` to paste it
 
 ## Extensions
 
-VS Code supports a number of extensions to facilitate coding and data analysis, among other tasks. Below you find my recommended extensions for different purposes and languages.
+VS Code supports a number of extensions to facilitate coding and data analysis, among other tasks. Local (user-created) extensions can be manually installed by placing their folder under `%USERPROFILE%/.vscode/extensions` or in the equivalent directory documented [here](https://code.visualstudio.com/docs/editor/extension-marketplace#_where-are-extensions-installed). Below you find my recommended extensions for different purposes and languages.
 
 ### Julia
 
