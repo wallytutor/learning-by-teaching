@@ -9,6 +9,8 @@
 1. [Work on Linux](linux.md)
 1. [LaTeX typesetting](latex.md)
 1. [Regex tips](regex.md)
+1. [VS Code](vscode.md)
+1. [Command line](cli.md) 
 
 ## FreeCAD
 
