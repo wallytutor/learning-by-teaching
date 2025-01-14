@@ -13,4 +13,5 @@ plugins:
 
 title: Learning by Teaching
 description: My notes and everything else!
+logo: /assets/img/logo.png
 show_downloads: true
