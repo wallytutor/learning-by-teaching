@@ -16,6 +16,7 @@
 
 1. [Elmer basics](elmer/basics.md)
 1. [General usage](elmer/usage.md)
+1. [Solver input files](elmer/sif.md) 
 1. [MATC language](elmer/matc.md)
 1. [User functions](elmer/udf.md)
 1. [Elmer showcase](elmer/samples/README.md)
