@@ -1,5 +1,11 @@
 # For more on theme configuration check:
 # https://github.com/pages-themes/minimal?tab=readme-ov-file
+#
+# For favicon and logo check:
+# https://redketchup.io/favicon-generator
+#
+# Colors: #311B92 / #F57F17
+# Font: Ubuntu
 
 remote_theme: pages-themes/minimal@v0.2.0
 plugins:

@@ -6,3 +6,6 @@ outputs/*.pdf
 
 # Stored PDF files
 */**/*.pdf
+
+# But keep my CV
+!curriculum/*.pdf

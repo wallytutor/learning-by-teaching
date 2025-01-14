@@ -11,3 +11,9 @@ Please visit the repository [webpage](https://wallytutor.github.io/learning-by-t
 1. [Kinetics](kinetics/README.md)
 1. [Combustion](combustion/README.md)
 1. [Software](software/README.md)
+
+## About
+
+My name is Walter [(you find my background here)](curriculum/curriculum.pdf) and I like writing about science and engineering topics. I have more than a decade of scientific computing experience and a broad experience with open source software, especially in the fields of fluid dynamics and gas phase kinetics; a little of it being shared here, among other subjects of my personal interest.
+
+During the years I tried to different formats to organize my study materials and working tools. Recently that I tried coupling my knowledge base with the documentation of my personal code without success and started migrating everything to the simples format you find here. Obviously I cannot migrate all the content I have ever produced here at once, so my decision was to restructure everything and have a fresh start, feeding content as required, *i.e.* somebody asked me a hand in a certain subject or I need to refresh certain skill at work. Sometimes I also write on Medium [articles](https://medium.com/@waltermateriais).
