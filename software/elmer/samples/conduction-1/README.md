@@ -1,92 +1,92 @@
-# How to interpret symmetries in Elmer?
+# Heat conduction in Elmer
 
-## Setup case in Elmer GUI
+The goals of this set of cases is to:
 
-The `concept` case is created with Elmer GUI to get the base operating version of SIF file. This is essentially the 2D case since it is conceived with its mesh.
+- illustrate how to setup heat conduction in Elmer;
+- compare solutions of the same problem in 2D and 3D;
+- help on how to interpret symmetries and fluxes in Elmer;
+- provide uses of data extraction during calculation.
 
-- File > Open > *select 2D mesh file*
-- File > Definitions > Append > *fluxsolver.xml*
-- File > Definitions > Append > *saveline.xml*
-- File > Save Project > *navigate to concept directory*
+Before following the discussion below, the reader is invited to check the guided setup of a reference case under [concept](concept/README.md). This is provided to facilitate the structuring of SIF files. Once the initial SIF file is generated, you can copy it to the `2d` directory, where is continue the discussion.
 
-Now on the object tree:
+## Conduction in 2D
 
-- Expand `Body`:
-    - Open `Body Property 1`, rename it `Hollow Cylinder`
+The case you find here is essentially the same as the one under [concept](concept/README.md). A few editions to the SIF file were performed so that we get ready to reuse it in 3D and run reproducibly with script automation.
 
-- Equation > [Add...]:
-    - Rename it `Model`
-    - Apply to bodies: check `Hollow Cylinder`
-    - Check `Active` in tabs:
-        - `Heat equation`
-        - `Flux and Gradient`
-        - `SaveLine`
+As the script is expected to be manually edited from now on, we added comments (in SIF a comment line starts with a `!` as in Fortran - the main language of Elmer) splitting the case in logical blocks with *general* content, *material and its domain*, the *solvers*, and finally the *conditions*.
 
-- Edit Solver Settings in `Model` tab `Flux and Gradient`:
-    - Tab `Solver specific options`:
-        - Target Variable `Temperature`
-        - Flux Coefficient `Heat Conductivity`
-        - Check `Calculate Flux`
-    - Tab `General`:
-        - Execute solver `After timestep`
+The location of the mesh was changed from default (the only supported location when using the GUI) to a directory called `domain` (same name of the `gmsh` file) by adding the following line to the `Header` section:
 
-- Edit Solver Settings in `Model` tab `SaveLine`:
-    - Tab `Solver specific options`:
-        - Polyline Coordinates `Size(2, 2);  0.005 0.025  0.100 0.025`
-        - Polyline Divisions `25`
-    - Tab `General`:
-        - Execute solver `After simulation`
+```c
+Mesh DB "domain" "."
+```
 
-- Material > [Add...]:
-    - Rename it `Solid`
-    - Apply to bodies: check `Hollow Cylinder`
-    - Density `3000`
-    - Heat Capacity `1000`
-    - Tab `Heat equation`:
-        - Heat Conductivity `10`
+If you followed the [concept](concept/README.md) setup you should already have a mesh here, otherwise run:
 
-- Initial condition > [Add...]:
-    - Rename it `Initial Temperature`
-    - Apply to bodies: check `Hollow Cylinder`
-    - Tab `Heat equation`:
-        - Temperature `1000`
+```shell
+gmsh - domain.geo
+```
 
-- Boundary condition > [Add...]:
-    - Rename it `Hole`
-    - Apply to boundaries: check `Boundary 1`
-    - Tab `Heat equation`:
-        - Heat Flux `0`
+This can be converted to Elmer format with `ElmerGrid` by running:
 
-- Boundary condition > [Add...]:
-    - Rename it `Ends`
-    - Apply to boundaries: check `Boundary 3`
-    - Tab `Heat equation`:
-        - Heat Flux `0`
+```shell
+ElmerGrid 14 2 domain.msh -autoclean -merge 1.0e-05
+```
 
-- Boundary condition > [Add...]:
-    - Rename it `Environment`
-    - Apply to boundaries: check `Boundary 2`
-    - Tab `Heat equation`:
-        - Heat Transfer Coeff. `10`
-        - External Temperature `300`
+In this command `14` represents the `gmsh` input format and `2` the `ElmerSolver` file format. For the other options, please check the [documentation](https://www.nic.funet.fi/pub/sci/physics/elmer/doc/ElmerGridManual.pdf).
 
-Now save, generate, and run for testing. Back to menu `Model > Setup...`:
+For a standard sequential run simple enter:
 
-- Results directory `results`
-- Coordinate system `Axi Symmetric`
-- Simulation type `Transient`
-- Output intervals `10`
-- Timestep intervals `120`
-- Timestep sizes `10`
+```shell
+ElmerSolver
+```
 
-Now save, generate, and run, it should be up and running!
+It was not illustrated above, but it is important to redirect the output of these commands to log files so that they can be inspected for any errors or warnings. Results are dumped to `results/` directory as defined in the concept phase and can be inspected with [ParaView](../../../paraview/basics.md).
 
-## Preparation of other cases
+## Conduction in 3D
 
-As stated before, the case set up through the GUI is essentially the 2D case we wish to prepare. Input (SIF) file generated during concept was moved to the root of [2d/](2d/) directory and a script was added for automation.
+Adapting the case for running with a 3D geometry (provided under directory `3d`) is quite simple now. First, we modify the coordinate system under `Simulation` section to cartesian. This is because now we are solving an actual 3D geometry and enforcing specific coordinate systems is no longer required (or formally compatible).
 
-For setting up 3D case we first load the new mesh in a new session of Elmer GUI with the purpose of verifying the mapping of boundary conditions. Next the SIF file is copied to the [3d/](3d/) directory and a new zero flux `Symmetry` condition is added for the wedge sides - since they were not present in axisymmetric case. Also notice that coordinate system is now cartesian because the geometry is resolved in 3D.
+```c
+Coordinate System = Cartesian
+```
+
+For converting the `gmsh` file you can proceed the same way as in 2D. If is worth opening the generated `.msh` file with `ElmerGUI` to inspect the numbering of boundary conditions (it will be later required to be edited in SIF).  Because the sides (symmetry of cylinder) are not present in 2D (it is the plane itself), you need to add an extra boundary condition as follows:
+
+```c
+Boundary Condition 4
+  Target Boundaries(1) = 4 
+  Name = "Symmetry"
+  Heat Flux = 0
+End
+```
+
+To generate the `ElmerSolver` mesh under `domain/` we run the same command as before. Because transient 3D cases are quite computationally intensive, for any practical purposes the simulation must be run in parallel. Domain decomposition is also performed with `ElmerGrid` as follows:
+
+```shell
+ElmerGrid 2 2 domain -partdual -metiskway 16
+```
+
+In the above command the number `16` represents the number of cores; you might need to adapt for a lower value if running from most laptops (generally with 4 or 6 cores these days). For running in parallel with 16 cores we need to run the command:
+
+```shell
+mpiexec -n 16 ElmerSolver_mpi
+```
+
+The command `mpiexec` is how the message passing interface (MPI) runner is called in Windows; for Linux this should be `mpirun` instead.
 
 ## Post-processing
 
-## Conclusions
+*Ongoing*
+
+- Transient solution GIF's
+- Comparison of temperature profile
+- Interpretation and verification of flux
+
+## Classification
+
+#elmer/domain/axisymmetric
+#elmer/domain/transient
+#elmer/models/heat-equation 
+#elmer/models/save-line
+#elmer/models/flux-solver
