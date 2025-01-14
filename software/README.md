@@ -12,6 +12,13 @@
 1. [VS Code](vscode.md)
 1. [Command line](cli.md) 
 
+## Elmer
+
+1. [Elmer basics](elmer/basics.md)
+1. [General usage](elmer/usage.md)
+1. [MATC language](elmer/matc.md)
+1. [User functions](elmer/udf.md)
+
 ## FreeCAD
 
 1. [Basics](freecad/basics.md)
