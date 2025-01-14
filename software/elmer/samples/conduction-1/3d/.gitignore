@@ -1,0 +1,9 @@
+# Keep project geometry
+!*.geo
+
+# In this case the names file is stored at root
+*.dat.names
+
+# No need to keep domain though
+domain/*
+results/*
