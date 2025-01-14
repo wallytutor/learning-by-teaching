@@ -29,6 +29,12 @@ Python code documentation is generally done with [Sphinx](https://www.sphinx-doc
 
 ## Julia
 
+Julia from zero to hero (for Scientific Computing)!
+
+**Important:** the following courses may assume you are using a redistributable version of Julia packaged as described [here](https://github.com/wallytutor/julia101/tree/main). This might be useful for instructors willing to work without internet access.
+
 1. [Julia 101](julia/101/README.md)
 
 ## Python
+
+*Upcoming*

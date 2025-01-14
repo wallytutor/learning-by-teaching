@@ -531,7 +531,19 @@ For entering equations, Julia Markdown supports $\LaTeX$ typesetting; you can le
 
 Also notice that you can enter variable names in [Unicode](https://docs.julialang.org/en/v1/manual/unicode-input/). This helps keeping consistency between mathematical formulation and code, what is pretty interesting. Please do not use Unicode mixed with $\LaTeX$ (only Pluto supports that), otherwise you won't be able to copy your equations directly to reports. Partial support of autocompletion works in Pluto for Unicode, simply write a backslash and press tab, a list of available names will be shown.
 
-Generally speaking, you should follow its [documentation](https://plutojl.org/) to run Pluto. Here for keeping consistency and work in a portable environment we have provided the command `pluto()` that you can run from a `julia101` terminal.
+Generally speaking, you should follow its [documentation](https://plutojl.org/) to run Pluto, *i.e.* `using Pluto; Pluto.run()`. In some cases because of local system configuration that might fail. Some corporate browsers will not be able to access `localhost` and [configuring](https://plutojl.org/en/docs/configuration/) Pluto might be required. The following snippet provides a `pluto` function that could be useful in those cases:
+
+```julia
+using Pluto
+
+function pluto(; port = 2505)
+    session = Pluto.ServerSession()
+    session.options.server.launch_browser = false
+    session.options.server.port = port
+    session.options.server.root_url = "http://127.0.0.1:$(port)/"
+    Pluto.run(session)
+end
+```
 
 Your task:
 
