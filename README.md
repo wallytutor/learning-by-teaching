@@ -9,8 +9,9 @@ Please visit the repository [webpage](https://wallytutor.github.io/learning-by-t
 1. [Thermodynamics](thermodynamics/README.md)
 1. [Fluids](fluids/README.ms)
 1. [Kinetics](kinetics/README.md)
-1. [Combustion](combustion/README.md)
+1. [Combustion](combustion/README.md) 
 1. [Software](software/README.md)
+1. [Programming](programming/README.md) 
 
 ## About
 
