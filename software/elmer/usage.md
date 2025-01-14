@@ -176,8 +176,3 @@ End
 
 Another situation that can be frequently found is unit conversion for temperature. It was chosen to implement it in [this case](https://github.com/wallytutor/WallyToolbox.jl/tree/main/apps/Elmer/conduction_refractory/transient_parallel) because it is multi-material; that is a reminder that in such cases the new variable needs to be created for all materials (as this is a tweak, since the temperature is not a material property, but a global field). If forgotten in one material, an error will show up in ParaView telling you that the field is not available in some regions.
 
-## Solver Input Files (SIF)
-
-Once you get serious with Elmer it is a natural evolution to prefer to work with SIF files instead of the GUI most of the time. This is also true in a majority of scientific computing software. The documentation of SIF is spread over the whole documentation of Elmer and this page tries to consolidate the most of it. For the beginner, this [video](https://www.youtube.com/watch?v=iXVEqKTq5TE) is a good starting point, this page being more of a reference manual.
-
-Because syntax highlighting is important for productivity, I am working in a minimalistic extension for VS Code. Its partial development can be found [here](https://github.com/wallytutor/WallyToolbox.jl/tree/main/helpers/syntax-highlighters/sif). After cloning the repository, simply copy the `sif/` directory under `%USERPROFILE%/.vscode/extensions`  on in the equivalent directory documented [here](https://code.visualstudio.com/docs/editor/extension-marketplace#_where-are-extensions-installed).
