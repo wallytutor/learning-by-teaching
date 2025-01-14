@@ -23,12 +23,12 @@ When you code, remember that most of the time what you are doing will be reviewe
 
 Julia has its own [stylistic conventions](https://docs.julialang.org/en/v1/manual/variables/#Stylistic-Conventions) that are simpler than PEP8; the main differences are the way to name functions (it recommends to *glue* words and use no underscore) and the *exclamation mark !* indicating a function modifies it(s) argument(s). For function naming you may chose to stick to PEP8 recommendation, what is my personal choice. The detailed document is found [here](https://docs.julialang.org/en/v1/manual/style-guide/).
 
-Python code documentation is generally done with [Sphinx](https://www.sphinx-doc.org/en/master/). For [documenting code](https://docs.julialang.org/en/v1/manual/documentation/#Syntax-Guide) Julia has its own syntax which can be used to generate package documentation with help of [Documenter.jl](https://documenter.juliadocs.org/stable/). 
+Python code documentation is generally done with [Sphinx](https://www.sphinx-doc.org/en/master/). Julia has its own [syntax](https://docs.julialang.org/en/v1/manual/documentation/#Syntax-Guide) which can be used to generate package documentation with help of [Documenter.jl](https://documenter.juliadocs.org/stable/). 
 
 **Important:** Julia supports [Unicode input](https://docs.julialang.org/en/v1/manual/unicode-input/), but its use is highly discouraged in modules. Unicode characters are better suited to write application scripts such as notebooks (in Pluto or Jupyter).
 
 ## Julia
 
-1. [Julia 101](julia/101.md)
+1. [Julia 101](julia/101/README.md)
 
 ## Python
