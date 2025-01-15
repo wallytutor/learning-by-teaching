@@ -27,8 +27,10 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [Equilibrium](https://www.youtube.com/watch?v=rVK77TYw1hE)
 	- [3rd Law Measurability of Entropy](https://www.youtube.com/watch?v=tNekt9tBbwY)
 	- [Combined Statement](https://www.youtube.com/watch?v=Ocm_rrOU-Oc)
-	- [Statistical Definition of Entropy](https://www.youtube.com/watch?v=vl_UGp6-Tkc)
-	
+	- [Statistical Definition of Entropy](https://www.youtube.com/watch?v=vl_UGp6-Tkc) [^1]
+
+[^1]: **Correction:** At 4:55 in the video below, Prof. Salleo mentions that the two configurations with W = 210 have the highest entropy. However, the single configuration to their right, with W = 840 has the highest entropy.
+
 ## Foundations
 
 Thermodynamics is not good at predicting what will happen - that is generally governed by kinetics - but can tell you what cannot happen. All observable processes have to be allowed by thermodynamics. Our goal in what follows is to understand which properties of materials must be measured so that predictions can be made regarding their phase transformations and how to assemble the equations to perform such predictions.
@@ -165,6 +167,14 @@ $$
 - If a system completes a cycle, $\Delta{}S_{sys}=0$ and $\Delta{}S_{surr}=0$ no matter what: *false*. If the cycle contains an irreversible leg $\Delta{}S_{surr}>0$.
 
 - The combined statement only applies to reversible processes: *false*.
+
+- Consider the system below with 3 atoms and E = 4 J. Three configurations are possible.
+
+
+![](SOE.XMATSCI0001/statistical-entropy.png)
+
+1. What is W for configuration 1?
+2. Which configuration has the highest entropy?
 
 ## Tools for materials equilibria
 
