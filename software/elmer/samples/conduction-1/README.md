@@ -83,6 +83,12 @@ The command `mpiexec` is how the message passing interface (MPI) runner is calle
 - Comparison of temperature profile
 - Interpretation and verification of flux
 
+![](2d/animation/animation.gif)
+
+<center>
+  <img src="2d/animation/animation.gif" width="70%">
+</center>
+
 ## Classification
 
 #elmer/domain/axisymmetric
