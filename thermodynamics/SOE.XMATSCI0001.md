@@ -28,6 +28,7 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [3rd Law Measurability of Entropy](https://www.youtube.com/watch?v=tNekt9tBbwY)
 	- [Combined Statement](https://www.youtube.com/watch?v=Ocm_rrOU-Oc)
 	- [Statistical Definition of Entropy](https://www.youtube.com/watch?v=vl_UGp6-Tkc) [^1]
+	- [Equations That Are Always True](https://www.youtube.com/watch?v=THrqc0HixDA)
 
 [^1]: **Correction:** At 4:55 in the video below, Prof. Salleo mentions that the two configurations with W = 210 have the highest entropy. However, the single configuration to their right, with W = 840 has the highest entropy.
 
@@ -173,8 +174,8 @@ $$
 
 ![](SOE.XMATSCI0001/statistical-entropy.png)
 
-1. What is W for configuration 1?
-2. Which configuration has the highest entropy?
+1. What is W for configuration 1? 3
+2. Which configuration has the highest entropy? 2
 
 ## Tools for materials equilibria
 
