@@ -5,5 +5,8 @@
 domain/*
 results/*
 
+# Ignore raw post-processing
+animation/*.png
+
 # In this case the names file is stored at root
 *.dat.names

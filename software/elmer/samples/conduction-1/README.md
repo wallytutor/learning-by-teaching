@@ -77,17 +77,18 @@ The command `mpiexec` is how the message passing interface (MPI) runner is calle
 
 ## Post-processing
 
+ParaView was employed to generate standard animations of temperature evolution in bodies. Below we have the 2D axisymetric results:
+
+![2D Case](2d/animation/animation.gif)
+
+The same was done for 3D equivalent case as illustrated next:
+
+![3D Case](3d/animation/animation.gif)
+
 *Ongoing*
 
-- Transient solution GIF's
 - Comparison of temperature profile
 - Interpretation and verification of flux
-
-![](2d/animation/animation.gif)
-
-<center>
-  <img src="2d/animation/animation.gif" width="70%">
-</center>
 
 ## Classification
 
