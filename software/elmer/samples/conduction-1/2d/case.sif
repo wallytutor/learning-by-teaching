@@ -21,7 +21,6 @@ Simulation
   Timestepping Method = BDF
   BDF Order = 1
   Solver Input File = case.sif
-!   Post File = case.vtu
 End
 
 Constants
@@ -113,10 +112,8 @@ Solver 3
   Exec Solver = After Timestep
   Target Variable = Temperature
   Flux Coefficient = Heat Conductivity
-
   Calculate Flux = True
   Calculate Flux Magnitude = True
-
   Stabilize = True
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
@@ -150,9 +147,16 @@ Solver 4
   ! Vtu Time Collection = True
 End
 
+Solver 5
+  Procedure = "SaveData" "SaveScalars"
+  Filename = "scalars.dat"
+  Variable 1 = temperature Flux
+  Operator 1 = boundary int
+End
+
 Equation 1
   Name = "Model"
-  Active Solvers(3) = 1 2 3 4
+  Active Solvers(5) = 1 2 3 4 5
 End
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -169,6 +173,7 @@ Boundary Condition 1
   Name = "Environment"
   External Temperature = 300
   Heat Transfer Coefficient = 10
+  Save Scalars = True
 End
 
 Boundary Condition 2
