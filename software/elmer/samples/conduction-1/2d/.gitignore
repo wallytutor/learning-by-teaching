@@ -4,3 +4,6 @@
 # No need to keep domain though
 domain/*
 results/*
+
+# Ignore raw post-processing
+animation/*.png

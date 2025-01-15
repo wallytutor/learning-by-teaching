@@ -34,8 +34,8 @@ rho = 500.0;
 
 x1 = 0.005;
 y1 = 0.0;
-x2 = x1 + radius;
-y2 = y1 + height;
+x2 = radius;
+y2 = height;
 
 // --------------------------------------------------------------------
 // Computed discretization
