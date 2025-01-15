@@ -21,7 +21,7 @@ Simulation
   Timestepping Method = BDF
   BDF Order = 1
   Solver Input File = case.sif
-  Post File = case.vtu
+!   Post File = case.vtu
 End
 
 Constants
@@ -110,10 +110,13 @@ End
 Solver 3
   Procedure = "FluxSolver" "FluxSolver"
   Equation = Flux and Gradient
-  Calculate Flux = True
-  Flux Coefficient = Heat Conductivity
-  Target Variable = Temperature
   Exec Solver = After Timestep
+  Target Variable = Temperature
+  Flux Coefficient = Heat Conductivity
+
+  Calculate Flux = True
+  Calculate Flux Magnitude = True
+
   Stabilize = True
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
@@ -134,9 +137,22 @@ Solver 3
   Linear System Precondition Recompute = 1
 End
 
+Solver 4
+  Procedure = "ResultOutputSolve" "ResultOutputSolver"
+  Equation = ResultOutput
+  Exec Solver = After Saving
+  Output File Name = case
+  Output Format = vtu
+  Binary Output = True
+  Single Precision = False
+  Save Geometry Ids = True
+  ! Vtu Part Collection = True
+  ! Vtu Time Collection = True
+End
+
 Equation 1
   Name = "Model"
-  Active Solvers(3) = 1 2 3
+  Active Solvers(3) = 1 2 3 4
 End
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

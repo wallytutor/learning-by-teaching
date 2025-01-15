@@ -96,4 +96,5 @@ The same was done for 3D equivalent case as illustrated next:
 #elmer/domain/transient
 #elmer/models/heat-equation 
 #elmer/models/save-line
+#elmer/models/save-scalar
 #elmer/models/flux-solver
