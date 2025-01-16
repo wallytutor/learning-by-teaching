@@ -170,8 +170,9 @@ To get an integral value we used `SaveScalars`, which is plotted below against t
 
 ![2D case](2d/heat-flow.png)
 
+For the 3D case most of the ideas still hold true. The main difference here is that no intrinsic symmetry was implied by the cartesian choice of formulation. Symmetries were enforced by boundary conditions. That means that computed quantities evaluate to the actual area of the wedge, here covering an angle of $\pi/4$ - what should be clear as it is common to most simulation packages.
 
-## Post-processing
+## Graphical post-processing
 
 ParaView was employed to generate standard animations of temperature evolution in bodies. Below we have the 2D axisymmetric results:
 
@@ -180,11 +181,6 @@ ParaView was employed to generate standard animations of temperature evolution i
 The same was done for 3D equivalent case as illustrated next:
 
 ![3D Case](3d/animation/animation.gif)
-
-*Ongoing*
-
-- Comparison of temperature profile
-- Interpretation and verification of flux
 
 ## Classification
 
