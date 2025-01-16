@@ -81,13 +81,21 @@ Solver 5
   Exec Solver = After Timestep
 
   Filename = "scalars.dat"
+
   Variable 1 = Time
+
   Variable 2 = temperature Flux
   Operator 2 = boundary int
+  Operator 3 = diffusive flux
+
+  Variable 3 = temperature
+  Operator 4 = nonlin converged
+  Operator 5 = nonlin change
+  Operator 6 = norm
 End
 ```
 
-Since the goal here is to compute only heat losses to the environment, we modified the corresponding boundary condition by adding `Save Scalars = True`:
+Notice that in `SaveData` the operators have a sequential numbering and apply to the last variable preceding them. **Note:** the is an error in the official documentation and the keyword to store nonlinear change of a variable is actually `nonlin change`. Since the goal here is to compute only heat losses to the environment, we modified the corresponding boundary condition by adding `Save Scalars = True`:
 
 ```c
 Boundary Condition 1
@@ -116,6 +124,12 @@ Adapting the case for running with a 3D geometry (provided under directory `3d`)
 Coordinate System = Cartesian
 ```
 
+Also remember to include the extra dimension in data saving:
+
+```c
+Polyline Coordinates = Size(2, 3);  0.005 0.025 0  0.100 0.025 0
+```
+
 For converting the `gmsh` file you can proceed the same way as in 2D. If is worth opening the generated `.msh` file with `ElmerGUI` to inspect the numbering of boundary conditions (it will be later required to be edited in SIF).  Because the sides (symmetry of cylinder) are not present in 2D (it is the plane itself), you need to add an extra boundary condition as follows:
 
 ```c
@@ -140,9 +154,26 @@ mpiexec -n 16 ElmerSolver_mpi
 
 The command `mpiexec` is how the message passing interface (MPI) runner is called in Windows; for Linux this should be `mpirun` instead.
 
+## Understanding heat flux
+
+Depending on problem dimension it might be tricky to understand what the reported values of heat flux correspond to. That is specially tricky when dealing with axisymmetric cases. 
+
+Let's start by analyzing the 2D case. For exploring the meaning of the quantities evaluated by `FluxSolver` we make use of `SaveLine` to get the value of temperature over the radius of the cylinder. The expected heat flux $q$ over the outer radius is given by:
+
+$$
+q = U (T - T_{\infty})
+$$
+
+In this case we have set $U=10\:W\;m^{-2}\;K^{-1}$ and $T_{\infty}=300\:K$. The computed outer radius temperature is $T\approx{}931.4\:K$, leading to a computed flux of $q=6313.9\:W\;m^{-2}$, which rounds-off to the same value of flux predicted by `FluxSolver`. As expected, we have a value per unit area, the definition of flux.
+
+To get an integral value we used `SaveScalars`, which is plotted below against time. Since the value of heat flux was integrated over the boundary, it is provided in power units. At the final time we have a value of $Q\approx{}198.4\:W$. The segment of cylinder simulated here has an outer radius of $R=0.10\:m$ and height $h=0.05\:m$. With this values in hand it can be shown that the integral quantity is evaluated for $2\pi\:rad$, *i.e.* $Q=2\pi{}Rhq=Aq$.
+
+![2D case](heat-flow.png)
+
+
 ## Post-processing
 
-ParaView was employed to generate standard animations of temperature evolution in bodies. Below we have the 2D axisymetric results:
+ParaView was employed to generate standard animations of temperature evolution in bodies. Below we have the 2D axisymmetric results:
 
 ![2D Case](2d/animation/animation.gif)
 
@@ -161,5 +192,6 @@ The same was done for 3D equivalent case as illustrated next:
 #elmer/domain/transient
 #elmer/models/heat-equation 
 #elmer/models/save-line
-#elmer/models/save-scalar
+#elmer/models/save-scalars
+#elmer/models/result-output-solver
 #elmer/models/flux-solver
