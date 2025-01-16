@@ -15,11 +15,11 @@ Simulation
   Coordinate Mapping(3) = 1 2 3
   Simulation Type = Transient
   Steady State Max Iterations = 1
-  Output Intervals(1) = 10
-  Timestep intervals(1) = 120
-  Timestep Sizes(1) = 10
+  Output Intervals(1) = 1
+  Timestep intervals(1) = 12
+  Timestep Sizes(1) = 100
   Timestepping Method = BDF
-  BDF Order = 1
+  BDF Order = 2
   Solver Input File = case.sif
 End
 
@@ -157,9 +157,17 @@ Solver 5
   Exec Solver = After Timestep
 
   Filename = "scalars.dat"
+
   Variable 1 = Time
+
   Variable 2 = temperature Flux
   Operator 2 = boundary int
+  Operator 3 = diffusive flux
+
+  Variable 3 = temperature
+  Operator 4 = nonlin converged
+  Operator 5 = nonlin change
+  Operator 6 = norm
 End
 
 Equation 1
