@@ -58,8 +58,9 @@ End
 Solver 1
   Procedure = "HeatSolve" "HeatSolver"
   Equation = Heat Equation
-  Variable = Temperature
   Exec Solver = Always
+
+  Variable = Temperature
   Stabilize = True
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
@@ -83,9 +84,10 @@ End
 Solver 2
   Procedure = "SaveData" "SaveLine"
   Equation = SaveLine
+  Exec Solver = After Simulation
+
   Polyline Divisions = 25
   Polyline Coordinates = Size(2, 2);  0.005 0.025  0.100 0.025
-  Exec Solver = After Simulation
   Stabilize = True
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
@@ -110,6 +112,7 @@ Solver 3
   Procedure = "FluxSolver" "FluxSolver"
   Equation = Flux and Gradient
   Exec Solver = After Timestep
+
   Target Variable = Temperature
   Flux Coefficient = Heat Conductivity
   Calculate Flux = True
@@ -138,6 +141,7 @@ Solver 4
   Procedure = "ResultOutputSolve" "ResultOutputSolver"
   Equation = ResultOutput
   Exec Solver = After Saving
+
   Output File Name = case
   Output Format = vtu
   Binary Output = True
@@ -149,6 +153,9 @@ End
 
 Solver 5
   Procedure = "SaveData" "SaveScalars"
+  Equation = SaveScalars
+  Exec Solver = After Timestep
+
   Filename = "scalars.dat"
   Variable 1 = Time
   Variable 2 = temperature Flux

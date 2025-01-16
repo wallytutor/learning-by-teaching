@@ -21,7 +21,7 @@ The location of the mesh was changed from default (the only supported location w
 Mesh DB "domain" "."
 ```
 
-If you followed the [concept](concept/README.md) setup you should already have a mesh here, otherwise run:
+If you followed the [concept](concept/README.md) setup you should already have a mesh there, otherwise run:
 
 ```shell
 gmsh - domain.geo
@@ -42,6 +42,71 @@ ElmerSolver
 ```
 
 It was not illustrated above, but it is important to redirect the output of these commands to log files so that they can be inspected for any errors or warnings. Results are dumped to `results/` directory as defined in the concept phase and can be inspected with [ParaView](../../../paraview/basics.md).
+
+## Improved 2D case
+
+After the initial run, a few manual additions were performed. Since they are always present and for better clarity, the following keywords are placed on top of each solver:
+
+```c
+Procedure = "HeatSolve" "HeatSolver"
+Equation = Heat Equation
+Exec Solver = Always
+...
+```
+
+Finer control of outputs can be achieved with `ResultOutputSolver`; it was intentionally left outside of the concept for practicing the addition of solvers relying only on the documentation. Once this solver is added, option `Post File` from `Simulation` section needs to be removed. Output is configured to use binary VTU format since it has a lower disk footprint and is the default format for ParaView. The most important option here is `Save Geometry Ids`, allowing  for access to regions in the mesh. You can further configure this as in the docs. The collections of parts or time are left commented out for now.
+
+```c
+Solver 4
+  Procedure = "ResultOutputSolve" "ResultOutputSolver"
+  Equation = ResultOutput
+  Exec Solver = After Saving
+
+  Output File Name = case
+  Output Format = vtu
+  Binary Output = True
+  Single Precision = False
+  Save Geometry Ids = True
+  ! Vtu Part Collection = True
+  ! Vtu Time Collection = True
+End
+```
+
+One **very important** thing to keep in mind when performing any FEA is that many desired post-processing quantities need to be evaluated at runtime. While in finite volumes one can easily integrated fluxes *by definition* and retrieve their integrals by accessing mesh surface areas, such concept is not available in finite elements and we need to integrate some computations while the simulation is running. Many aggregation methods are provided by `SaveData` solver. Below we request time and boundary integral of temperature flux (which by its turn is computed by `FluxSolver` that we added before) through the use of an operator.
+
+```c
+Solver 5
+  Procedure = "SaveData" "SaveScalars"
+  Equation = SaveScalars
+  Exec Solver = After Timestep
+
+  Filename = "scalars.dat"
+  Variable 1 = Time
+  Variable 2 = temperature Flux
+  Operator 2 = boundary int
+End
+```
+
+Since the goal here is to compute only heat losses to the environment, we modified the corresponding boundary condition by adding `Save Scalars = True`:
+
+```c
+Boundary Condition 1
+  Target Boundaries(1) = 2
+  Name = "Environment"
+  External Temperature = 300
+  Heat Transfer Coefficient = 10
+  Save Scalars = True
+End
+```
+
+Finally, do not forget to add the new solvers to the model:
+
+```c
+Equation 1
+  Name = "Model"
+  Active Solvers(5) = 1 2 3 4 5
+End
+```
 
 ## Conduction in 3D
 

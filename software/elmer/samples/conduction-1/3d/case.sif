@@ -11,7 +11,6 @@ End
 
 Simulation
   Max Output Level = 5
-!   Coordinate System = Axi Symmetric
   Coordinate System = Cartesian
   Coordinate Mapping(3) = 1 2 3
   Simulation Type = Transient
@@ -22,7 +21,6 @@ Simulation
   Timestepping Method = BDF
   BDF Order = 1
   Solver Input File = case.sif
-  Post File = case.vtu
 End
 
 Constants
@@ -60,8 +58,9 @@ End
 Solver 1
   Procedure = "HeatSolve" "HeatSolver"
   Equation = Heat Equation
-  Variable = Temperature
   Exec Solver = Always
+
+  Variable = Temperature
   Stabilize = True
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
@@ -85,9 +84,10 @@ End
 Solver 2
   Procedure = "SaveData" "SaveLine"
   Equation = SaveLine
+  Exec Solver = After Simulation
+
   Polyline Divisions = 25
   Polyline Coordinates = Size(2, 2);  0.005 0.025  0.100 0.025
-  Exec Solver = After Simulation
   Stabilize = True
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
@@ -111,10 +111,12 @@ End
 Solver 3
   Procedure = "FluxSolver" "FluxSolver"
   Equation = Flux and Gradient
-  Calculate Flux = True
-  Flux Coefficient = Heat Conductivity
-  Target Variable = Temperature
   Exec Solver = After Timestep
+
+  Target Variable = Temperature
+  Flux Coefficient = Heat Conductivity
+  Calculate Flux = True
+  Calculate Flux Magnitude = True
   Stabilize = True
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
@@ -135,9 +137,34 @@ Solver 3
   Linear System Precondition Recompute = 1
 End
 
+Solver 4
+  Procedure = "ResultOutputSolve" "ResultOutputSolver"
+  Equation = ResultOutput
+  Exec Solver = After Saving
+
+  Output File Name = case
+  Output Format = vtu
+  Binary Output = True
+  Single Precision = False
+  Save Geometry Ids = True
+  ! Vtu Part Collection = True
+  ! Vtu Time Collection = True
+End
+
+Solver 5
+  Procedure = "SaveData" "SaveScalars"
+  Equation = SaveScalars
+  Exec Solver = After Timestep
+
+  Filename = "scalars.dat"
+  Variable 1 = Time
+  Variable 2 = temperature Flux
+  Operator 2 = boundary int
+End
+
 Equation 1
   Name = "Model"
-  Active Solvers(3) = 1 2 3
+  Active Solvers(5) = 1 2 3 4 5
 End
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -150,10 +177,11 @@ Initial Condition 1
 End
 
 Boundary Condition 1
-  Target Boundaries(1) = 2 
+  Target Boundaries(1) = 2
   Name = "Environment"
   External Temperature = 300
   Heat Transfer Coefficient = 10
+  Save Scalars = True
 End
 
 Boundary Condition 2
