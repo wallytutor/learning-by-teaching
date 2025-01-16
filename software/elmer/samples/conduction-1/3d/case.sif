@@ -87,7 +87,7 @@ Solver 2
   Exec Solver = After Simulation
 
   Polyline Divisions = 25
-  Polyline Coordinates = Size(2, 2);  0.005 0.025  0.100 0.025
+  Polyline Coordinates = Size(2, 3);  0.005 0.025 0  0.100 0.025 0
   Stabilize = True
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
