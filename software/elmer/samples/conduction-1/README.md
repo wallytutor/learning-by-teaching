@@ -58,17 +58,17 @@ Finer control of outputs can be achieved with `ResultOutputSolver`; it was inten
 
 ```c
 Solver 4
-  Procedure = "ResultOutputSolve" "ResultOutputSolver"
-  Equation = ResultOutput
-  Exec Solver = After Saving
+  Procedure = "ResultOutputSolve" "ResultOutputSolver"
+  Equation = ResultOutput
+  Exec Solver = After Saving
 
-  Output File Name = case
-  Output Format = vtu
-  Binary Output = True
-  Single Precision = False
-  Save Geometry Ids = True
-  ! Vtu Part Collection = True
-  ! Vtu Time Collection = True
+  Output File Name = case
+  Output Format = vtu
+  Binary Output = True
+  Single Precision = False
+  Save Geometry Ids = True
+  ! Vtu Part Collection = True
+  ! Vtu Time Collection = True
 End
 ```
 
@@ -76,22 +76,22 @@ One **very important** thing to keep in mind when performing any FEA is that man
 
 ```c
 Solver 5
-  Procedure = "SaveData" "SaveScalars"
-  Equation = SaveScalars
-  Exec Solver = After Timestep
+  Procedure = "SaveData" "SaveScalars"
+  Equation = SaveScalars
+  Exec Solver = After Timestep
 
-  Filename = "scalars.dat"
+  Filename = "scalars.dat"
 
-  Variable 1 = Time
+  Variable 1 = Time
 
-  Variable 2 = temperature Flux
-  Operator 2 = boundary int
-  Operator 3 = diffusive flux
+  Variable 2 = temperature Flux
+  Operator 2 = boundary int
+  Operator 3 = diffusive flux
 
-  Variable 3 = temperature
-  Operator 4 = nonlin converged
-  Operator 5 = nonlin change
-  Operator 6 = norm
+  Variable 3 = temperature
+  Operator 4 = nonlin converged
+  Operator 5 = nonlin change
+  Operator 6 = norm
 End
 ```
 
@@ -99,11 +99,11 @@ Notice that in `SaveData` the operators have a sequential numbering and apply to
 
 ```c
 Boundary Condition 1
-  Target Boundaries(1) = 2
-  Name = "Environment"
-  External Temperature = 300
-  Heat Transfer Coefficient = 10
-  Save Scalars = True
+  Target Boundaries(1) = 2
+  Name = "Environment"
+  External Temperature = 300
+  Heat Transfer Coefficient = 10
+  Save Scalars = True
 End
 ```
 
@@ -111,8 +111,8 @@ Finally, do not forget to add the new solvers to the model:
 
 ```c
 Equation 1
-  Name = "Model"
-  Active Solvers(5) = 1 2 3 4 5
+  Name = "Model"
+  Active Solvers(5) = 1 2 3 4 5
 End
 ```
 
