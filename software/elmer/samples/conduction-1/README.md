@@ -164,9 +164,9 @@ $$
 q = U (T - T_{\infty})
 $$
 
-In this case we have set $U=10\:W\;m^{-2}\;K^{-1}$ and $T_{\infty}=300\:K$. The computed outer radius temperature is $T\approx{}931.4\:K$, leading to a computed flux of $q=6313.9\:W\;m^{-2}$, which rounds-off to the same value of flux predicted by `FluxSolver`. As expected, we have a value per unit area, the definition of flux.
+In this case we have set $U=10\;W\;m^{-2}\;K^{-1}$ and $T_{\infty}=300\;K$. The computed outer radius temperature is $T\approx{}931.4\;K$, leading to a computed flux of $q=6313.9\;W\;m^{-2}$, which rounds-off to the same value of flux predicted by `FluxSolver`. As expected, we have a value per unit area, the definition of flux.
 
-To get an integral value we used `SaveScalars`, which is plotted below against time. Since the value of heat flux was integrated over the boundary, it is provided in power units. At the final time we have a value of $Q\approx{}198.4\:W$. The segment of cylinder simulated here has an outer radius of $R=0.10\:m$ and height $h=0.05\:m$. With this values in hand it can be shown that the integral quantity is evaluated for $2\pi\:rad$, *i.e.* $Q=2\pi{}Rhq=Aq$.
+To get an integral value we used `SaveScalars`, which is plotted below against time. Since the value of heat flux was integrated over the boundary, it is provided in power units. At the final time we have a value of $Q\approx{}198.4\;W$. The segment of cylinder simulated here has an outer radius of $R=0.10\;m$ and height $h=0.05\;m$. With this values in hand it can be shown that the integral quantity is evaluated for $2\pi\;rad$, *i.e.* $Q=2\pi{}Rhq=Aq$.
 
 ![2D case](2d/heat-flow.png)
 
