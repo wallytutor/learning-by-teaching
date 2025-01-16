@@ -36,3 +36,7 @@ Currently I maintaint two main projects:
 - [WallyToolbox.jl](https://wallytutor.github.io/WallyToolbox.jl/dev/)
 
 They are fundamentally different in the way they are managed. While `AuChimiste` is being worked on to be published as a Julia package, `WallyToolbox` is where I work out my ideas before they reach maturity. So while the first is expected to be stable, the latter is constantly *melting* away.
+
+Because of the very specific nature of some of my research, I have been working on a few [VS Code extensions](software/vscode.md) for helping highlighting syntaxes.
+
+- [wallytutor/elmer-sif-vscode: VS Code extension for Elmer Multiphysics SIF](https://github.com/wallytutor/elmer-sif-vscode)

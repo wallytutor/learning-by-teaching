@@ -26,3 +26,9 @@ VS Code supports a number of extensions to facilitate coding and data analysis, 
 
 - [Julia](https://github.com/julia-vscode/julia-vscode)
 - [Julia Color Themes](https://github.com/CameronBieganek/julia-color-themes)
+
+### Personal
+
+I have also developed a few (drag-and-drop) extensions; in the future I plan to provided them through the extension manager.
+
+- [wallytutor/elmer-sif-vscode: VS Code extension for Elmer Multiphysics SIF](https://github.com/wallytutor/elmer-sif-vscode)
