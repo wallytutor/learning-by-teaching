@@ -3,32 +3,20 @@
 ## General
 
 1. [Scientific computing](scientific.md)
-1. [General tips](general.md)
-1. [Git version control](git.md)
-1. [Work on Windows](windows.md)
-1. [Work on Linux](linux.md)
-1. [LaTeX typesetting](latex.md)
-1. [Regex tips](regex.md)
-1. [VS Code](vscode.md)
-1. [Command line](cli.md) 
+2. [Scientific software](software.md)
+3. [General tips](general.md)
+4. [Git version control](git.md)
+5. [Work on Windows](windows.md)
+6. [Work on Linux](linux.md)
+7. [LaTeX typesetting](latex.md)
+8. [Regex tips](regex.md)
+9. [VS Code](vscode.md)
+10. [Command line](cli.md) 
 
-## Elmer
+## Applications
 
-1. [Elmer basics](elmer/basics.md)
-1. [General usage](elmer/usage.md)
-1. [Solver input files](elmer/sif.md) 
-1. [MATC language](elmer/matc.md)
-1. [User functions](elmer/udf.md)
-1. [Elmer showcase](elmer/samples/README.md)
-
-## gmsh
-
-1. [Basics](gmsh/basics.md)
-
-## FreeCAD
-
-1. [Basics](freecad/basics.md)
-
-## ParaView
-
-1. [Basics](paraview/basics.md)
+1. [Elmer](elmer/README.md)
+2. [OpenFOAM](openfoam/README.md)
+3. [gmsh](gmsh/basics.md)
+4. [FreeCAD](freecad/basics.md)
+5. [ParaView](paraview/basics.md)

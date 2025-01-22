@@ -45,3 +45,51 @@ Terminal=false" > ${APPLICATIONS}/${NAME}.desktop
 update-desktop-database ~/.local/share/applications
 echo "install ok"
 ```
+
+## FTPS server configuration
+
+```sh
+sudo dnf install -y vsftpd
+```
+
+```sh
+sudo vim /etc/vsftpd/vsftpd.conf
+```
+
+```ini
+ssl_enable=YES
+allow_anon_ssl=NO
+force_local_data_ssl=YES
+force_local_logins_ssl=YES
+ssl_tlsv1=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+```
+
+```sh
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+	-keyout /etc/ssl/certs/vsftpd.pem                  \
+	-out /etc/ssl/certs/vsftpd.pem
+```
+
+```ini
+rsa_cert_file=/etc/ssl/certs/vsftpd.pem
+rsa_private_key_file=/etc/ssl/certs/vsftpd.pem
+```
+
+```ini
+chroot_local_user=YES
+allow_writeable_chroot=YES
+```
+
+```sh
+sudo systemctl enable vsftpd
+sudo systemctl restart vsftpd
+sudo systemctl status vsftpd
+```
+
+```sh
+sudo firewall-cmd --permanent --add-service=ftp
+sudo firewall-cmd --permanent --add-port=990/tcp
+sudo firewall-cmd --reload
+```
