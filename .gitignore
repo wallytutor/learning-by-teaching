@@ -9,3 +9,6 @@ outputs/*.pdf
 
 # But keep my CV
 !curriculum/*.pdf
+
+# Any sandbox files
+sandbox*

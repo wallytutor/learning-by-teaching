@@ -6,7 +6,6 @@ Il est très difficile voire impossible de définir une liste de matériel requi
 
 La liste de base fournie ci-dessous donne les consignes générales pour progression en randonnée alpine. Dans ce cas on considère qu'il n'il aura pas de passages en escalade courtes au-delà d'une cotation 2 ou 3 de manière à limiter le matériel de protection vertical.
 
-<center>
 <table>
 <tr><th>Item</th><th>Détails</th></tr>
 <!-- row -->
@@ -26,11 +25,9 @@ La liste de base fournie ci-dessous donne les consignes générales pour progres
 <!-- row -->
 <tr><td>Anneaux de sangle</td><td>Les anneaux des 120 cm sont utilisés principalement pour la pose de protection sur des becquets. Il est aussi utile d'avoir quelques uns de 60 cm pour la confection d'un machard tressé (unidirectionnel) ou pose de protection dans des lunules.</td></tr>
 </table>
-</center>
 
 Dans les cas des courses comprenant des passages de neige ou glace, des équipements supplémentaires sont nécessaires. À minima il faut prévoir les éléments suivants:
 
-<center>
 <table>
 <tr><th>Item</th><th>Détails</th></tr>
 <!-- row -->
@@ -44,4 +41,3 @@ Dans les cas des courses comprenant des passages de neige ou glace, des équipem
 <!-- row -->
 <tr><td>Lunettes</td><td>Lunettes de glacier classe 4 sont les seules à protéger de manière éfficace. À minima prende classe 3.</td></tr>
 </table>
-</center>

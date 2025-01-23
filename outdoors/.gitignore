@@ -1,0 +1,5 @@
+# Raw GPX tracks will all points.
+*.gpx.orig
+
+# Alternative environment name.
+venv*/
