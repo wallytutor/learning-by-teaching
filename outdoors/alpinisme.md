@@ -6,7 +6,7 @@ Il est très difficile voire impossible de définir une liste de matériel requi
 
 La liste de base fournie ci-dessous donne les consignes générales pour progression en randonnée alpine. Dans ce cas on considère qu'il n'il aura pas de passages en escalade courtes au-delà d'une cotation 2 ou 3 de manière à limiter le matériel de protection vertical.
 
-<table>
+<table class="training-table">
 <tr><th>Item</th><th>Détails</th></tr>
 <!-- row -->
 <tr><td>Sac à dos</td><td>Un sac espécifique pour la pratique de l'alpinisme (20-40L) de préférence, avec des emplacements pour porter les piolets est idéal. Je préfère des sacs avec un compartiment intégré pour l'eau, faire attention pour que le conduite ne gèle pas!</td></tr>
@@ -28,7 +28,7 @@ La liste de base fournie ci-dessous donne les consignes générales pour progres
 
 Dans les cas des courses comprenant des passages de neige ou glace, des équipements supplémentaires sont nécessaires. À minima il faut prévoir les éléments suivants:
 
-<table>
+<table class="training-table">
 <tr><th>Item</th><th>Détails</th></tr>
 <!-- row -->
 <tr><td>Kit de secours</td><td>Pelle, sonde, DVA, 1 kit par personne. Il est important que tous les membres de la cordée soient formés à l'utilisation de ces instruments en mode recherche.</td></tr>

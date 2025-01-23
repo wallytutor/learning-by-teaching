@@ -6,8 +6,7 @@ L'objectif de cette page est de fournir le minimum d'informations pour l'organis
 
 ## Matériel
 
-<center>
-    <table>
+<table class="training-table">
     <tr><th>Item</th><th>Détails</th></tr>
     <!-- row -->
     <tr><td>Casque</td><td></td></tr>
@@ -23,8 +22,7 @@ L'objectif de cette page est de fournir le minimum d'informations pour l'organis
     <tr><td>Cordelette pour autobloquant</td><td></td></tr>
     <!-- row -->
     <tr><td>Système d'assurage</td><td></td></tr>
-    </table>
-</center>
+</table>
 
 ---
 

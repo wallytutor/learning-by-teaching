@@ -4,8 +4,7 @@ Il est important de connaître les bases de la [sécurité en raquettes](https:/
 
 ## Matériel
 
-<center>
-    <table>
+<table class="training-table">
     <tr><th>Item</th><th>Détails</th></tr>
     <!-- row -->
     <tr><td>Sac d'hydratation</td><td></td></tr>
@@ -27,5 +26,4 @@ Il est important de connaître les bases de la [sécurité en raquettes](https:/
     <tr><td>Montre GPS avec altimètre</td><td></td></tr>
     <!-- row -->
     <tr><td>Vêtements en trois couches + doudoune</td><td></td></tr>
-    </table>
-</center>
+</table>
