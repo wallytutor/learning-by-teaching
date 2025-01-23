@@ -40,8 +40,8 @@ pip freeze > requirements.txt
 
 - For adding new GPX traces to activities, perform the following steps:
 
-    1. Create a new directory under [content/media](#) for the activity.
-    1. Save the GPX track under this directory with the name `track.gpx`.
+    1. Create a new directory under `media` for the activity.
+    1. Save the GPX track under that directory with the name `track.gpx`.
     1. Create a `track.yaml` with configurations (copy from an existing directory).
     1. Run `python gpxtohtml.py` to generate the corresponding map.
 

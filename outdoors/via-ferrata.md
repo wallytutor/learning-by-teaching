@@ -4,6 +4,30 @@ L'objectif de cette page est de fournir le minimum d'informations pour l'organis
 
 ---
 
+## Matériel
+
+<center>
+    <table>
+    <tr><th>Item</th><th>Détails</th></tr>
+    <!-- row -->
+    <tr><td>Casque</td><td></td></tr>
+    <!-- row -->
+    <tr><td>Baudrier</td><td></td></tr>
+    <!-- row -->
+    <tr><td>Longe avec absorbeur</td><td></td></tr>
+    <!-- row -->
+    <tr><td>Longe de repos</td><td></td></tr>
+    <!-- row -->
+    <tr><td>Corde 25 m</td><td></td></tr>
+    <!-- row -->
+    <tr><td>Cordelette pour autobloquant</td><td></td></tr>
+    <!-- row -->
+    <tr><td>Système d'assurage</td><td></td></tr>
+    </table>
+</center>
+
+---
+
 ## Carte des parcours
 
 <figure align="center">
