@@ -37,9 +37,13 @@
 
 - [Data Avalanche](https://www.data-avalanche.org/)
 
+- [CRISTAL](https://www.cristal-avalanche.org/)
+
 - [Ice Climbing Cogne](https://www.iceclimbingcogne.com/)
 
 - [ANENA](https://anena.org/)
+
+- [Skitourenguru](https://www.skitourenguru.ch/)
 
 ### Autour de Chamonix
 
