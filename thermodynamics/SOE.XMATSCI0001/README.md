@@ -68,9 +68,28 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [Real World Example: The Amorphous Phases of Liquid Water](https://www.youtube.com/watch?v=BNyQNfqOREE)
 
 4. [Solution thermodynamics](chapter04.md)
+	- [Preview](https://www.youtube.com/watch?v=IqYJWsZp2DI)
+	- [Why Solutions and What Does Mixing Mean?](https://www.youtube.com/watch?v=NvAC6KCKXwg)
+	- [A Simple Example to Build Intuition](https://www.youtube.com/watch?v=eVaJKkxq09s)
+	- [Mathematical Definition](https://www.youtube.com/watch?v=LugbSLl96x4)
+	- [Physical Meaning](https://www.youtube.com/watch?v=Dn5JWh3rEXw)
+	- [Definition of Partial Molar Quantities and Relevant Relationships](https://www.youtube.com/watch?v=CXkJncDEd0w)
+	- [Chemical Potential of Single Components: Activity](https://www.youtube.com/watch?v=stKB8AJkyTc)
+	- [Gibbs-Duhem Equation](https://www.youtube.com/watch?v=PNog9EhxeR4)
+	- [Introduction to Solution Models](https://www.youtube.com/watch?v=fUfDTUZbhOg
+	- [Ideal Solutions](https://www.youtube.com/watch?v=YjW83o72lcM)
+	- [Ideal Solutions: The Math](https://www.youtube.com/watch?v=XF3gtxvlMEM)
+	- [Definitions](https://www.youtube.com/watch?v=aNtmFDQnb-k)
+	- [Models: Regular Solution](https://www.youtube.com/watch?v=6VZTF17Bn7o)
+	- [Models: Quasi-Chemical Solution](https://www.youtube.com/watch?v=roSqWJwxMtA)
+	- [Models: Dilute Solutions](https://www.youtube.com/watch?v=npU2Zrgq8ZU)
+	- [Summary and Outlook](https://www.youtube.com/watch?v=XFaNZyvQELo)
+	- [Real World Example: Brief History of Alloys](https://www.youtube.com/watch?v=XIWwe8KyB0s)
+	- [Worked Problem 3-1](https://www.youtube.com/watch?v=5bV7wiCx2LU)
 
 5. [Phase diagrams](chapter05.md)
-
+	- []()
+	
 6. [Equilibrium thermodynamics](chapter06.md)
 
 [^1]: **Correction:** At 4:55 in the video below, Prof. Salleo mentions that the two configurations with W = 210 have the highest entropy. However, the single configuration to their right, with W = 840 has the highest entropy.
