@@ -76,7 +76,7 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [Definition of Partial Molar Quantities and Relevant Relationships](https://www.youtube.com/watch?v=CXkJncDEd0w)
 	- [Chemical Potential of Single Components: Activity](https://www.youtube.com/watch?v=stKB8AJkyTc)
 	- [Gibbs-Duhem Equation](https://www.youtube.com/watch?v=PNog9EhxeR4)
-	- [Introduction to Solution Models](https://www.youtube.com/watch?v=fUfDTUZbhOg
+	- [Introduction to Solution Models](https://www.youtube.com/watch?v=fUfDTUZbhOg)
 	- [Ideal Solutions](https://www.youtube.com/watch?v=YjW83o72lcM)
 	- [Ideal Solutions: The Math](https://www.youtube.com/watch?v=XF3gtxvlMEM)
 	- [Definitions](https://www.youtube.com/watch?v=aNtmFDQnb-k)
@@ -88,8 +88,28 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [Worked Problem 3-1](https://www.youtube.com/watch?v=5bV7wiCx2LU)
 
 5. [Phase diagrams](chapter05.md)
-	- []()
+	- [Preview](https://www.youtube.com/watch?v=LhtFzJti3F0)
+	- [Equilibrium Condition](https://www.youtube.com/watch?v=QcsPjoxVZCE)
+	- [Gibbs' Phase Rule](https://www.youtube.com/watch?v=LDeZZrYQg6g)
+	- [Graphical Construction: Common Tangent Construction](https://www.youtube.com/watch?v=FAk0wPwX05U)
+	- [Application: A Simple Binary Diagram](https://www.youtube.com/watch?v=QHxlkCjSU9I)
+	- [Mathematical derivation & Dependence of chemical potential on composition - Part 1](https://www.youtube.com/watch?v=OOj8833IiNM)
+	- [Mathematical derivation & Dependence of chemical potential on composition - Part 2](https://www.youtube.com/watch?v=iHazpZjIgG8)
+	- [Building Blocks](https://www.youtube.com/watch?v=1lumRiy6hS0)
+	- [Miscibility Gap & Instability and Metastability](https://www.youtube.com/watch?v=UvghevMHKG8)
+	- [Instability and Metastability](https://www.youtube.com/watch?v=ImzQYzHUMig)
+	- [Lens Phase Diagram](https://www.youtube.com/watch?v=Y585Igyp0ws)
+	- [Azeotropes](https://www.youtube.com/watch?v=SJhqr87gsLc)
+	- [Eutectics](https://www.youtube.com/watch?v=t7fDAWS51bY)
+	- [Peritectics](https://www.youtube.com/watch?v=Q9V6vDa7T8w)
+	- [Eutectoids and Peritectoids](https://www.youtube.com/watch?v=rVKXA0UnIUE)
+	- [Intermediate Phases](https://www.youtube.com/watch?v=BnKYxC3fJpo)
+	- [Line Compounds](https://www.youtube.com/watch?v=c9_dHpC8kVo)
+	- [A Few Handy Tricks](https://www.youtube.com/watch?v=N1Wt9RRzzUY)
+	- [Real World Example: Organic Bulk Heterojunction Solar Cells](https://www.youtube.com/watch?v=fkQTQ94Rlik)
+	- [Worked Problem 4](https://www.youtube.com/watch?v=qlE264v_lxc)
 	
 6. [Equilibrium thermodynamics](chapter06.md)
+	- []()
 
 [^1]: **Correction:** At 4:55 in the video below, Prof. Salleo mentions that the two configurations with W = 210 have the highest entropy. However, the single configuration to their right, with W = 840 has the highest entropy.
