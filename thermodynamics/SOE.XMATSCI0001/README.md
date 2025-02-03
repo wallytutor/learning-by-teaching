@@ -110,6 +110,17 @@ Notes taken while following this [course](https://learning.edx.org/course/course
 	- [Worked Problem 4](https://www.youtube.com/watch?v=qlE264v_lxc)
 	
 6. [Equilibrium thermodynamics](chapter06.md)
-	- []()
+	- [Basics of Thermodynamics of Chemical Reactions](https://www.youtube.com/watch?v=00nq7Sc5PeU)
+	- [Equilibrium Constant](https://www.youtube.com/watch?v=kyNAbpUOz9Y)
+	- [Reaction Quotient](https://www.youtube.com/watch?v=G2b7_7RGuJE)
+	- [Calculating the Equilibrium Constant](https://www.youtube.com/watch?v=d0kR3KXdWPA)
+	- [Dependence on P: Le Chatelier Principle](https://www.youtube.com/watch?v=f0YBuB8nKOA)
+	- [Dependence on T: van't Hoff Equation](https://www.youtube.com/watch?v=6K1QA2w3NE8)
+	- [An Example: Oxidation](https://www.youtube.com/watch?v=sl6tDlkwl1k)
+	- [Thermodynamic Activity of Pure and Alloyed Solids](https://www.youtube.com/watch?v=jF370vhEDEo)
+	- [Equilibrium Constant](https://www.youtube.com/watch?v=3o9Q5uaWghk)
+	- [Stability of Solids in Oxygen](https://www.youtube.com/watch?v=OCX2YywbKik)
+	- [Ellingham Diagrams](https://www.youtube.com/watch?v=ojaZVt5ljQY)
+	- [Real World Example: Getting Oxygen from Moon Rocks](https://www.youtube.com/watch?v=s216tqslFEc)
 
 [^1]: **Correction:** At 4:55 in the video below, Prof. Salleo mentions that the two configurations with W = 210 have the highest entropy. However, the single configuration to their right, with W = 840 has the highest entropy.
