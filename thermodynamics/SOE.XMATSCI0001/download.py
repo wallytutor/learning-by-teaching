@@ -2,11 +2,11 @@
 from pathlib import Path
 from subprocess import run
 
-DOWNLOAD_DIR = Path(__file__).parent / 'downloads'
+DOWNLOAD_DIR = Path(__file__).parent / "downloads"
 DOWNLOAD_DIR.mkdir(exist_ok=True)
 
-YTDL = 'youtube-dl'
-YTDL_OPTS = []
+YTDL = "youtube-dl"
+YTDL_OPTS = ["--verbose"]
 
 downloads = {
     "chapter-01": {
@@ -40,13 +40,21 @@ downloads = {
     }
 }
 
+
 def make_title(chapter, item, title):
     title = title.replace(':', '').replace(' ', '-')
     title = f"{chapter}_{item:03d}_{title.lower()}"
     return title
 
+
+def make_command(title, url):
+    destination = DOWNLOAD_DIR / f'{title}.mp4'
+    return [YTDL, *YTDL_OPTS, url, '-o', str(destination)]
+
+
 for chapter, videos in downloads.items():
     for item, (title, url) in enumerate(videos.items()):
         title = make_title(chapter, item, title)
         print(f"Downloading {title}")
-        run([YTDL, *YTDL_OPTS, url, '-o', str(DOWNLOAD_DIR / f'{title}.mp4')])
+        run(make_command(title, url))
+        break
