@@ -12,3 +12,6 @@ outputs/*.pdf
 
 # Any sandbox files
 sandbox*
+
+# Any virtual environment
+venv/

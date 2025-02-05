@@ -93,3 +93,14 @@ sudo firewall-cmd --permanent --add-service=ftp
 sudo firewall-cmd --permanent --add-port=990/tcp
 sudo firewall-cmd --reload
 ```
+
+## Fresh Ubuntu setup
+
+```shell
+sudo visudo
+sudo apt update && sudo apt upgrade -y && sudo apt autoremove
+```
+
+```shell
+sudo apt install python3-pip python3-venv
+```

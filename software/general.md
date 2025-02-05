@@ -4,6 +4,22 @@
 
 Retrieving a video or playlist from YouTube can be automated with help of [youtube-dl](https://github.com/ytdl-org/youtube-dl).
 
+Currently the tool seems to be working only from Linux; under Ubuntu you can do the following:
+
+```shell
+# Install Python venv to create a local virtual environment:
+sudo apt install python3-venv
+
+# Create an homonymous environment:
+python3 -m venv venv
+
+# Activate the local environment:
+source venv/bin/activate
+
+# Use pip to install the tool:
+pip install youtube-dl
+```
+
 ## Installing Python packages behind proxy
 
 To install a package behind a proxy requiring SSL one can enforce trusted hosts to avoid certificate hand-shake and allow installation. This is done with the following options:

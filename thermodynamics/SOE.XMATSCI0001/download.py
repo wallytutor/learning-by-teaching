@@ -42,14 +42,14 @@ downloads = {
 
 
 def make_title(chapter, item, title):
-    title = title.replace(':', '').replace(' ', '-')
+    title = title.replace(":", "").replace(" ", "-")
     title = f"{chapter}_{item:03d}_{title.lower()}"
     return title
 
 
 def make_command(title, url):
-    destination = DOWNLOAD_DIR / f'{title}.mp4'
-    return [YTDL, *YTDL_OPTS, url, '-o', str(destination)]
+    destination = DOWNLOAD_DIR / f"{title}.mp4"
+    return [YTDL, *YTDL_OPTS, url, "-o", str(destination)]
 
 
 for chapter, videos in downloads.items():
