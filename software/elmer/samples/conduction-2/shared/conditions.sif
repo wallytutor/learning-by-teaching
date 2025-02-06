@@ -1,6 +1,6 @@
 Initial Condition 1
     Name = "Initial Temperature"
-    Temperature = 1000
+    Temperature = 520
 End
 
 Boundary Condition 1
