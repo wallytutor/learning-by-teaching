@@ -7,7 +7,7 @@ End
 
 Simulation
     Solver Input File = case.sif
-    Max Output Level = 3
+    Max Output Level = 5
     Convergence Monitor = True
 
     Coordinate System = Cartesian 2D
@@ -33,7 +33,6 @@ Material 1
     Enthalpy = Variable Temperature
         Real
                0        0
-             500   500000
             2000  2000000
         End
 End
