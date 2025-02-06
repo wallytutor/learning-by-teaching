@@ -16,25 +16,6 @@ Solver 2
 
     Polyline Divisions = 25
     Polyline Coordinates = Size(2, 2);  0.0 0.01  0.1 0.01
-
-    ! Stabilize = True
-    ! Optimize Bandwidth = True
-    ! Steady State Convergence Tolerance = 1.0e-5
-    ! Nonlinear System Convergence Tolerance = 1.0e-7
-    ! Nonlinear System Max Iterations = 20
-    ! Nonlinear System Newton After Iterations = 3
-    ! Nonlinear System Newton After Tolerance = 1.0e-3
-    ! Nonlinear System Relaxation Factor = 1
-    ! Linear System Solver = Iterative
-    ! Linear System Iterative Method = BiCGStab
-    ! Linear System Max Iterations = 500
-    ! Linear System Convergence Tolerance = 1.0e-10
-    ! BiCGstabl polynomial degree = 2
-    ! Linear System Preconditioning = ILU0
-    ! Linear System ILUT Tolerance = 1.0e-3
-    ! Linear System Abort Not Converged = False
-    ! Linear System Residual Output = 10
-    ! Linear System Precondition Recompute = 1
 End
 
 Solver 3
@@ -46,25 +27,6 @@ Solver 3
     Flux Coefficient = Heat Conductivity
     Calculate Flux = True
     Calculate Flux Magnitude = True
-
-    ! Stabilize = True
-    ! Optimize Bandwidth = True
-    ! Steady State Convergence Tolerance = 1.0e-5
-    ! Nonlinear System Convergence Tolerance = 1.0e-7
-    ! Nonlinear System Max Iterations = 20
-    ! Nonlinear System Newton After Iterations = 3
-    ! Nonlinear System Newton After Tolerance = 1.0e-3
-    ! Nonlinear System Relaxation Factor = 1
-    ! Linear System Solver = Iterative
-    ! Linear System Iterative Method = BiCGStab
-    ! Linear System Max Iterations = 500
-    ! Linear System Convergence Tolerance = 1.0e-10
-    ! BiCGstabl polynomial degree = 2
-    ! Linear System Preconditioning = ILU0
-    ! Linear System ILUT Tolerance = 1.0e-3
-    ! Linear System Abort Not Converged = False
-    ! Linear System Residual Output = 10
-    ! Linear System Precondition Recompute = 1
 End
 
 Solver 4
@@ -89,7 +51,6 @@ Solver 5
     Filename = "scalars.dat"
 
     Variable 1 = Time
-
     Variable 2 = temperature Flux
     Operator 2 = boundary int
 End
