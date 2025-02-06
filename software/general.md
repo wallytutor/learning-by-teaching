@@ -2,9 +2,9 @@
 
 ## Downloading from YouTube
 
-Retrieving a video or playlist from YouTube can be automated with help of [youtube-dl](https://github.com/ytdl-org/youtube-dl).
+Retrieving a video or playlist from YouTube can be automated with help of [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
-Currently the tool seems to be working only from Linux; under Ubuntu you can do the following:
+To get the tool working under Ubuntu you can do the following:
 
 ```shell
 # Install Python venv to create a local virtual environment:
@@ -17,8 +17,10 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Use pip to install the tool:
-pip install youtube-dl
+pip install -U --pre "yt-dlp[default]"
 ```
+
+**NOTE:** alternative applications as [youtube-dl](https://github.com/ytdl-org/youtube-dl) and [pytube](https://pytube.io/en/latest/) are now considered to be legacy as discussed in this [post](https://www.reddit.com/r/Python/comments/18wzsg8/good_pytube_alternative/).
 
 ## Installing Python packages behind proxy
 
