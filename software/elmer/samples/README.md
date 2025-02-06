@@ -3,6 +3,7 @@
 ## Table of contents
 
 1. [Heat conduction in solids](conduction-1/README.md)
+1. [Pseudo-solidification formulation](conduction-2/README.md)
 
 ## Creating a new case
 
