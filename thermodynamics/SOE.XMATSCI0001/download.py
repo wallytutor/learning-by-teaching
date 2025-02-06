@@ -5,7 +5,8 @@ from subprocess import run
 DOWNLOAD_DIR = Path(__file__).parent / "downloads"
 DOWNLOAD_DIR.mkdir(exist_ok=True)
 
-YTDL = "youtube-dl"
+# YTDL = "youtube-dl"
+YTDL = "yt-dlp"
 YTDL_OPTS = ["--verbose"]
 
 downloads = {
