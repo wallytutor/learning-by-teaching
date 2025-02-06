@@ -14,7 +14,7 @@ Solver 2
     Equation = SaveLine
     Exec Solver = After Simulation
 
-    Polyline Divisions = 25
+    Polyline Divisions = 100
     Polyline Coordinates = Size(2, 2);  0.0 0.01  0.1 0.01
 End
 
