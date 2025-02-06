@@ -7,7 +7,7 @@ End
 
 Simulation
     Solver Input File = case.sif
-    Max Output Level = 20
+    Max Output Level = 3
     Convergence Monitor = True
 
     Coordinate System = Cartesian 2D
@@ -17,9 +17,7 @@ Simulation
     Timestepping Method = BDF
     BDF Order = 2
 
-    Output Intervals(1) = 10
-    Timestep intervals(1) = 100
-    Timestep Sizes(1) = 10
+    Include "stepping.sif"
 End
 
 Include "constants.sif"
@@ -28,28 +26,29 @@ Include "solver.sif"
 
 Material 1
     Name = "Material"
+    Heat Conductivity = 1
     Density = 1000
     Heat Capacity = 1000
+
     Enthalpy = Variable Temperature
         Real
-               0  0
-             500  0
-             510  1000000
-            2000  1000000
-            !    0        0
-            !  500   500000
-            !  510  1510000
-            ! 2000  3000000
+            !    0  0
+            !  500  0
+            !  510  1000000
+            ! 2000  1000000
+               0        0
+             500   500000
+             510  1510000
+            2000  3000000
         End
     Phase Change Intervals(2,1) = 500 510
-    Heat Conductivity = 1
 End
 
 Equation 1
     Name = "Model"
     Active Solvers(6) = 1 2 3 4 5 6
 
-    ! Phase Change Model = Spatial 2
-    Phase Change Model = Temporal
+    Phase Change Model = Spatial 2
+    ! Phase Change Model = Temporal
     Check Latent Heat Release = True
 End
