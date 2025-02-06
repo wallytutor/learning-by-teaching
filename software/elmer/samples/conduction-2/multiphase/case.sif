@@ -29,7 +29,7 @@ $ RHO = 1000
 Material 1
     Name = "Material"
     Heat Conductivity = 1
-    Density = 1000
+    Density = $(RHO)
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     ! APPROACH 1: heat capacity and enthalpy leap:
@@ -38,7 +38,7 @@ Material 1
     ! FIX: actually it really needs to be multiplied by the density!
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    Heat Capacity = $(RHO)
+    Heat Capacity = 1000
 
     Enthalpy = Variable Temperature
         Real
