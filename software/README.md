@@ -2,9 +2,7 @@
 
 ## Scientific Computing
 
-Notes related to my learning and teaching interests in several fields related to scientific computing (mostly applied mathematics and machine learning) and related applications. This home page is the entry point and those interested in more content and interesting links can use the sidebar with an index to the materials.
-
-It can also be used as a general guide for introducing scientific computing as it tries to introduce the minimal skill set any scientific computing engineer or scientist should have:
+Notes related to my learning and teaching interests in several fields related to scientific computing (mostly applied mathematics and machine learning) and related applications. This home page is the entry point and those interested in more content and interesting links navigate below between the multiple pages. It can also be used as a general guide for introducing scientific computing as it tries to introduce the minimal skill set any scientific computing engineer or scientist should have:
 
 - Version control comes first, everything else is worthless without it, currently that means Git.
 - Next comes software documentation with Doxygen, Sphinx, and/or Documenter.jl.
@@ -59,6 +57,8 @@ As a last word, I would like to remember that it is humanly impossible to master
 - [Elmer](elmer/README.md): multiphysics FEM toolkit.
 
 - [OpenFOAM](openfoam/README.md): general purpose FVM CFD toolkit.
+
+- [TRUST Platform](https://cea-trust-platform.github.io/):  the basis for [TrioCFD](https://github.com/cea-trust-platform/TrioCFD-code) code by CEA.
 
 ### Other
 
