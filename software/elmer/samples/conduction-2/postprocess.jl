@@ -2,29 +2,12 @@
 using CairoMakie
 using DelimitedFiles
 using DataFrames
+using Taskforce.Elmer
 
-function get_column_names(filename; verbose = false, newline = nothing)
-    metadata = read(filename, String)
-    verbose && @info(metadata)
-
-    if isnothing(newline)
-        newline = Sys.iswindows() ? "\r\n" : "\n"
-    end
-
-    lines = split(metadata, newline)
-    lines = filter(l->occursin(r"^(\s+)(\d+):.", l), lines)
-    map(l->match(r"^\s+\d+:\s+(?<x>(.+))", l)["x"], lines)
-end
-
-function load_table(results; fname = "sides.dat")
-    head = get_column_names(joinpath(results, "$(fname).names"))
-    data = readdlm(joinpath(results, fname))
-    return DataFrame(data, head)
-end
 
 function workflow()
-    data1 = load_table("monophase/results")
-    data2 = load_table("multiphase/results")
+    data1 = load_saveline_table("monophase/results")
+    data2 = load_saveline_table("multiphase/results")
 
     x1 = 1000data1[:, "coordinate 1"]
     x2 = 1000data2[:, "coordinate 1"]
