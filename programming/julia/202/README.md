@@ -15,6 +15,7 @@ format:
       - top=30mm
       - left=30mm
   docx: default
+
 jupyter:
   jupytext:
     cell_metadata_filter: -all
