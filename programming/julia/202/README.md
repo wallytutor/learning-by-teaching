@@ -8,11 +8,18 @@ Let's go straight to what matters, the topics discussed here:
 - GPU programming
 - Metaprogramming
 
+
 ## Multi-threading
+
+```python
+versioninfo()
+```
 
 ## Multi-processing
 
-## Metaprogralling
+
+## Metaprogramming
+
 
 ## Recommended contents
 

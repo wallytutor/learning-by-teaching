@@ -1,6 +1,10 @@
 # Ignore Obsidian workspace file
 .obsidian/workspace.json
 
+# Jupyter
+.ipynb_checkpoints/
+.virtual_documents/
+
 # Generated PDF files
 outputs/*.pdf
 
