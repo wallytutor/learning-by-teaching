@@ -34,7 +34,20 @@ Julia from zero to hero (for Scientific Computing)!
 **Important:** the following courses may assume you are using a redistributable version of Julia packaged as described [here](https://github.com/wallytutor/julia101/tree/main). This might be useful for instructors willing to work without internet access.
 
 1. [Julia 101](julia/101/README.md)
+2. [Julia 102](julia/102/README.md)
+3. [Plotting in Julia](julia/plotting.md)
 
 ## Python
 
 *Upcoming*
+
+## Scientific publishing
+
+The following tools might be of interest for creating scientific content with embedded code.
+
+- [Jupytext documentation](https://jupytext.readthedocs.io/en/latest/)
+- [Jupyter Book](https://jupyterbook.org/en/stable/intro.html)
+- [Weave.jl - Scientific Reports Using Julia](https://weavejl.mpastell.com/stable/)
+- [Franklin - Building static websites in Julia](https://franklinjl.org/)
+- [Pluto.jl - interactive Julia programming environment](https://plutojl.org/)
+- [Quarto](https://quarto.org/)
