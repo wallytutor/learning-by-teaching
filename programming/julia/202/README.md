@@ -2,21 +2,6 @@
 title: Julia 202
 author: Walter Dal'Maz Silva
 
-jupyter:
-  jupytext:
-    cell_metadata_filter: '-all'
-    formats: md,qmd
-    main_language: python
-    text_representation:
-      extension: .qmd
-      format_name: quarto
-      format_version: '1.0'
-      jupytext_version: 1.16.6
-  kernelspec:
-    display_name: Julia 1.11.3
-    language: julia
-    name: julia-1.11
-
 toc: true
 number-sections: true
 highlight-style: pygments
@@ -30,6 +15,20 @@ format:
       - top=30mm
       - left=30mm
   docx: default
+jupyter:
+  jupytext:
+    cell_metadata_filter: -all
+    formats: md,qmd,ipynb
+    main_language: python
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.16.6
+  kernelspec:
+    display_name: Julia 1.11.3
+    language: julia
+    name: julia-1.11
 ---
 
 # Julia 202
