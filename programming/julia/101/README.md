@@ -12,11 +12,9 @@ In this first course you will be introduced to the [Julia programming languange]
 
 Our goal in this course is not to master Julia or even pretend you have learned it; we will open the gates so that you can go out there and solve problems by yourself (or maybe open Pandora's box...).
 
-## Getting started
-
 This is probably your first time learning Julia. If you got here by other means than the main index, please consider reading [this](../../README.md). Next, you can launch a terminal and try running Julia by simply typing `julia` and pressing return. For this introductory course I assume you are using [VS Code](../../../software/vscode.md) for which you might also wish to install the recommended extensions.
 
-### REPL basics
+## REPL basics
 
 Julia's REPL (read-eval-print loop) is an interactive environment where you execute code as you write. It's main goal is to manage Julia, test code snippets, get help, and launch larger chunks of code.
 
@@ -55,7 +53,7 @@ search: methods Method methodswith hasmethod
 
 Try by yourself and run `add Polynomials` from package manager mode (we will need it later); what do you get if you check the `status` again?
 
-### Julia as a calculator
+## Julia as a calculator
 
 The following example should speak by itself:
 
@@ -211,7 +209,7 @@ julia> 1 + eps()
 1.0000000000000002
 ```
 
-### Vectors and matrices
+## Vectors and matrices
 
 Let's start once again with no words:
 
@@ -274,7 +272,7 @@ julia> LinRange(0, 100, 101)
  0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, …, 93.0, 94.0, 95.0, 96.0, 97.0, 98.0, 99.0, 100.0
 ```
 
-### Representing text
+## Representing text
 
 The uninformed think the numerical people need not to know how to manipulate text; that is completely wrong. An important amount of time in the conception of a simulation code or data analysis is simply *string* manipulation.
 
@@ -311,7 +309,7 @@ julia> @info("""
 └ You can also display the value of x = 2.3
 ```
 
-### Tuples and dictionaries
+## Tuples and dictionaries
 
 Tuples are immutable data containers; they consist *their own type*.
 
@@ -354,7 +352,7 @@ Dict{String, Float64} with 3 entries:
   "N2"  => 0.02
 ```
 
-### A first function
+## A first function
 
 A function can be created in a single line:
 
@@ -422,7 +420,7 @@ normal(x; mu, sigma)
      @ Main REPL[108]:1
 ```
 
-### Using modules
+## Using modules
 
 One can import all functionalities from a given module with `using ModuleName`; that is generally not what we want in complex programs (because of name clashes). If only a few functionalities of a given module will be used, then proceed as follows:
 
@@ -450,7 +448,7 @@ julia> ST.mean(rand(1000))
 
 By the way, we used built-in random number generation in the above example.
 
-### Calling Python
+## Calling Python
 
 ```julia-repl
 julia> using PythonCall
@@ -514,7 +512,7 @@ julia> println(gas.report())
      [  +33 minor]        3.0931e-14        1.9711e-14
 ```
 
-### Things to learn
+## Things to learn
 
 - Annotating types in functions
 - Defining structures and type-based dispatch
