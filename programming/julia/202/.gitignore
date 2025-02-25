@@ -1,0 +1,8 @@
+# Quarto outputs
+*_files
+*.docx
+*.html
+*.ipynb
+*.pdf
+*.qmd
+*.tex
