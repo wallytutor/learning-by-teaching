@@ -15,3 +15,7 @@ sandbox*
 
 # Any virtual environment
 venv/
+
+# FreeCAD files
+*.FCStd
+*.FCBak
