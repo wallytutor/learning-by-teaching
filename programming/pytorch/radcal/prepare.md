@@ -1,9 +1,14 @@
 # Data preparation
 
 ```python
+from enum import Enum
 from pathlib import Path
 from string import Template
 import subprocess
+```
+
+```python
+RADCAL = "radcal_win_64.exe"
 ```
 
 ```python
@@ -89,7 +94,58 @@ def generate_script(**kwargs):
 ```
 
 ```python
-print(generate_script(TWALL=300, T=1000, P=1, L=0.5, CO2=2, H2O=1))
+def create_script(where, **kwargs):
+    path = where / "RADCAL.IN"
+    
+    with open(path, "w") as fp:
+        fp.write(generate_script(**kwargs))
+
+    return path
+```
+
+```python
+class RadcalReturn(Enum):
+    SUCCESS = 1
+    CAUTION = 2
+    FAILURE = 3
+```
+
+```python
+def radcal_return(where):
+    if not (path := where / "RADCAL.OUT").exists():
+        raise FileNotFoundError(path)
+    
+    with open(path) as fp:
+        line = fp.readline()
+        
+    if line.startswith("CASEID"):
+        return RadcalReturn.SUCCESS
+
+    if line.startswith("CAUTION"):
+        return RadcalReturn.CAUTION
+
+    if line.startswith("ERROR"):
+        return RadcalReturn.FAILURE
+
+    raise ValueError(f"Unknown status: {line}")
+```
+
+```python
+create_script(TEMP, TWALL=300, T=1000, P=1, L=0.5, CO2=2, H2O=1)
+subprocess.run([RADCAL], cwd=TEMP)
+radcal_return(TEMP)
+```
+
+```python
+create_script(TEMP, TWALL=-300, T=1000, P=1, L=0.5, CO2=2, H2O=1)
+subprocess.run([RADCAL], cwd=TEMP)
+radcal_return(TEMP)
+```
+
+```python
+create_script(TEMP, TWALL=300, T=1000, P=1, L=0.5, CO2=2, H2O=-1)
+subprocess.run([RADCAL], cwd=TEMP)
+radcal_return(TEMP)
 ```
 
 ```python

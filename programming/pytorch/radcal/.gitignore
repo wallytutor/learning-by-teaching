@@ -1,5 +1,6 @@
 # Radcal outputs.
 RADCAL.*
+TRANS_EXAMPLE.TEC
 
 # Any temporary data.
 temp/
