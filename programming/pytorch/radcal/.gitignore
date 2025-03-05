@@ -1,0 +1,5 @@
+# Radcal outputs.
+RADCAL.*
+
+# Any temporary data.
+temp/
