@@ -4,3 +4,6 @@ TRANS_EXAMPLE.TEC
 
 # Any temporary data.
 temp/
+
+# Radcal repo
+radcal/

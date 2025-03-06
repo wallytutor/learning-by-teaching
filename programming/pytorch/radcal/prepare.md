@@ -169,6 +169,18 @@ def radcal_return(where, skip_failure=True):
 ```
 
 ```python
+RANGE_T   = (270, 2500)
+RANGE_TW  = (0, 5000)
+RANGE_CO2 = (0, 10E6)
+RANGE_H2O = (0, 10E6)
+RANGE_CH4 = (0, 10E6)
+RANGE_CO  = (0, 10E6)
+RANGE_O2  = (0, 10E6)
+RANGE_N2  = (0, 10E6)
+RANGE_FV  = (0, 1E-3)
+```
+
+```python
 create_script(TEMP, TWALL=300, T=1000, P=1, L=0.5, CO2=2, H2O=1)
 subprocess.run([RADCAL], cwd=TEMP)
 radcal_return(TEMP)
