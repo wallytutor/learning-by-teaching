@@ -1,1 +1,6 @@
-{}
+{
+  "newLinkFormat": "relative",
+  "userIgnoreFilters": [
+    "**/venv/*"
+  ]
+}

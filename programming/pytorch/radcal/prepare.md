@@ -108,24 +108,62 @@ class RadcalReturn(Enum):
     SUCCESS = 1
     CAUTION = 2
     FAILURE = 3
+    UNKNOWN = 4
 ```
 
 ```python
-def radcal_return(where):
+def radcal_status(line):
+    match line:
+        case _ if line.startswith("CAUTION"):
+            return RadcalReturn.CAUTION
+        case _ if line.startswith("ERROR"):
+            return RadcalReturn.FAILURE  
+        case _ if line.startswith("CASEID"):
+            return RadcalReturn.SUCCESS
+        case _:
+            return RadcalReturn.UNKNOWN
+```
+
+```python
+def radcal_parse_line(line):
+    key, value = line.split(":")
+    value = value.strip("\t").strip()
+    return (key, float(value))
+```
+
+```python
+def radcal_data(fp):
+    data = []
+
+    while line := fp.readline():
+        if line.startswith(" CALCULATION"):
+            break
+        
+    while line := fp.readline().strip():
+        if line.startswith("-"):
+            break
+
+        data.append(radcal_parse_line(line))
+
+    return data
+```
+
+```python
+def radcal_return(where, skip_failure=True):
     if not (path := where / "RADCAL.OUT").exists():
         raise FileNotFoundError(path)
     
     with open(path) as fp:
         line = fp.readline()
-        
-    if line.startswith("CASEID"):
-        return RadcalReturn.SUCCESS
+        status = radcal_status(line)
 
-    if line.startswith("CAUTION"):
-        return RadcalReturn.CAUTION
+        if status == RadcalReturn.UNKNOWN:
+            return status, None
 
-    if line.startswith("ERROR"):
-        return RadcalReturn.FAILURE
+        if status != RadcalReturn.SUCCESS and skip_failure:
+            return status, None
+            
+        return status, dict(radcal_data(fp))
 
     raise ValueError(f"Unknown status: {line}")
 ```
@@ -146,8 +184,4 @@ radcal_return(TEMP)
 create_script(TEMP, TWALL=300, T=1000, P=1, L=0.5, CO2=2, H2O=-1)
 subprocess.run([RADCAL], cwd=TEMP)
 radcal_return(TEMP)
-```
-
-```python
-
 ```
