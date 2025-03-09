@@ -1,10 +1,10 @@
-# $\LaTeX$
+# LaTeX
 
-## Math typesetting with $\LaTeX$
+## Math typesetting with LaTeX
 
 - For integrals to display the same size as fractions expanded with `\dfrac`, place a `\displaystyle` in front of the `\int` command.
 
-## Code typesetting with $\LaTeX$
+## Code typesetting with LaTeX
 
 - For some reason `minted` blocks `\begin{minted}...\end{minted}` have problems to render in Beamer (something related to multilevel macros). I managed to insert code blocks with `\inputminted` as reported [here](https://tex.stackexchange.com/questions/159667/including-python-code-in-beamer).
 

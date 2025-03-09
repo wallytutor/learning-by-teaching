@@ -11,6 +11,19 @@ COMBUSTION=(
     "combustion/energy-sources.md"
 )
 
+BIBLE=(
+    "software/README.md"
+    "software/cli.md"
+    "software/vscode.md"
+    "software/windows.md"
+    "software/linux.md"
+    "software/git.md"
+    "software/containers.md"
+    "software/latex.md"
+    "software/regex.md"
+    "software/general.md"
+)
+
 pandoc --standalone                \
     -M title="Combustion"          \
     -M author="${AUTHOR}"          \

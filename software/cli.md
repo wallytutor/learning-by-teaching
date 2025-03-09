@@ -6,13 +6,13 @@ If this is you first time using the command prompt you might be interested by th
 
 Now let's launch a terminal. If you are working under [VS Code](vscode.md) you can use the shortcut to display the terminal `Ctrl+J`; the bottom of your window should display something as
 
-```terminal
+```console
 PS D:\Kompanion>
 ```
 
 The start of this line displays you *path* in the system; depending on your configuration that could not be the case and you can ask the OS to give you that with `pwd` (print working directory)
 
-```terminal
+```console
 PS D:\Kompanion> pwd
 
 Path
@@ -22,14 +22,14 @@ D:\Kompanion
 
 If you are invited to move to directory `src` you may which to use command *change directory*, or `cd` in the system's language
 
-```terminal
+```console
 PS D:\Kompanion> cd .\bin\
 PS D:\Kompanion\bin> 
 ```
 
 Now that you reached your destination, you might be interested at inspecting the contents of this directory, *i.e.* listing its contents; that is done with `ls` as follows
 
-```terminal
+```console
 PS D:\Kompanion\bin> ls
 
 
@@ -52,7 +52,7 @@ d-----         1/30/2025   9:58 AM                tests
 
 Oops! It was not the directory you wanted to go to! No problems, you can navigate *one-level-upwards* using the special symbol `..` (two dots) and change directory again
 
-```terminal
+```console
 PS D:\Kompanion\bin> cd ..\docs\
 PS D:\Kompanion\docs> 
 ```

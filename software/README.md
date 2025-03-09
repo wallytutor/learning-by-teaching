@@ -10,7 +10,7 @@ Notes related to my learning and teaching interests in several fields related to
 - Scripting languages, as of 2024, Python is mandatory, Julia highly recommended.
 - Basic machine learning in one of the above scripts, everything is ML these days.
 - Shell automation, basis of both Bash/other UNIX shell and PowerShell are required.
-- Typesetting equations reports and presentations (beamer) in $\LaTeX$.
+- Typesetting equations reports and presentations (beamer) in LaTeX.
 - Domain specific skills related to the field of study (CFD, DFT, MD, ML, ...).
 
 Some technologies have been mainstream or important in the past, but nowadays some of them have already died or are becoming too niche to be put in such a list. That is the case of SVN for version control. As for programming languages in science, that is the case of *matlabish* (MATLAB, Octave, Scilab) environments, which are still used by *controls and automation* people, but are mostly incompatible with good software practices and should be discouraged.

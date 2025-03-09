@@ -13,7 +13,7 @@ An *AppImage* application is a bundle intended to be portable across many distri
 
 The following snippet is aimed to automating an *AppImage* installation under Gnome 3. Simply replace the fields marked by `<something>` with the required names and run the script (requires admin rights).
 
-```shell
+```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -48,11 +48,11 @@ echo "install ok"
 
 ## FTPS server configuration
 
-```sh
+```bash
 sudo dnf install -y vsftpd
 ```
 
-```sh
+```bash
 sudo vim /etc/vsftpd/vsftpd.conf
 ```
 
@@ -66,7 +66,7 @@ ssl_sslv2=NO
 ssl_sslv3=NO
 ```
 
-```sh
+```bash
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-keyout /etc/ssl/certs/vsftpd.pem                  \
 	-out /etc/ssl/certs/vsftpd.pem
@@ -82,13 +82,13 @@ chroot_local_user=YES
 allow_writeable_chroot=YES
 ```
 
-```sh
+```bash
 sudo systemctl enable vsftpd
 sudo systemctl restart vsftpd
 sudo systemctl status vsftpd
 ```
 
-```sh
+```bash
 sudo firewall-cmd --permanent --add-service=ftp
 sudo firewall-cmd --permanent --add-port=990/tcp
 sudo firewall-cmd --reload
@@ -96,11 +96,11 @@ sudo firewall-cmd --reload
 
 ## Fresh Ubuntu setup
 
-```shell
+```bash
 sudo visudo
 sudo apt update && sudo apt upgrade -y && sudo apt autoremove
 ```
 
-```shell
+```bash
 sudo apt install python3-pip python3-venv
 ```

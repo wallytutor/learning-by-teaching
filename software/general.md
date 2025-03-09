@@ -6,7 +6,7 @@ Retrieving a video or playlist from YouTube can be automated with help of [yt-dl
 
 To get the tool working under Ubuntu you can do the following:
 
-```shell
+```bash
 # Install Python venv to create a local virtual environment:
 sudo apt install python3-venv
 
@@ -26,7 +26,7 @@ pip install -U --pre "yt-dlp[default]"
 
 To install a package behind a proxy requiring SSL one can enforce trusted hosts to avoid certificate hand-shake and allow installation. This is done with the following options:
 
-```shell
+```bash
 pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org <pkg>
 ```
 
@@ -44,7 +44,7 @@ Besides Python you will need:
 
 Install dependencies on Ubuntu 22.04:
 
-```shell
+```bash
 sudo apt install  \
     tesseract-ocr \
     imagemagick   \
@@ -53,7 +53,7 @@ sudo apt install  \
 
 In case of Rocky Linux 9:
 
-```shell
+```bash
 sudo dnf install           \
     tesseract              \
     tesseract-langpack-eng \
@@ -65,7 +65,7 @@ For Windows you will need to manually download both `tesseract` and `poppler` an
 
 Create a local environment, activate it, and install required packages:
 
-```shell
+```bash
 python3 -m venv venv
 
 source venv/bin/activate

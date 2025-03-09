@@ -8,7 +8,7 @@
 
 Generally speaking adding a submodule to a repository should be a simple matter of
 
-```shell
+```bash
 git submodule add https://<path>/<to>/<repository>
 ```
 
@@ -16,13 +16,13 @@ Nonetheless this might fail, especially for large sized repositories; I faced [t
 
 The reverse operation cannot be fully automated as discussed [here](https://stackoverflow.com/questions/1260748). In general you start with
 
-```shell
+```bash
 git rm <path-to-submodule>
 ```
 
 and then manually remove the history with
 
-```shell
+```bash
 rm -rf .git/modules/<path-to-submodule>
 
 git config remove-section submodule.<path-to-submodule>
