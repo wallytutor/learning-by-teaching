@@ -168,9 +168,18 @@ def radcal_return(where, skip_failure=True):
     raise ValueError(f"Unknown status: {line}")
 ```
 
+| Quantity                | Minimum | Maximum |
+|------------------------:|:-------:|:-------:|
+| Wall temperature        | |
+| Gas temperature         | |
+| Mole fraction of $CO_2$ | |
+| Mole fraction of $H_2O$ | |
+| Soot volume fraction    | |
+| Physical path length    | |
+
 ```python
-RANGE_T   = (270, 2500)
 RANGE_TW  = (0, 5000)
+RANGE_T   = (270, 2500)
 RANGE_CO2 = (0, 10E6)
 RANGE_H2O = (0, 10E6)
 RANGE_CH4 = (0, 10E6)
