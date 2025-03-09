@@ -41,5 +41,72 @@ Line(9) = {1, 6};
 Line(10) = {5, 10};
 
 // --------------------------------------------------------------------
+// Surface
+// --------------------------------------------------------------------
+
+Line Loop(1) = {1, 2, 3, 4, 10, -8, -7, -6, -5, -9};
+Plane Surface(1) = {1};
+
+// --------------------------------------------------------------------
+// Discretization
+// --------------------------------------------------------------------
+
+Transfinite Curve {1, -5} = 50;
+Transfinite Curve {2, -6} = 20;
+Transfinite Curve {3, -7} = 20;
+Transfinite Curve {4, -8} = 100;
+Transfinite Curve {-9, 10} = 50;
+
+// --------------------------------------------------------------------
+// Boundary layer
+// --------------------------------------------------------------------
+
+Field[1] = BoundaryLayer;
+Field[1].PointsList = {6:10};
+Field[1].CurvesList = {5:8};
+Field[1].AnisoMax = 1.0e+10;
+Field[1].Quads = 1;
+Field[1].Ratio = 1.1;
+Field[1].Size = 0.0001;
+Field[1].SizeFar = 0.002;
+Field[1].Thickness = 0.003;
+BoundaryLayer Field = 1;
+
+// --------------------------------------------------------------------
+// Make symmetric wedge
+// --------------------------------------------------------------------
+
+// theta = 10 * Pi / 180;
+
+// Rotate {{1, 0, 0}, {0, 0, 0}, theta} { Surface{1}; }
+
+// ext[] = Extrude {{1, 0, 0}, {0, 0, 0}, -2*theta} { 
+//   Surface{1}; Layers{1}; Recombine; };
+
+// Physical Volume("volume") = { ext[1] };
+// Physical Surface("inlet") = {8};
+// Physical Surface("outlet") = {3};
+// Physical Surface("wall") = {4:7};
+// Physical Surface("front") = {1};
+// Physical Surface("back") = {9};
+
+// --------------------------------------------------------------------
+// Meshing
+// --------------------------------------------------------------------
+
+Mesh.Algorithm = 8;
+
+Mesh.Smoothing = 1; 
+Mesh.RecombineAll = 1;
+Mesh.MeshSizeMax = 0.001;
+
+Mesh.MeshSizeFromPoints = 0;
+Mesh.MeshSizeFromCurvature = 0;
+Mesh.MeshSizeExtendFromBoundary = 1;
+Mesh 2;
+
+Save "laval-2d.unv";
+
+// --------------------------------------------------------------------
 // EOF
 // --------------------------------------------------------------------

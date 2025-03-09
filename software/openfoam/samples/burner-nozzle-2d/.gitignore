@@ -1,0 +1,7 @@
+# Generated mesh
+geometry/salome/*
+geometry/*.hdf
+geometry/*.msh
+geometry/*.step
+geometry/*.stl
+geometry/*.unv
