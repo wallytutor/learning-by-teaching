@@ -138,6 +138,16 @@ OpenFOAM is an open source computational fluid dynamics (CFD) toolbox; as a matt
 <table>
   <tr>
     <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://holzmann-cfd.com/templates/holzmanncfd/images/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://holzmann-cfd.com/" target="_blank">
+	    Holzmann CFD
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
         <img src="https://www.cfdyna.com/Logo.png" alt="logo" />
     </td>
     <td>
