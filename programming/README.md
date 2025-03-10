@@ -38,6 +38,7 @@ Julia from zero to hero (for Scientific Computing)!
 3. [Julia 201](julia/201/README.md)
 4. [Julia 202](julia/202/README.md)
 5. [Plotting in Julia](julia/plotting.md)
+6. [Selected packages](julia/packages.md)
 
 ## Python
 
