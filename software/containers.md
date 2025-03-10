@@ -9,7 +9,7 @@ The following summarizes some daily life commands with `podman`.
 - List available images in a local machine:
 
 ```bash
-podman image
+podman images
 ```
 
 - Run image `<img>` interactively using bash:
@@ -22,6 +22,25 @@ podman run -it <img> /bin/bash
 
 ```bash
 podman save -o <img>.tar <img>
+```
+
+- List all available containers (there might be external/hidden, so use `-a`):
+
+```bash
+podman container ls -a
+```
+
+- Remove a given container by ID (only the first 2-3 characters of ID are required):
+
+```bash
+podman container rm <ID>
+```
+
+- Remove a given image by ID:
+
+```bash
+podman rmi <ID>
+# podman image rm <ID>
 ```
 
 ## Apptainer
