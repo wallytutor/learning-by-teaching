@@ -10,7 +10,8 @@ OpenFOAM is an open source computational fluid dynamics (CFD) toolbox; as a matt
 ## Guides
 
 1. [Lessons learned](learned.md)
-2. [Glossary](glossary.md)
+2. [Using containers](containers/README.md)
+3. [Glossary](glossary.md)
 
 ## Main documentation *CFD Direct*
 

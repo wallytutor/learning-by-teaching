@@ -76,4 +76,6 @@ RUN source ${FOAM_BASE}/OpenFOAM-12/etc/bashrc && \
 RUN source ${FOAM_BASE}/OpenFOAM-12/etc/bashrc && \
     cd ${FOAM_BASE}/OpenFOAM-12/doc/Doxygen && ./Allwmake
 
+RUN echo "source ${FOAM_BASE}/OpenFOAM-12/etc/bashrc" >> /etc/bashrc
+
 CMD ["/bin/bash"]

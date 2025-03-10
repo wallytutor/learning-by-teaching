@@ -16,24 +16,30 @@ set AUTHOR="Walter Dal'Maz Silva"
 
 set REFERENCES=references/references.bib
 
-pandoc --standalone                ^
-    -M title="Computing bible"     ^
-    -M author=%AUTHOR%             ^
-    -M date=%DATE%                 ^
-    --toc                          ^
-    --citeproc                     ^
-    --csl=template/nature.csl      ^
-    --bibliography=%REFERENCES%    ^
-    --highlight-style=pygments     ^
-    software/README.md             ^
-    software/cli.md                ^
-    software/vscode.md             ^
-    software/windows.md            ^
-    software/linux.md              ^
-    software/git.md                ^
-    software/containers.md         ^
-    software/latex.md              ^
-    software/regex.md              ^
-    software/general.md            ^
-    -o outputs/bible.pdf           ^
+pandoc --standalone                       ^
+    -M title="Computing bible"            ^
+    -M author=%AUTHOR%                    ^
+    -M date=%DATE%                        ^
+    --toc                                 ^
+    --citeproc                            ^
+    --csl=template/nature.csl             ^
+    --bibliography=%REFERENCES%           ^
+    --highlight-style=pygments            ^
+    software/README.md                    ^
+    software/cli.md                       ^
+    software/vscode.md                    ^
+    software/windows.md                   ^
+    software/linux.md                     ^
+    software/git.md                       ^
+    software/containers.md                ^
+    software/latex.md                     ^
+    software/regex.md                     ^
+    software/general.md                   ^
+    programming/README.md                 ^
+    combustion/combustion-fundamentals.md ^
+    combustion/energy-sources.md          ^
+    -o outputs/bible.pdf                  ^
     template/references.md
+
+    @REM programming/julia/101/README.md       ^
+    @REM programming/julia/102/README.md       ^
