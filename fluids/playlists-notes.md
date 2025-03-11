@@ -27,10 +27,37 @@ Based on [playlist by Fluid Mechanics 101](https://www.youtube.com/playlist?list
 
 ## Large Eddy Simulation (LES)
 
-Based on [playlist by Fluid Mechanics 101](https://www.youtube.com/playlist?list=PLnJ8lIgfDbkoPrNWatlYdROiPrRU4XeUA).
+Based on [playlist by Fluid Mechanics 101](https://www.youtube.com/playlist?list=PLnJ8lIgfDbkoPrNWatlYdROiPrRU4XeUA). The goal of this series is to provide a rather practical set of considerations about LES practical, theoretical aspects being discussed elsewhere.
 
 ![Large Eddy Simulation (LES): An Introduction](https://www.youtube.com/watch?v=r5vP45_6fB4&list=PLnJ8lIgfDbkoPrNWatlYdROiPrRU4XeUA&index=1)
 
+- A minimum of 4 neighbor cells is required to roughly resolve an eddy.
+
+- Large eddies are resolved through fine meshing; smaller ones use sub-grid models.
+
+- Consider resolving at least 80% of local turbulent (eddy) energy in LES.
+
+- Always run a RANS version of the case before converting it into LES.
+
+- Using $k-\epsilon$ or $k-\omega$ values one can estimate the integral length scale $l_0$ (in the following equation $k$ is the wavenumber, not turbulent kinetic energy!)
+
+$$
+l_0 = \dfrac{\displaystyle\int_0^\infty k^{-1}E(k)dk}{\displaystyle\int_0^\infty E(k)dk}
+$$
+
+- In terms of $k$, $\epsilon$, or $\omega$ this can be estimated as:
+
+$$
+l_0 = \dfrac{k^{3/2}}{\epsilon} = \dfrac{k^{1/2}}{C_\mu\omega}
+$$
+
+- The cell length can then be set locally to $d=l_0/5$ to resolve ~80% of the eddies.
+
+- In postprocessing RANS preliminary results one can compute the following quantity in terms of cell volume $V$ to identify regions where cells are too big for proper resolution of large eddies:
+
+$$
+f = \dfrac{l_0}{V^{1/3}} (\ge 5)
+$$
 
 ![Large Eddy Simulation (LES) 2: Turbulent Kinetic Energy](https://www.youtube.com/watch?v=QKDFTCUh7zU&list=PLnJ8lIgfDbkoPrNWatlYdROiPrRU4XeUA&index=2)
 
