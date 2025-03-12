@@ -5,10 +5,10 @@ In the 1970's [Launder and Spalding](https://doi.org/10.1016/0045-7825\(74\)9002
 $$
 k = \dfrac{1}{2}\overline{u_iu_i}
 \qquad
-\epsilon = \nu\overline{%
-	\dfrac{\partial{}u_i}{\partial{}x_k}%
+\epsilon = \nu\overline{
+	\dfrac{\partial{}u_i}{\partial{}x_k}
 	\dfrac{\partial{}u_i}{\partial{}x_k}}
-\qquad%
+\qquad
 l = C_D\dfrac{k^{3/2}}{\epsilon}
 $$
 
