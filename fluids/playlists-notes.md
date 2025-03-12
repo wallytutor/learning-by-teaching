@@ -61,6 +61,14 @@ $$
 
 ![Large Eddy Simulation (LES) 2: Turbulent Kinetic Energy](https://www.youtube.com/watch?v=QKDFTCUh7zU&list=PLnJ8lIgfDbkoPrNWatlYdROiPrRU4XeUA&index=2)
 
+- Time average point probes in regions where a statistical steady state is achieved.
+
+- Compute mean flow field $\bar{U}$ from instantaneous data then use its value over the domain to evaluate the fluctuating velocity $u^\prime=U-\bar{U}$ to later compute $k$ (turbulent kinetic energy).
+
+- The normal components of Reynolds-stress tensor (its trace) adds up to form $k$.
+
+- In OpenFOAM the Reynolds stress tensor is computed as `uPrime2Mean` in units of $m^2/s^2$ while Ansys Fluent will compute RMSE velocities to give units of $m/s$, so values need to be squared to compute $k$!
+
 
 ![Large Eddy Simulation (LES) 3: Sub-Grid Modelling](https://www.youtube.com/watch?v=N81Io_yrOQU&list=PLnJ8lIgfDbkoPrNWatlYdROiPrRU4XeUA&index=3)
 
