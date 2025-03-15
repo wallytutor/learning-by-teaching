@@ -52,20 +52,20 @@ RUN dnf install -y          \
     utf8cpp-devel           \
     vtk-devel                   
 
-# Configuration pour OpenMPI
+# Configure OpenMPI (missing expected paths):
 ENV PATH="${PATH}:/usr/lib64/openmpi/bin"
 ENV CPATH="${CPATH}:/usr/include/openmpi-x86_64/"
 ENV CPATH="${CPATH}:/usr/include/vtk/"
 
 RUN ln -s /usr/lib64/openmpi/lib /usr/lib64/openmpi/lib64
 
-# Création du répertoire OpenFOAM et clonage des dépôts
+# Creation of base directory and clone repositories:
 ENV FOAM_BASE="/opt/openfoam12/"
 RUN mkdir -p ${FOAM_BASE} && cd ${FOAM_BASE} && \
     git clone https://github.com/OpenFOAM/OpenFOAM-12.git && \
     git clone https://github.com/OpenFOAM/ThirdParty-12.git
 
-# Correction de la configuration de Paraview
+# Workaround to get Paraview working:
 RUN sed -i "s|libpqCore-pv|libpqCore|g" \
     ${FOAM_BASE}/OpenFOAM-12/etc/config.sh/paraview
 

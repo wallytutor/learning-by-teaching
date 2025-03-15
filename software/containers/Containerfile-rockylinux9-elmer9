@@ -8,74 +8,157 @@ RUN dnf config-manager --set-enabled crb
 RUN dnf makecache --refresh && \
     dnf -y update
 
-# Install general deps (openfoam-nopv-deps):
+# Install general deps:
+RUN dnf install -y  \
+    autoconf        \
+    bison           \
+    flex            \
+    which           \
+    make            \
+    cmake           \
+    git             \
+    gcc             \
+    gcc-c++         \
+    gcc-gfortran    \
+    openmpi-devel   \
+    openblas-devel  \
+    lapack-devel    \
+    mpich-devel     \
+    unzip           \
+    zip             \
+    zlib-devel      \
+    bzip2-devel     \
+    xz-devel
+
+# Configure OpenMPI (missing expected paths):
+ENV PATH="${PATH}:/usr/lib64/openmpi/bin"
+ENV CPATH="${CPATH}:/usr/include/openmpi-x86_64/"
+RUN ln -s /usr/lib64/openmpi/lib /usr/lib64/openmpi/lib64
+
+# XXX Probably not needed, but just in case, keep track of this:
+# ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib64/openmpi/lib64"
+
+# Creation of base directories:
+ENV ELMER_BASE="/opt/elmer-build/"
+ENV ELMER_DEST="/opt/elmer"
+RUN mkdir -p ${ELMER_BASE}
+RUN mkdir -p ${ELMER_DEST}
+
+# Clone repositories:
+RUN cd ${ELMER_BASE}                                       && \
+    git clone https://github.com/KarypisLab/GKlib.git      && \
+    git clone https://github.com/KarypisLab/METIS.git      && \
+    git clone https://github.com/KarypisLab/ParMETIS.git   && \
+    git clone https://github.com/scivision/mumps.git       && \
+    git clone https://github.com/hypre-space/hypre.git     && \
+    git clone https://github.com/trilinos/Trilinos.git     && \
+    git clone https://github.com/Unidata/netcdf-c.git      && \
+    git clone https://github.com/ElmerCSC/elmerfem.git
+
+########################################################################
+# XXX The following build order is based on the interdependencies of the
+# libraries. Do not change the order unless you know what you are doing.
+#
+# Maybe support this for MUMPS in the future:
+# https://github.com/Reference-ScaLAPACK/scalapack.git
+# https://github.com/CBADS-SPI/scotch
+#
+# Avoid this Scotch build (prefer its own from the repo above!):
+# RUN cmake -Dprefix=${ELMER_DEST} -P scripts/build_scotch.cmake
+########################################################################
+
+WORKDIR ${ELMER_BASE}/GKlib
+RUN make config              \
+        cc=/usr/bin/gcc      \
+        prefix=${ELMER_DEST} \
+        openmp=set &&        \
+        make &&              \
+        make install
+
+WORKDIR ${ELMER_BASE}/METIS
+RUN make config                  \
+        cc=/usr/bin/gcc          \
+        shared=0                 \
+        prefix=${ELMER_DEST}     \
+        gklib_path=${ELMER_DEST} \
+        i64=1                    \
+        r64=1 &&                 \
+        make &&                  \
+        make install
+
+WORKDIR ${ELMER_BASE}/ParMETIS
+RUN make config                           \
+        cc=/usr/lib64/openmpi/bin/mpicc   \
+        cxx=/usr/lib64/openmpi/bin/mpicxx \
+        shared=1                          \
+        prefix=${ELMER_DEST}              \
+        gklib_path=${ELMER_DEST}          \
+        metis_path=${ELMER_DEST} &&       \
+        make &&                           \
+        make install
+
+WORKDIR ${ELMER_BASE}/mumps
+RUN cmake -Bbuild                             \
+    --install-prefix=${ELMER_DEST}            \
+    -DBUILD_SHARED_LIBS=on                    \
+    -DBUILD_SINGLE=on                         \
+    -DBUILD_DOUBLE=on                         \
+    -DBUILD_COMPLEX=on                        \
+    -DBUILD_COMPLEX16=on                      \
+    -Dintsize64=on                            \
+    -DMUMPS_scalapack=off                     \
+    -DMUMPS_parallel=TRUE                     \
+    -DMUMPS_openmp=on                         \
+    -DLAPACK_VENDOR=OpenBLAS                  \
+    -DLAPACK_INCLUDE_DIR=/usr/include/lapacke \
+    -DMETIS_ROOT=${ELMER_DEST}                \
+    -DScotch_ROOT=${ELMER_DEST}               \
+    -Dscotch=off                              \
+    -Dmetis=yes                               \
+    -Dparmetis=yes &&                         \
+    cmake --build build &&                    \
+    cmake --install build
+
+WORKDIR ${ELMER_BASE}/hypre
+
+# WORKDIR ${ELMER_BASE}/Trilinos
+
+# WORKDIR ${ELMER_BASE}/netcdf-c
+
+# Install extra deps:
 # RUN dnf install -y          \
-    # autoconf                \
-    # bison                   \
-    # cmake                   \
-    # flex                    \
-    # git                     \
-    # gcc                     \
-    # gcc-c++                 \
-    # gnuplot                 \
-    # libXt-devel             \
-    # make                    \
-    # openmpi-devel           \
-    # python3.11-devel        \
-    # zlib-devel
+#     hypre-devel             \
+#     MUMPS-devel
 
-# # For Qt environment:
-# RUN dnf install -y          \
-#     qt5-devel               \
-#     qt5-qtsvg               \
-#     qt5-qttools-devel       \
-#     qt5-qtxmlpatterns-devel \
-#     qt5-qtx11extras
+# Compile Elmer:
+# WORKDIR ${ELMER_BASE}/elmerfem
+# RUN mkdir builddir && cd builddir &&               \
+#     cmake ${ELMER_BASE}/elmerfem                   \
+#         -DCMAKE_INSTALL_PREFIX=/opt/elmer-devel    \
+#         -DCMAKE_C_COMPILER=/usr/bin/gcc            \
+#         -DCMAKE_Fortran_COMPILER=/usr/bin/gfortran \
+#         -DWITH_MPI:BOOL=TRUE                       \
+#         -DWITH_Mumps:BOOL=TRUE                     \
+#         -DWITH_Hypre:BOOL=TRUE                     \
+#         -DWITH_Trilinos:BOOL=FALSE                 \
+#         -DWITH_ELMERGUI:BOOL=FALSE                 \
+#         -DWITH_ElmerIce:BOOL=FALSE                 \
+#         -DWITH_LUA:BOOL=TRUE                       \
+#     && make \
+#     && make install
 
-# # Install extra deps + fixes (openfoam-deps):
-# RUN dnf install -y          \
-#     double-conversion-devel \
-#     doxygen                 \
-#     freetype-devel          \
-#     glew-devel              \
-#     gl2ps-devel             \
-#     graphviz                \
-#     hdf5-devel              \
-#     json-devel              \
-#     libavfilter-free-devel  \
-#     libtheora-devel         \
-#     libxml2-devel           \
-#     libX11-devel            \
-#     paraview-devel          \
-#     PDAL-devel              \
-#     protobuf-devel          \
-#     utf8cpp-devel           \
-#     vtk-devel                   
+# Should I clean-up?
+# rm -rf ${ELMER_BASE}/GKlib/
+# rm -rf ${ELMER_BASE}/METIS/
+# rm -rf ${ELMER_BASE}/ParMETIS/
+# rm -rf ${ELMER_BASE}/mumps/
+# rm -rf ${ELMER_BASE}/hypre/
+# rm -rf ${ELMER_BASE}/Trilinos/
+# rm -rf ${ELMER_BASE}/netcdf-c/
+# rm -rf ${ELMER_BASE}/elmerfem/
 
-# # Configuration pour OpenMPI
-# ENV PATH="${PATH}:/usr/lib64/openmpi/bin"
-# ENV CPATH="${CPATH}:/usr/include/openmpi-x86_64/"
-# ENV CPATH="${CPATH}:/usr/include/vtk/"
+# Append to the PATH:
+# ENV PATH=$PATH:/opt/elmer-devel/bin
+# ENV PATH=$PATH:/opt/elmer-devel/share/elmersolver/lib
 
-# RUN ln -s /usr/lib64/openmpi/lib /usr/lib64/openmpi/lib64
-
-# # Création du répertoire OpenFOAM et clonage des dépôts
-# ENV FOAM_BASE="/opt/openfoam12/"
-# RUN mkdir -p ${FOAM_BASE} && cd ${FOAM_BASE} && \
-#     git clone https://github.com/OpenFOAM/OpenFOAM-12.git && \
-#     git clone https://github.com/OpenFOAM/ThirdParty-12.git
-
-# # Correction de la configuration de Paraview
-# RUN sed -i "s|libpqCore-pv|libpqCore|g" \
-#     ${FOAM_BASE}/OpenFOAM-12/etc/config.sh/paraview
-
-# WORKDIR ${FOAM_BASE}
-# RUN source ${FOAM_BASE}/OpenFOAM-12/etc/bashrc && \
-#     cd ${FOAM_BASE}/OpenFOAM-12 && ./Allwmake -q -j 4
-
-# RUN source ${FOAM_BASE}/OpenFOAM-12/etc/bashrc && \
-#     cd ${FOAM_BASE}/OpenFOAM-12/doc/Doxygen && ./Allwmake
-
-# RUN echo "source ${FOAM_BASE}/OpenFOAM-12/etc/bashrc" >> /etc/bashrc
-
-# CMD ["/bin/bash"]
+CMD ["/bin/bash"]
