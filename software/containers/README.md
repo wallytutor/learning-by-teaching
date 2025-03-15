@@ -4,23 +4,23 @@
 
 ```bash
 # Variable with name of container:
-OF12R9=openfoam12-rockylinux9
+R9OF12=rockylinux9-openfoam12
 
 # Avoid the following warning:  WARN[0000] "/" is not a shared mount, this
 # could cause issues or missing mounts with rootless containers.
 sudo mount --make-rshared /
 
 # Build the container image:
-/usr/bin/podman build -t "${OF12R9}" -f Containerfile-rockylinux-9 .
+/usr/bin/podman build -t "${R9OF12}" -f "Containerfile-${R9OF12}" .
 
 # Save container to portable .tar:
-/usr/bin/podman save -o "${OF12R9}.tar" "localhost/${OF12R9}"
+/usr/bin/podman save -o "${R9OF12}.tar" "localhost/${R9OF12}"
 
 # Convert container to 
-/usr/bin/apptainer build "${OF12R9}.sif" "docker-archive://${OF12R9}.tar"
+/usr/bin/apptainer build "${R9OF12}.sif" "docker-archive://${R9OF12}.tar"
 
 # After making sure it is working, remove the image:
-/usr/bin/podman rmi "${OF12R9}"
+/usr/bin/podman rmi "${R9OF12}"
 ```
 
 ## Usage

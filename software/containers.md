@@ -68,5 +68,5 @@ apptainer build "<img>.sif" "docker-archive://<img>.tar"
 apptainer run <img>.sif
 ```
 
-**IMPORTANT:** since `apptainer` makes use of user space, sourcing of applications is not done as root, so one must edit add to their `~/.bashrc`, see an exemple for [OpenFOAM](openfoam/containers/README.md).
+**IMPORTANT:** since `apptainer` makes use of user space, sourcing of applications is not done as root, so one must edit add to their `~/.bashrc`, see an exemple for [OpenFOAM](containers/README.md).
 
