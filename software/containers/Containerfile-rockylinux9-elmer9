@@ -1,16 +1,16 @@
 FROM rockylinux:9
 
-RUN dnf makecache --refresh && \
-    dnf -y install epel-release
-
-RUN dnf config-manager --set-enabled crb
-
-RUN dnf makecache --refresh && \
+RUN dnf makecache --refresh              && \
+    dnf -y install epel-release          && \
+    dnf config-manager --set-enabled crb && \
+    dnf makecache --refresh              && \
     dnf -y update
 
-# Install general deps:
 RUN dnf install -y  \
     autoconf        \
+    automake        \
+    libtool         \
+    m4              \
     bison           \
     flex            \
     which           \
@@ -24,6 +24,9 @@ RUN dnf install -y  \
     openblas-devel  \
     lapack-devel    \
     mpich-devel     \
+    boost-devel     \
+    hdf5-devel      \
+    libcurl-devel   \
     unzip           \
     zip             \
     zlib-devel      \
@@ -35,9 +38,6 @@ ENV PATH="${PATH}:/usr/lib64/openmpi/bin"
 ENV CPATH="${CPATH}:/usr/include/openmpi-x86_64/"
 RUN ln -s /usr/lib64/openmpi/lib /usr/lib64/openmpi/lib64
 
-# XXX Probably not needed, but just in case, keep track of this:
-# ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib64/openmpi/lib64"
-
 # Creation of base directories:
 ENV ELMER_BASE="/opt/elmer-build/"
 ENV ELMER_DEST="/opt/elmer"
@@ -45,120 +45,165 @@ RUN mkdir -p ${ELMER_BASE}
 RUN mkdir -p ${ELMER_DEST}
 
 # Clone repositories:
-RUN cd ${ELMER_BASE}                                       && \
-    git clone https://github.com/KarypisLab/GKlib.git      && \
-    git clone https://github.com/KarypisLab/METIS.git      && \
-    git clone https://github.com/KarypisLab/ParMETIS.git   && \
-    git clone https://github.com/scivision/mumps.git       && \
-    git clone https://github.com/hypre-space/hypre.git     && \
-    git clone https://github.com/trilinos/Trilinos.git     && \
-    git clone https://github.com/Unidata/netcdf-c.git      && \
+RUN cd ${ELMER_BASE}                                               && \
+    git clone https://github.com/KarypisLab/GKlib.git              && \
+    git clone https://github.com/KarypisLab/METIS.git              && \
+    git clone https://github.com/KarypisLab/ParMETIS.git           && \
+    git clone https://github.com/Reference-ScaLAPACK/scalapack.git && \
+    git clone https://gitlab.inria.fr/scotch/scotch.git            && \
+    git clone https://github.com/scivision/mumps.git               && \
+    git clone https://github.com/hypre-space/hypre.git             && \
     git clone https://github.com/ElmerCSC/elmerfem.git
+
+# XXX The following will have to wait libtool be updated for Rocky
+# because compiling such a low-level tool is prone to errors later.
+# git clone https://github.com/Parallel-NetCDF/PnetCDF.git && \
+# git clone https://github.com/Unidata/netcdf-c.git        && \
+# git clone https://github.com/Unidata/netcdf-fortran.git  && \
+# git clone https://github.com/trilinos/Trilinos.git       && \
 
 ########################################################################
 # XXX The following build order is based on the interdependencies of the
 # libraries. Do not change the order unless you know what you are doing.
 #
-# Maybe support this for MUMPS in the future:
-# https://github.com/Reference-ScaLAPACK/scalapack.git
-# https://github.com/CBADS-SPI/scotch
-#
-# Avoid this Scotch build (prefer its own from the repo above!):
-# RUN cmake -Dprefix=${ELMER_DEST} -P scripts/build_scotch.cmake
+# Alternative to compiling Hypre: and MUMPS:
+# dnf install -y hypre-devel MUMPS-devel
 ########################################################################
 
-WORKDIR ${ELMER_BASE}/GKlib
-RUN make config              \
-        cc=/usr/bin/gcc      \
-        prefix=${ELMER_DEST} \
-        openmp=set &&        \
-        make &&              \
-        make install
+# WORKDIR ${ELMER_BASE}/GKlib
+# RUN make config                                                      \
+#             cc=/usr/bin/gcc                                          \
+#             prefix=${ELMER_DEST}                                     \
+#             openmp=set &&                                            \
+#         make && make install
 
-WORKDIR ${ELMER_BASE}/METIS
-RUN make config                  \
-        cc=/usr/bin/gcc          \
-        shared=0                 \
-        prefix=${ELMER_DEST}     \
-        gklib_path=${ELMER_DEST} \
-        i64=1                    \
-        r64=1 &&                 \
-        make &&                  \
-        make install
+# WORKDIR ${ELMER_BASE}/METIS
+# RUN make config                                                      \
+#             cc=/usr/bin/gcc                                          \
+#             shared=1                                                 \
+#             prefix=${ELMER_DEST}                                     \
+#             gklib_path=${ELMER_DEST}                                 \
+#             i64=1                                                    \
+#             r64=1 &&                                                 \
+#         make && make install
 
-WORKDIR ${ELMER_BASE}/ParMETIS
-RUN make config                           \
-        cc=/usr/lib64/openmpi/bin/mpicc   \
-        cxx=/usr/lib64/openmpi/bin/mpicxx \
-        shared=1                          \
-        prefix=${ELMER_DEST}              \
-        gklib_path=${ELMER_DEST}          \
-        metis_path=${ELMER_DEST} &&       \
-        make &&                           \
-        make install
+# WORKDIR ${ELMER_BASE}/ParMETIS
+# RUN make config                                                      \
+#             cc=/usr/lib64/openmpi/bin/mpicc                          \
+#             cxx=/usr/lib64/openmpi/bin/mpicxx                        \
+#             shared=1                                                 \
+#             prefix=${ELMER_DEST}                                     \
+#             gklib_path=${ELMER_DEST}                                 \
+#             metis_path=${ELMER_DEST} &&                              \
+#         make &&                                                      \
+#         make install
 
-WORKDIR ${ELMER_BASE}/mumps
-RUN cmake -Bbuild                             \
-    --install-prefix=${ELMER_DEST}            \
-    -DBUILD_SHARED_LIBS=on                    \
-    -DBUILD_SINGLE=on                         \
-    -DBUILD_DOUBLE=on                         \
-    -DBUILD_COMPLEX=on                        \
-    -DBUILD_COMPLEX16=on                      \
-    -Dintsize64=on                            \
-    -DMUMPS_scalapack=off                     \
-    -DMUMPS_parallel=TRUE                     \
-    -DMUMPS_openmp=on                         \
-    -DLAPACK_VENDOR=OpenBLAS                  \
-    -DLAPACK_INCLUDE_DIR=/usr/include/lapacke \
-    -DMETIS_ROOT=${ELMER_DEST}                \
-    -DScotch_ROOT=${ELMER_DEST}               \
-    -Dscotch=off                              \
-    -Dmetis=yes                               \
-    -Dparmetis=yes &&                         \
-    cmake --build build &&                    \
-    cmake --install build
+# WORKDIR ${ELMER_BASE}/scalapack
+# RUN cmake -Bbuild                                                    \
+#         --install-prefix=${ELMER_DEST}                               \
+#         -DBUILD_SHARED_LIBS=on &&                                    \
+#     cmake --build build && cmake --install build
 
-WORKDIR ${ELMER_BASE}/hypre
+# WORKDIR ${ELMER_BASE}/scotch
+# RUN cmake -Bbuild                                                    \
+#         -DCMAKE_INSTALL_PREFIX=${ELMER_DEST}                         \
+#         -DBUILD_SHARED_LIBS=ON                                       \
+#         -DINTSIZE=64                                                 \
+#         -DTHREADS=ON                                                 \
+#         -DMPI_THREAD_MULTIPLE=ON                                     \
+#         -DSCOTCH_DETERMINISTIC=NONE                                  \
+#         -DBUILD_PTSCOTCH=ON                                          \
+#         -DBUILD_LIBESMUMPS=ON                                        \
+#         -DBUILD_LIBSCOTCHMETIS=ON                                    \
+#         -DBUILD_FORTRAN=ON                                           \
+#         -DINSTALL_METIS_HEADERS=ON                                   \
+#         . &&                                                         \
+#     cmake --build build && cmake --install build
+
+RUN dnf install -y hypre-devel MUMPS-devel
+
+# WORKDIR ${ELMER_BASE}/mumps
+# RUN cmake -Bbuild                                                    \
+#         -DCMAKE_INSTALL_PREFIX=${ELMER_DEST}                         \
+#         -DBUILD_SHARED_LIBS=ON                                       \
+#         -DBUILD_SINGLE=ON                                            \
+#         -DBUILD_DOUBLE=ON                                            \
+#         -DBUILD_COMPLEX=ON                                           \
+#         -DBUILD_COMPLEX16=ON                                         \
+#         -Dintsize64=ON                                               \
+#         -DMUMPS_scalapack=ON                                         \
+#         -DMUMPS_parallel=TRUE                                        \
+#         -DMUMPS_openmp=ON                                            \
+#         -Dscotch=ON                                                  \
+#         -Dmetis=ON                                                   \
+#         -Dparmetis=ON                                                \
+#         -DLAPACK_VENDOR=OpenBLAS                                     \
+#         -DLAPACK_INCLUDE_DIR=/usr/include/lapacke                    \
+#         -DMETIS_ROOT=${ELMER_DEST}                                   \
+#         -DScotch_ROOT=${ELMER_DEST} &&                               \
+#         cmake --build build && cmake --install build
+        
+# WORKDIR ${ELMER_BASE}/hypre/src
+# RUN ./configure                                                      \
+#         --prefix=${ELMER_DEST}                                       \
+#         --enable-bigint                                              \
+#         --enable-single                                              \
+#         --enable-longdouble                                          \
+#         --enable-complex                                             \
+#         --enable-fortran                                             \
+#         --with-MPI &&                                                \
+#     make && make install
+
+# WORKDIR ${ELMER_BASE}/PnetCDF
+# RUN autoreconf -i &&                                                 \
+#     ./configure                                                      \
+#         --prefix=${ELMER_DEST} &&                                    \
+#     make && make install
+    
+# WORKDIR ${ELMER_BASE}/netcdf-c
+# RUN cmake -Bbuild                                                    \
+#         -DCMAKE_INSTALL_PREFIX=${ELMER_DEST}                         \
+#         -DBUILD_SHARED_LIBS=ON                                       \
+#         -DNETCDF_ENABLE_PNETCDF=ON                                   \
+#         . &&                                                         \
+#     cmake --build build && cmake --install build
 
 # WORKDIR ${ELMER_BASE}/Trilinos
+# RUN cmake -Bbuild                                                    \
+#         -DTPL_ENABLE_MPI=ON                                          \
+#         -DTrilinos_ENABLE_ALL_PACKAGES=ON                            \
+#         -DCMAKE_INSTALL_PREFIX=${ELMER_DEST}                         \
+#         -DBUILD_SHARED_LIBS=ON                                       \
+#         -DTrilinos_ENABLE_FLOAT=ON                                   \
+#         -DTrilinos_ENABLE_COMPLEX=ON                                 \
+#         -DTrilinos_ENABLE_Fortran=ON                                 \
+#         -DNetcdf_LIBRARY_DIRS=${ELMER_DEST}/lib64                    \
+#         . &&                                                         \
+#     make -j4 install
 
-# WORKDIR ${ELMER_BASE}/netcdf-c
-
-# Install extra deps:
-# RUN dnf install -y          \
-#     hypre-devel             \
-#     MUMPS-devel
-
-# Compile Elmer:
-# WORKDIR ${ELMER_BASE}/elmerfem
-# RUN mkdir builddir && cd builddir &&               \
-#     cmake ${ELMER_BASE}/elmerfem                   \
-#         -DCMAKE_INSTALL_PREFIX=/opt/elmer-devel    \
-#         -DCMAKE_C_COMPILER=/usr/bin/gcc            \
-#         -DCMAKE_Fortran_COMPILER=/usr/bin/gfortran \
-#         -DWITH_MPI:BOOL=TRUE                       \
-#         -DWITH_Mumps:BOOL=TRUE                     \
-#         -DWITH_Hypre:BOOL=TRUE                     \
-#         -DWITH_Trilinos:BOOL=FALSE                 \
-#         -DWITH_ELMERGUI:BOOL=FALSE                 \
-#         -DWITH_ElmerIce:BOOL=FALSE                 \
-#         -DWITH_LUA:BOOL=TRUE                       \
-#     && make \
-#     && make install
+# TODO: fix Hypre path once it compiles!
+WORKDIR ${ELMER_BASE}/elmerfem
+RUN cmake -Bbuild                                  \
+        -DCMAKE_INSTALL_PREFIX=${ELMER_DEST}       \
+        -DCMAKE_C_COMPILER=/usr/bin/gcc            \
+        -DCMAKE_Fortran_COMPILER=/usr/bin/gfortran \
+        -DWITH_MPI=TRUE                            \
+        -DWITH_Mumps=FALSE                         \
+        -DWITH_Hypre=TRUE                          \
+        -DHypre_INCLUDE_DIR=/usr/include/          \
+        -DWITH_Trilinos=FALSE                      \
+        -DWITH_ELMERGUI=FALSE                      \
+        -DWITH_ElmerIce=FALSE                      \
+        -DWITH_LUA=TRUE                            \
+        . &&                                       \
+    cmake --build build && cmake --install build
 
 # Should I clean-up?
-# rm -rf ${ELMER_BASE}/GKlib/
-# rm -rf ${ELMER_BASE}/METIS/
-# rm -rf ${ELMER_BASE}/ParMETIS/
-# rm -rf ${ELMER_BASE}/mumps/
-# rm -rf ${ELMER_BASE}/hypre/
-# rm -rf ${ELMER_BASE}/Trilinos/
-# rm -rf ${ELMER_BASE}/netcdf-c/
-# rm -rf ${ELMER_BASE}/elmerfem/
+# rm -rf ${ELMER_BASE}/
 
 # Append to the PATH:
-# ENV PATH=$PATH:/opt/elmer-devel/bin
-# ENV PATH=$PATH:/opt/elmer-devel/share/elmersolver/lib
+# ENV PATH="${PATH}:${ELMER_DEST}/bin"
+# ENV PATH="${PATH}:${ELMER_DEST}/lib"
+# ENV PATH="${PATH}:${ELMER_DEST}/share/elmersolver/lib"
 
 CMD ["/bin/bash"]
