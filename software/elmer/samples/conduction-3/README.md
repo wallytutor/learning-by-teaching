@@ -1,12 +1,20 @@
 # Elmer verification
 
-In this notebook we focus on the analysis of steady heat transfer across a multi-layer body composed of different materials. For evaluating the effect of temperature-dependence of thermal conductivity, each material region may be discretized into several slices. Since the radius of the system (~5m) is large compared to the wall thickness (~0.3m) a planar approximation is adopted here to simplify the base computations.
+In this note we focus on the analysis of steady heat transfer across a multi-layer body composed of different materials. For evaluating the effect of temperature-dependence of thermal conductivity, each material region may be discretized into several slices. Since the radius of the system (~5m) is large compared to the wall thickness (~0.3m) a planar approximation is adopted here to simplify the base computations.
+
+**NOTE:** this notebook assumes you have both [AuChimiste.jl](https://github.com/wallytutor/AuChimiste.jl) and [Taskforce.jl](https://github.com/wallytutor/Taskforce.jl) packages available. You can clone and locally install them from their repositories or use a [Kompanion](https://github.com/wallytutor/Kompanion) environment, which makes them automatically available in Julia. Module `SteadyHeatConduction` is found under this same [directory](https://github.com/wallytutor/learning-by-teaching/tree/main/software/elmer/samples/conduction-3).
+
+```julia
+push!(LOAD_PATH, @__DIR__)
+
+using CairoMakie
+using SteadyHeatConduction
+using Taskforce.Elmer
+```
 
 ## Model description
 
 In what follows we describe a procedure to solve the steady-state heat equation $\nabla\cdotp{}q^{\prime}=0$ with $q^{\prime}$ given by Fourier's law $q^{\prime}=-k\nabla{}T$. Its goal is to treat numerically the problem with temperature-dependent coefficients, *i.e.* $k\equiv{}k(T)$.
-
-### General development
 
 For simplicity, let's consider a domain of points equally spaced by a distance $\delta$ in 1-D space $z\in[0;L]$. In the left side of the domain we have a Dirichlet boundary condition given by $T(z=0)=T_1$. In the absence of source terms, the heat flux at the first two internodal interfaces can be writen as 
 
@@ -71,8 +79,6 @@ $$
 f(\tau_5)
 $$
 
-### Matrix assembly
-
 Putting it all together leads to the following matrix problem:
 
 $$
@@ -119,7 +125,7 @@ $$
 
 In summary this shows that for $N$ temperatures, there is a $N-1$ problem to be solved (as $T_1$ is known) and also $N-1$ interface coefficients $\alpha_{i,j}$.
 
-### Solution strategy
+## Solution strategy
 
 Since the left-hand side matrix depends on the solution itself, solving the model is an intrinsically iterative task; the following steps are proposed:
 
@@ -130,13 +136,81 @@ Since the left-hand side matrix depends on the solution itself, solving the mode
 
 ## Running Elmer
 
-```bash
-gmsh - "model/domain.geo"
+Under the model directory one finds a [`gmsh`](/software/gmsh/basics.md) file that can be converted into a `gmsh` grid with the following command (run from the project root directory):
 
-ElmerGrid 14 2 "model/domain.msh" -autoclean -merge 1.0e-05 -out "model/"
-
-cd model;  ElmerSolver > log.solver; cd ..
+```julia
+cd("model") do
+    run(pipeline(`gmsh - domain.geo`, "log.gmsh"))
+end
 ```
+
+You can also launch `gmsh` user interface and verify the 1D mesh that must look like the following:
+
+![Generated `gmsh` grid](media/gmsh-domain.png)
+
+Because Elmer uses its own mesh format, we need to provide a conversion as follows:
+
+```julia
+cd("model") do
+    run(pipeline(`ElmerGrid 14 2 mdomain.msh -autoclean -merge 1.0e-05`, "log.elmergrid"))
+end
+```
+
+Finally, running the model and recording the logs is done with:
+
+```julia
+cd("model") do
+    run(pipeline(`ElmerSolver`, "log.elmersolver"))
+end
+```
+
+## Reference model
+
+Below we create an instance of the reference model using the same layered structure (thicknesses and thermal conductivities) and boundary conditions as the provided Elmer case.
+
+```julia
+layers = (
+    (0.200, make_thermal_conductivity(4.0)),
+    (0.050, make_thermal_conductivity(2.0)),
+    (0.010, make_thermal_conductivity(0.2)),
+    (0.040, make_thermal_conductivity(9.0)),
+)
+
+model = let
+    model = SteadyHeatConduction1D(layers, 1873.15, 673.15, 313.15;
+                                   h = 10.5, ε = 0.79, ρ = 3000)
+    
+    solve(model; β=0.6, atol=1.0e-12)
+end;
+```
+
+Above we verify a total heat loss of 9.217 kW under the specified conditions; the following cell evaluates the analogous value evaluated with Elmer can be retrieved as provided below. Notice the `10` correction factor: the mesh created in `domain.geo` is 0.1 m height, and the provided integral value computed by Elmer is thus 0.1 m², so scale correction is needed. The result validates the quantity computed by Elmer.
+
+```julia
+let table = load_saveline_table("model/results"; fname = "scalars.dat")
+    power = 10 * table[end, "boundary int: temperature flux over bc 2"]
+    @info("Heat loss evaluated by Elmer .... $(round(power / 1000; digits=3)) kW/m²")
+end
+```
+
+Below we provide a verification of the implemented solution (black line) against Elmer (blue dots). This closes the validation of the solution.
+
+```julia
+# You might check the convergence report to make sure everything is fine.
+# get_convergence_history("model"; fname = "convergence.dat")
+
+let table = load_saveline_table("model/results"; fname = "sides.dat")
+    x = table[!, "coordinate 1"][begin:10:end]
+    T = table[!, "temperature"][begin:10:end]
+
+    let (fig, ax) = plot_temperature(model, layers)
+        scatter!(ax, 100x, T; color = :blue, alpha = 0.5)
+        save("media/solution-reference.png", fig)
+    end
+end;
+```
+
+![Verification against implemented solution](media/solution-reference.png)
 
 ## Classification
 
@@ -145,4 +219,4 @@ cd model;  ElmerSolver > log.solver; cd ..
 #elmer/models/save-materials
 #elmer/models/save-line 
 #elmer/models/flux-solver 
-#elmer/models/heat-equation 
+#elmer/models/heat-equation

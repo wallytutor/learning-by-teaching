@@ -1,33 +1,14 @@
-# -*- coding: utf-8 -*-
-# ---
-# jupyter:
-#   jupytext:
-#     formats: jl:percent
-#     text_representation:
-#       extension: .jl
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.16.6
-#   kernelspec:
-#     display_name: Julia 1.11.3
-#     language: julia
-#     name: julia-1.11
-# ---
+module SteadyHeatConduction
 
-# %% [markdown]
-# # Model verification
-
-# %% [markdown]
-# ## Toolset
-
-# %%
 using CairoMakie
 using LinearAlgebra
-using AuChimiste
-import Taskforce.Elmer as TE
-import Taskforce.Common as TC
+using AuChimiste: STEFAN_BOLTZMANN
+using Taskforce.Common: MAKIETHEME
 
-# %%
+export SteadyHeatConduction1D, solve
+export make_thermal_conductivity
+export plot_temperature
+
 "Discrete cell in domain with properties attached."
 struct GridCell
     "Coordinate of cell."
@@ -37,7 +18,6 @@ struct GridCell
     k::Function
 end
 
-# %%
 "Discretization of 1D domain with equally spaced cells."
 struct HomogeneousDomainGrid1D
     "Ordered cells over domain length."
@@ -90,7 +70,6 @@ struct HomogeneousDomainGrid1D
     end
 end
 
-# %%
 "Model data structure and configuration."
 struct SteadyHeatConduction1D
     "Thermal conductivity functions over the domain."
@@ -120,8 +99,8 @@ struct SteadyHeatConduction1D
     "Fixed temperature of radiation."
 	Tr::Float64
 	
-	function SteadyHeatConduction1D(layers, Tm, Tc, Tr; h = 10.5, ε = 0.79)
-		domain = HomogeneousDomainGrid1D(layers)
+	function SteadyHeatConduction1D(layers, Tm, Tc, Tr; h, ε, ρ = 1000.0)
+		domain = HomogeneousDomainGrid1D(layers; ρ)
 		
 		# Decompose domain:
 		z = map(o->o.z, domain.cells)
@@ -140,7 +119,6 @@ struct SteadyHeatConduction1D
 	end
 end
 
-# %%
 "Evaluate thermal conductivity over the model domain."
 function thermal_conductivity(obj::SteadyHeatConduction1D)
     return map((f, T)->f(T), obj.k, obj.T)
@@ -170,10 +148,9 @@ function heat_fluxes(obj::SteadyHeatConduction1D)
 
     @info("""
 
-    Convection contribution .... $(round(-100qc/qt; digits = 2))%
-    Total heat loss ............ $(round(qt; digits = 2)) kW
-    - convection ............... $(round(qc; digits = 2)) kW
-    - radiation ................ $(round(qr; digits = 2)) kW
+    Total heat loss ............ $(round(qt; digits = 3)) kW/m²
+    - convection ............... $(round(qc; digits = 3)) kW/m²
+    - radiation ................ $(round(qr; digits = 3)) kW/m²
     """)
 end
 
@@ -183,8 +160,12 @@ function surface_flux(obj::SteadyHeatConduction1D)
 	return obj.h * (obj.Tr - obj.Tc) + U * (obj.T[end] - obj.Tr)
 end
 
-# %%
-function solve(obj::SteadyHeatConduction1D; β = 0.45, maxiter = 100, atol = 0.001)
+"Iterative solution of steady-state heat conduction problem."
+function solve(obj::SteadyHeatConduction1D; 
+        β       = 0.45,
+        maxiter = 100,
+        atol    = 1.0e-06
+    )
 	# Initialize array of iteration:
 	T_new = zeros(size(obj.T))
 	T_new[1] = obj.T[1]
@@ -235,7 +216,6 @@ function solve(obj::SteadyHeatConduction1D; β = 0.45, maxiter = 100, atol = 0.0
 	return obj
 end
 
-# %%
 "Interpolation of function through pairwise harmonic mean."
 function harmonic_mean(ki, kj)
     return 2ki * kj / (ki + kj)
@@ -246,20 +226,20 @@ function make_thermal_conductivity(k::Float64)
     return (_T) -> k
 end
 
-# %%
+"Display problem solution as a plot."
 function plot_temperature(obj::SteadyHeatConduction1D, layers)
 	F = round(surface_flux(obj) / 1000; digits = 1)
-	τ = round(obj.T[end] - T_NORMAL; digits = 1)
+	τ = round(obj.T[end]; digits = 1)
     interfaces = vcat(0, accumulate(+, map(g->g[1], layers))...)
     
-	with_theme(TC.MAKIETHEME) do
+	with_theme(MAKIETHEME) do
 		f = Figure(size = (680, 400))
 	    ax = Axis(f[1, 1])
-		ax.title = "Surface flux $(F) kW/m² at $(τ) °C"
-	    ax.ylabel = "Temperature [°C]"
+		ax.title = "Surface flux $(F) kW/m² at $(τ) K"
+	    ax.ylabel = "Temperature [K]"
 	    ax.xlabel = "Position [cm]"
 		
-		lines!(ax, 100obj.z, obj.T .- T_NORMAL)
+		lines!(ax, 100obj.z, obj.T)
     	vlines!(ax, 100interfaces[2]; color = :red, linestyle = :dash)
     	vlines!(ax, 100interfaces[3]; color = :red, linestyle = :dash)
     	vlines!(ax, 100interfaces[4]; color = :red, linestyle = :dash)
@@ -268,54 +248,11 @@ function plot_temperature(obj::SteadyHeatConduction1D, layers)
 		ax.xticks = 0:5:30
 		xlims!(ax, 0, 30)
 
-		ax.yticks = 300:300:1800
-		ylims!(ax, 300, 1800)
+		ax.yticks = 600:200:2000
+		ylims!(ax, 600, 2000)
 		
-	    f
+	    f, ax
 	end
 end
 
-# %% [markdown]
-# ## Modeling
-
-# %%
-T = (
-    hot = 1873.15,
-	air = 673.15,
-	rad = 313.15,
-)
-
-layers = (
-    (0.200, make_thermal_conductivity(4.0)),
-    (0.050, make_thermal_conductivity(2.0)),
-    (0.010, make_thermal_conductivity(0.2)),
-    (0.040, make_thermal_conductivity(9.0)),
-)
-
-model = let
-    model = SteadyHeatConduction1D(layers, T.hot, T.air, T.rad)
-    solve(model; β=0.6, atol=1.0e-10)
-end;
-
-# %%
-let fig = plot_temperature(model, layers)
-    save("media/solution-reference.png", fig)
-    fig
-end
-
-# %% [markdown]
-# ## Elmer postprocessing
-
-# %%
-table = TE.get_convergence_history("model"; fname = "convergence.dat")
-
-# %%
-fig, ax = TE.plot_nonlinear_convergence(table, 3;
-    convergence = 1.0e-06,
-    xlimits = nothing,
-    ylimits = (1.0e-14, 10),
-    full_plot = true
-)
-fig
-
-# %%
+end # (SteadyHeatConduction)

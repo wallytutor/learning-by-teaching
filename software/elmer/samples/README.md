@@ -4,6 +4,7 @@
 
 1. [Heat conduction in solids](conduction-1/README.md)
 1. [Pseudo-solidification formulation](conduction-2/README.md)
+1. [Verification of heat conduction](conduction-3/README.md)
 
 ## Creating a new case
 

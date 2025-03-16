@@ -20,6 +20,8 @@ Boundary Condition 2
 
     External Temperature = 673.15
     Radiation External Temperature = 313.15
+
+    Save Scalars = True
 End
 
 Boundary Condition 3

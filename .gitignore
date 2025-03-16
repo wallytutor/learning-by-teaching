@@ -4,6 +4,7 @@
 # Jupyter
 .ipynb_checkpoints/
 .virtual_documents/
+*.ipynb
 
 # Generated PDF files
 outputs/*.pdf

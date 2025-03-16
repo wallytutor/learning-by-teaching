@@ -1,6 +1,6 @@
 Solver 1
     Procedure = "SaveData" "SaveMaterials"
-    Exec Solver = Always
+    Exec Solver = After Timestep
     Equation = SaveMaterials
 
     Parameter 1 = Temperature
@@ -9,7 +9,7 @@ End
 
 Solver 2
     Procedure = "SaveData" "SaveLine"
-    Exec Solver = After Simulation
+    Exec Solver = After Timestep
     Equation = SaveLine
 
     Polyline Divisions = 500
@@ -23,12 +23,23 @@ Solver 3
 
     Target Variable = Temperature
     Flux Coefficient = Heat Conductivity
+
+    Calculate Flux = True
     Calculate Flux Magnitude = True
-    Calculate Grad Magnitude = True
-    Enforce Positive Magnitude = True
 End
 
-Solver 3
+Solver 4
+    Procedure = "SaveData" "SaveScalars"
+    Exec Solver = After Timestep
+    Equation = SaveScalars
+
+    Filename = "scalars.dat"
+
+    Variable 1 = temperature Flux
+    Operator 1 = boundary int
+End
+
+Solver 5
     Procedure = "HeatSolve" "HeatSolver"
     Exec Solver = Always
     Equation = Heat Equation
@@ -58,5 +69,5 @@ End
 
 Equation 1
     Name = "Heat Equation"
-    Active Solvers(4) = 1 2 3 4
+    Active Solvers(5) = 1 2 3 4 5
 End

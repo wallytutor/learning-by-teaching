@@ -1,8 +1,8 @@
 // --------------------------------------------------------------------
-// Parametric geometry of a 1-D axisymmetric steel ladle.
+// Parametric geometry of a 1-D multi-layer domain.
 //
 // Author: Walter Dal'Maz Silva
-// Date  : Dec 11 2024
+// Date  : Mar 16, 2025
 // --------------------------------------------------------------------
 
 General.BackgroundGradient = 0;
@@ -19,10 +19,8 @@ Geometry.OldNewReg = 0;
 // Parameters
 // --------------------------------------------------------------------
 
-// Conceptual coordinates:
-total_height = 10.0;
-radius_lower = 0;
-radius_upper = mean_radius;
+// Height of domain:
+height = 100.0;
 
 // Thickness of layers:
 thick1 = 200.0;
@@ -48,7 +46,7 @@ x4 = x3 + 0.001 * thick3;
 x5 = x4 + 0.001 * thick4;
 
 y1 = y0;
-y2 = y1 + 0.001 * total_height;
+y2 = y1 + 0.001 * height;
 
 // --------------------------------------------------------------------
 // Computed discretization
