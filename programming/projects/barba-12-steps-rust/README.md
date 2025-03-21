@@ -31,4 +31,4 @@ It is not intended to be a faithful translation, but an adaptation for learning 
 
 ## Classifiers
 
-#programming/rust #programmig/cfd #physics/transport
+#programming/rust #programming/cfd #physics/transport

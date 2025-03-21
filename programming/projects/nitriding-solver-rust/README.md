@@ -37,4 +37,4 @@ Please notice that currently there is no parser for inputs. If you need to simul
 
 ## Classifiers
 
-#programming/rust #programmig/cfd #physics/transport
+#programming/rust #programming/cfd #physics/transport
