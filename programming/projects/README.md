@@ -2,6 +2,7 @@
 
 ## Projects
 
+1. [Interoperability C-Fortran](interop-c-fortran/README.md)
 1. [Barba's *12-steps* in Rust](barba-12-steps-rust/README.md)
 1. [Nitriding diffusion in Rust](nitriding-solver-rust/README.md)
 1. [File encryption in Rust](encryption-in-rust/README.md)
