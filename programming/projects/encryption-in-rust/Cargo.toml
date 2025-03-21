@@ -1,0 +1,11 @@
+[package]
+name = "pwdcrypt"
+version = "0.1.0"
+authors = ["Walter Dal'Maz Silva"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cc = "1.2.16"
+encryptfile = "0.1.3"
