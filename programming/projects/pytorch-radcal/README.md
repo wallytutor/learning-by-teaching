@@ -33,3 +33,7 @@ Launch `jupyter-lab` to be able to execute the following notebooks. Remember to 
 1. [Data generation](prepare.md)
 1. Train and test
 1. Verification
+
+## Classifiers
+
+#programming/python #programming/pytorch
