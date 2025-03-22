@@ -2,9 +2,12 @@
 ## Makefile
 ##############################################################################
 
-CXX := /usr/bin/g++
-FOR := /usr/bin/gfortran
-AR  := /usr/bin/ar
+# STACK := /usr/bin
+STACK := /ucrt64/bin
+
+CXX := $(STACK)/g++
+FOR := $(STACK)/gfortran
+AR  := $(STACK)/ar
 
 CPPFLAGS := -g -O3 -std=c++11 -Wall -Iinclude
 FFLAGS   := -g -O3 -m64 -std=f2008ts -Ilib -Jlib
