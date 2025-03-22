@@ -60,6 +60,16 @@ As a last word, I would like to remember that it is humanly impossible to master
 
 - [TRUST Platform](https://cea-trust-platform.github.io/):  the basis for [TrioCFD](https://github.com/cea-trust-platform/TrioCFD-code) code by CEA.
 
+### Productivity
+
+- [logseq/logseq](https://github.com/logseq/logseq): A privacy-first, open-source platform for knowledge management and collaboration.
+
+- [standardnotes/app](https://github.com/standardnotes/app): Think fearlessly with end-to-end encrypted notes and files.
+
+- [laurent22/joplin](https://github.com/laurent22/joplin/): Joplin - the privacy-focused note taking app with sync capabilities for Windows, macOS, Linux, Android and iOS.
+
+- [Zettlr/Zettlr](https://github.com/Zettlr/Zettlr): Your One-Stop Publication Workbench
+
 ### Other
 
 - [protobuf](https://protobuf.dev/getting-started/pythontutorial/): for parsing #OpenFOAM dictionaries from Python.
