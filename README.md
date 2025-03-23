@@ -7,11 +7,9 @@ Please visit the repository [webpage](https://wallytutor.github.io/learning-by-t
 ## Contents
 
 1. [Thermodynamics](thermodynamics/README.md)
-2. [Fluids](fluids/README.md)
-3. [Kinetics](kinetics/README.md)
-4. [Combustion](combustion/README.md)
-5. [Software](software/README.md)
-6. [Programming](programming/README.md)
+2. [Transport](transport/README.md)
+3. [Software](software/README.md)
+4. [Programming](programming/README.md)
 
 ## About
 

@@ -2,5 +2,6 @@
   "newLinkFormat": "relative",
   "userIgnoreFilters": [
     "**/venv/*"
-  ]
+  ],
+  "alwaysUpdateLinks": true
 }
