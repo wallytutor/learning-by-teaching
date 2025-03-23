@@ -1,4 +1,4 @@
-# Fluids notes
+# Turbulence notes
 
 ## Reynolds-Averaged Navier-Stokes (RANS)
 
