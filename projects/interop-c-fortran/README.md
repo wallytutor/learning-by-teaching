@@ -215,8 +215,8 @@ To go further, I recommend reading this post on [Stackoverflow](https://stackove
 ## Summary of steps
 
 1. Fortran development:
-   - Write a Fortran [module](src/module_f_example.F95)
-   - Write its Fortran ISO-C binding [module](src/module_c_example.F95)
+   - Write a Fortran [module](src/module_f_example.f95)
+   - Write its Fortran ISO-C binding [module](src/module_c_example.f95)
 
 2. Libraries generation (in this order):
    - Compile Fortran modules as object files
@@ -225,7 +225,7 @@ To go further, I recommend reading this post on [Stackoverflow](https://stackove
    - Archive Fortran ISO-C binding objects as a library
 
 3. Fortran testing:
-   - Write Fortran [program](src/f_example.F95) for testing the library
+   - Write Fortran [program](src/f_example.f95) for testing the library
    - Compile Fortran executable and link to the Fortran library
 
 4. C/C++ testing:
