@@ -1,4 +1,1 @@
-# Mathematics notes
-
-## Linear algebra
-
+# Mathematics
