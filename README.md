@@ -4,13 +4,6 @@ Study notes transformed into teaching materials along the way.
 
 Please visit the repository [webpage](https://wallytutor.github.io/learning-by-teaching/) for a better experience.
 
-## Contents
-
-1. [Thermodynamics](thermodynamics/README.md)
-2. [Transport](transport/README.md)
-3. [Software](software/README.md)
-4. [Programming](programming/README.md)
-
 ## About
 
 My name is Walter [(you find my background here)](curriculum/curriculum.pdf) and I like writing about science and engineering topics. I have more than a decade of scientific computing experience and a broad experience with open source software, especially in the fields of fluid dynamics and gas phase kinetics; a little of it being shared here, among other subjects of my personal interest.
@@ -19,12 +12,7 @@ During the years I tried to different formats to organize my study materials and
 
 ## Contact
 
-You can reach me through the following means:
-
-- [Zulip Chat](https://wallytutor.zulipchat.com)
-- [Mail](mailto:walter.dalmazsilva.manager@gmail.com)
-
-For an initial conversation, please prefer e-mail. For engaging in long term discussion and collaboration I prefer Zulip Chat.
+You can reach me through [Zulip Chat](https://wallytutor.zulipchat.com) or [e-mail](mailto:walter.dalmazsilva.manager@gmail.com); for an initial conversation, please prefer e-mail. For engaging in long term discussion and collaboration I prefer Zulip Chat.
 
 ## Projects
 

@@ -140,7 +140,7 @@ $$
 
 - Consider the system below with 3 atoms and E = 4 J. Three configurations are possible.
 
-![](statistical-entropy.png)
+![](materials/statistical-entropy.png)
 
 1. What is W for configuration 1? 3
 2. Which configuration has the highest entropy? 2
