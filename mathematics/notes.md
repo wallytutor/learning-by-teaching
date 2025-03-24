@@ -7,4 +7,18 @@
 
 ### Condition number
 
-![Objective function: preconditioning](https://www.youtube.com/watch?v=50QYOzCnpT8)
+General definition:
+
+$$
+\kappa(A)=\lVert{A}\rVert\cdotp\lVert{A}\rVert^{-1}
+$$
+
+Symmetric positive definite:
+
+$$
+\kappa(A)=\frac{\max\lambda}{\min\lambda}
+$$
+
+
+
+<!-- ![Objective function: preconditioning](https://www.youtube.com/watch?v=50QYOzCnpT8) -->
