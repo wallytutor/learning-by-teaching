@@ -12,13 +12,13 @@
 
 - Because faces are not named in Elmer, *i.e.* no matter what `Physical Surface` names you provide in gmsh, even for the advanced user working from command line it might be interesting to use the interactive zone grouping capabilities of `ElmerGUI`. That might even become a *requirement* as geometric complexity grows.
 
-| Software | Notes                                                                                                              |
-| -------- | ------------------------------------------------------------------------------------------------------------------ |
-| FreeCAD  | Geometry only for now, probably the best in the list; good parametric modeling support.                            |
-| Salome   | Can export UNV (8) meshes readable by Elmer. An extension to call Elmer directly from Salome is under development. |
-| gmsh     | Can export MSH2 (14) and UNV (8) formats readable by Elmer.                                                        |
-| netgen   | Is able to write native Elmer linear meshes; can be used as a plug-in.                                             |
-| tetgen   | Can be used as a plug-in.                                                                                          |
+| Software                        | Notes                                                                                                                 |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [FreeCAD](../freecad/basics.md) | Geometry only for now, probably the best in the list; good parametric modeling support. Has native Elmer integration. |
+| Salome                          | Can export UNV (8) meshes readable by Elmer. An extension to call Elmer directly from Salome is under development.    |
+| gmsh                            | Can export MSH2 (14) and UNV (8) formats readable by Elmer.                                                           |
+| netgen                          | Is able to write native Elmer linear meshes; can be used as a plug-in.                                                |
+| tetgen                          | Can be used as a plug-in.                                                                                             |
 
 ## Using Elmer
 

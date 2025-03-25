@@ -1,0 +1,6 @@
+# In this folder keep geometry files
+!**/*.FCStd
+
+# By default ignore STL/OBJ files
+*.obj
+*.stl
