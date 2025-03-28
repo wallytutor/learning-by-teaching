@@ -1,0 +1,191 @@
+%% References:
+%% 1. http://tex.stackexchange.com/questions/14901/
+%% 
+
+\documentclass{standalone}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} 
+\usepackage[francais]{babel}
+  \renewcommand*\sfdefault{phv}
+  \renewcommand{\familydefault}{\sfdefault}   
+\usepackage{tikz}
+  \usetikzlibrary{patterns,arrows}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Configuration
+
+% Adapted from the 'patterns' library: enlarged the
+% distance between the lines from 4pt to 10pt
+
+\pgfdeclarepatternformonly{north east lines wide}{
+  \pgfqpoint{-1pt}{-1pt}}{\pgfqpoint{10pt}{10pt}}{\pgfqpoint{9pt}{9pt}}%
+  {
+    \pgfsetlinewidth{0.4pt}
+    \pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+    \pgfpathlineto{\pgfqpoint{9.1pt}{9.1pt}}
+    \pgfusepath{stroke}
+  }
+
+\tikzset{%
+  body/.style={
+    inner sep=0pt,
+    outer sep=0pt,
+    shape=rectangle,
+    draw,
+    thick,
+    pattern=north east lines wide
+  },
+  dimen/.style={
+    <->,
+    >=latex,
+    thin,
+    every rectangle node/.style={
+      fill=white,
+      midway,
+      font=\sffamily
+    }
+  },
+  symmetry/.style={
+    dashed,
+    thin
+  },
+}
+
+\begin{document}
+  \begin{tikzpicture}
+        %\node at (0.25, 9){Réacteur à la pression atmosphérique};    
+        
+        %% Reactor tube
+        \node [
+          body,
+          fill = white,
+          minimum height = 8.0cm,
+          minimum width  = 0.5cm,
+          anchor = south west
+        ] (body1) at (0.0,0.0) {};
+      
+        %% Dimensions
+        \draw (body1.south west) -- ++(-3.5,0) coordinate (D1) -- +(-5pt,0);
+        \draw (body1.north west) -- ++(-3.5,0) coordinate (D2) -- +(-5pt,0);
+        \draw [dimen] (D1) -- (D2) node {0.80 m};   
+        
+        %% Thermal insulation
+        \node [
+          body, 
+          pattern = north east lines,
+          pattern color = gray,
+          minimum height = 6.0cm,
+          minimum width  = 1.0cm,
+          anchor = south west
+        ] (therm1) at (-1.0,1.0) {};
+        \node [
+          body,
+          pattern = north east lines,
+          pattern color = gray,
+          minimum height = 6.0cm,
+          minimum width  = 1.0cm,
+          anchor = south west
+        ] (therm2) at (0.5,1.0) {};
+      
+        %% Dimensions
+        \draw (therm1.south west) -- ++(-1,0) coordinate (D1) -- +(-5pt,0);
+        \draw (therm1.north west) -- ++(-1,0) coordinate (D2) -- +(-5pt,0);
+        \draw [dimen] (D1) -- (D2) node {0.60 m};
+      
+        %% Heater zone
+        \node [
+          body,
+          fill = white,
+          minimum height = 2.0cm,
+          minimum width  = 0.5cm,
+          anchor = south west
+        ] (heat1) at (-0.5,3.0) {};
+        \node [
+          body,
+          fill = white,
+          minimum height = 2.0cm,
+          minimum width  = 0.5cm,
+          anchor = south west
+        ] (heat2) at (0.5,3.0) {};
+      
+        %% Dimensions
+        \draw (heat2.south east) -- ++(1.5,0) coordinate (D1) -- +(-5pt,0);
+        \draw (heat2.north east) -- ++(1.5,0) coordinate (D2) -- +(-5pt,0);
+        \draw (therm2.south east) -- ++(1.0,0) coordinate (D3) -- +(-5pt,0);
+        \draw [dimen] (D1) -- (D2) node {0.20 m};
+        \draw [dimen] (D1) -- (D3) node {0.20 m};
+        
+        %% Resistances
+        \newcommand{\mylist}{3.25, 3.50, 3.75, 4.00, 4.25, 4.50, 4.75}
+        \foreach \y in \mylist \filldraw[black] (-0.25,\y) circle (0.6mm);	
+        \foreach \y in \mylist \filldraw[black] (+0.75,\y) circle (0.6mm);	
+            
+        %% Homogeneous zone
+      	\shade[
+          shading = axis,
+          top color = white, 
+          bottom color = black
+        ] (body1.north east) rectangle (0,3.7);
+      	\shade[
+          shading = axis,
+          top color = black, 
+          bottom color = white, 
+        ] (body1.south west) rectangle (0.5,3.8);
+                
+        %% Sample
+        \node [
+          body,
+          very thin,
+          fill = white,
+          minimum height = 0.4cm,
+          minimum width  = 0.1cm,
+          anchor = south west
+        ] (injec) at (0.2,3.8) {};
+      
+          
+        %% Gas injector
+        \node [
+          body,
+          very thin,
+          fill = white,
+          minimum height = 3.0cm,
+          minimum width  = 0.02cm,
+          anchor = south west
+        ] (injec) at (0.24,5.5) {};
+        
+        %% Dimensions
+        \draw (body1.north east) -- ++(2.0,0)  coordinate (D1) -- +(-5pt,0);
+        \draw (injec.south east) -- ++(2.24,0) coordinate (D2) -- +(-5pt,0);
+        \draw [dimen] (D1) -- (D2) node {0.25 m};
+            
+        %% Gas outlet
+        \node [
+          body,
+          very thin,
+          fill = white,
+          minimum height = 0.51cm,
+          minimum width  = 0.1cm,
+          anchor = south west
+        ] (outlet) at (0.2,-0.5) {};
+        
+        \node [
+          body,
+          draw = white,
+          fill = white,
+          minimum height = 0.51cm,
+          minimum width  = 0.06cm,
+          anchor = south west
+        ] (space) at (0.22,0.0) {};
+      
+        \draw (body1.north west) -- ++(0,0.3) coordinate (D1) -- +(0,5pt);
+        \draw (body1.north east) -- ++(0,0.3) coordinate (D2) -- +(0,5pt);
+        \draw [dimen,-] (D1) -- (D2) -- ++ (1.5,0) node [above=1pt] {0,05 m};
+        \draw [dimen,<-] (D1) -- ++(-5pt,0);
+        \draw [dimen,<-] (D2) -- ++(+5pt,0);
+                     
+        %% Draw symmetry lines
+        \draw [symmetry, very thin] (0.25,-0.75) -- (0.25,8.25);
+  \end{tikzpicture}
+\end{document}

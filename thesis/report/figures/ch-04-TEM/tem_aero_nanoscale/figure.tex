@@ -1,0 +1,58 @@
+\documentclass[12pt]{xtikzfig}
+\newcommand{\col}{white}
+\newcommand{\barthick}{0.016}
+\newcommand{\barbasel}{0.0689}
+\newcommand{\sqsize}{5.8}
+\begin{document}%
+  \begin{tikzpicture}%
+    \node at (0,0) {%
+      \begin{tikzpicture}%
+        \node[anchor=south west,inner sep=0] (A) at (0,0) {%
+          \fbox{\includegraphics[scale=0.075]{../src/B1/B1_bis_08122015-0011.png}}};%
+        \begin{scope}[x={(A.south east)},y={(A.north west)}]%
+          \filldraw[fill=white,draw=white] (0.710,\barbasel) rectangle node[above] {%
+            \footnotesize\color{\col}\SI{20}{\nano\metre}} +(0.23,\barthick);%
+          \filldraw[fill=white,draw=black]%
+          (0.01,0.89) rectangle +(0.1,0.1) node[pos=0.5] {\footnotesize (a)};%
+          %\subfloat[\label{fig:b1_0002}TEM (BF) $\times$800k.]{
+        \end{scope}
+      \end{tikzpicture}
+    };%
+    %%%
+    \node at (\sqsize,0) {%
+      \begin{tikzpicture}    
+        \node[anchor=south west,inner sep=0] (A) at (0,0) {%
+          \fbox{\includegraphics[scale=0.075]{../src/B1/B1_bis_08122015-0002.png}}};
+        \begin{scope}[x={(A.south east)},y={(A.north west)}]
+          \filldraw[fill=white,draw=white] (0.710,\barbasel) rectangle node[above] {
+            \footnotesize\color{\col}\SI{20}{\nano\metre}} +(0.23,\barthick);
+          \filldraw[fill=white,draw=black] 
+          (0.01,0.89) rectangle +(0.1,0.1) node[pos=0.5] {\footnotesize (b)}; 
+          %\subfloat[\label{fig:b1_0002}TEM (DF) $\times$800k.]{
+        \end{scope}
+      \end{tikzpicture}%
+    };%
+    %%%
+    \node at (\sqsize/2,-\sqsize) {%
+      \begin{tikzpicture}%
+        \node[anchor=south west,inner sep=0] (A) at (0,0) {%
+          \fbox{\includegraphics[scale=0.075]{../src/B1/B1_bis_08122015-0012.png}}};
+        \begin{scope}[x={(A.south east)},y={(A.north west)}]
+          \filldraw[fill=white,draw=white] (0.63,\barbasel) rectangle node[above] {
+            \footnotesize\color{\col}\SI{20}{\per\nano\metre}} +(0.31,\barthick);
+          \filldraw[fill=white,draw=black] 
+          (0.01,0.89) rectangle +(0.1,0.1) node[pos=0.5] {\footnotesize (c)}; 
+          \node at (0.460,0.495){\tiny{$\cdot$}}; 
+          \node at (0.480,0.520){\tiny\color{\col}$001$};
+          \node at (0.465,0.575){\tiny{$\cdot$}}; 
+          \node at (0.475,0.600){\tiny\color{\col}$\bar{1}\bar{1}0_\alpha$}; 
+          \node at (0.540,0.570){\tiny{$\cdot$}}; 
+          \node at (0.600,0.605){\tiny\color{\col}$0\bar{2}0_\alpha$}; 
+          \node at (0.495,0.460){\tiny{$\cdot$}}; 
+          \node at (0.562,0.480){\tiny\color{\col}$200_\mathrm{\alpha^{\text{"}}}$};
+          %\subfloat[\label{fig:b1_0012}TEM (DP).]{
+        \end{scope}
+      \end{tikzpicture}%
+    };%
+  \end{tikzpicture}%
+\end{document}

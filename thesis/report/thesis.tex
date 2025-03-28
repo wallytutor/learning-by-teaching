@@ -1,0 +1,130 @@
+%% thesis.tex
+%% Walter Dal'Maz Silva
+%%
+\pdfobjcompresslevel 0
+\documentclass[a4paper,french,twoside]{xthesis}
+
+\hypersetup{
+    pdftitle    = {Mise au point de la carbonitruration gazeuse des alliages
+                  16NiCrMo13 et 23MnCrMo5: modélisation et procédés},
+    pdfsubject  = {Traitements thermochimiques},
+    pdfauthor   = {Walter Dal'Maz Silva},
+    pdfkeywords = {Thermochimie}     {Thermochemistry}
+                  {Cinétique}        {Kinetics}
+                  {Métallurgie}      {Metallurgy}
+                  {Acier}            {Steel}
+                  {Carbonitruration} {Carbonitriding}
+                  {Cémentation}      {Carburizing}
+                  {Austénite}        {Austenite}
+                  {Pyrolyse}         {Pyrolysis}
+                  {Modélisation}     {Modeling}
+                  {Chromatographie}  {Chromatography},
+    pdfproducer = {Walter Dal'Maz Silva}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% New unities and shortcuts
+
+\DeclareSIUnit[]{\atm}{atm}
+\DeclareSIUnit[]{\HV}{HV0,3}
+\newcommand{\sccm}{\si{\cubic\centi\metre\per\minute}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Control of print version.
+
+\newtoggle{paper}
+\togglefalse{paper}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document body.
+
+\newcommand{\jury}{
+  \footnotesize
+  \begin{tabular}{p{0.22\textwidth}p{0.50\textwidth}p{0.28\textwidth}}
+  M. M. Gouné
+  & Professeur, Université de Bordeaux
+  & Rapporteur 
+  \tabularnewline[5pt]
+  M. C. Vahlas
+  & Directeur de recherche, CIRIMAT, Toulouse
+  & Rapporteur 
+  \tabularnewline[5pt]  
+  Mme. M.-L. Giorgi
+  & Professeur, LGMP, Châtenay-Malabry
+  & Examinateur 
+  \tabularnewline[5pt]  
+  M. F. Mudry
+  & Président, IRT M2P, Metz
+  & Examinateur 
+  \tabularnewline[5pt]   
+  Mme. I. Ziegler-Devin
+  & Maître de conférences, LERMAB, Nancy
+  & Examinateur 
+  \tabularnewline[5pt]  
+  M. S. Thibault
+  & Docteur-ingénieur, Safran Tech, Magny-les-Hameaux
+  & Examinateur 
+  \tabularnewline[5pt]
+  M. J. Dulcy
+  & Ingénieur de recherche, IJL-CP2S, Nancy
+  & Examinateur
+  \tabularnewline[5pt]  
+  M. T. Belmonte
+  & Directeur de recherche, IJL-CP2S, Nancy
+  & Directeur de thèse 
+  \tabularnewline[5pt]
+  \end{tabular}
+  \par\vskip0.6cm
+  Institut Jean Lamour\par
+  Département Chimie et Physique des Solides et des Surfaces\par\vfill
+  Université de Lorraine \textendash{} Pôle M4 : matière, matériaux, métallurgie, mécanique
+}
+
+\logoschool{figures/garde/fig_logoEMMA}
+\logocollege{figures/garde/fig_logoUL}
+\logopartner{figures/garde/fig_logoIRT}
+\logolaboratory{figures/garde/fig_logoIJL}
+
+\jurytable{\jury}
+\college{Université de Lorraine}
+\school{École Doctorale Énergie Mécanique Matériaux}
+\domain{Sciences des Matériaux}
+\author{Walter DAL'MAZ SILVA}
+\title{Mise au point de la carbonitruration gazeuse des alliages\\ 16NiCrMo13 et 23MnCrMo5: modélisation et procédés}
+
+\begin{document}
+  \newpage\setcounter{page}{1}\pagenumbering{roman}
+  \input{chapter/preamble.tex}
+  \cleardoublepage
+  \tableofcontents
+  \newpage\setcounter{page}{1}\pagenumbering{arabic}
+  \part*{Introduction générale}
+  \cleardoublepage\input{chapter/general_introduction.tex}
+  \part{Introduction et fondements théoriques}
+  \label{part:part_1}
+  \cleardoublepage\input{chapter/chapter_01.tex}
+  \cleardoublepage\input{chapter/chapter_02.tex}
+  \part{Résultats expérimentaux}
+  \label{part:part_2}
+  \cleardoublepage\input{chapter/chapter_03.tex}
+  \cleardoublepage\input{chapter/chapter_04.tex}
+  \part{Modélisation des procédés}
+  \label{part:part_3}
+  \cleardoublepage\input{chapter/chapter_05.tex}
+  \part*{Conclusion générale}
+  \cleardoublepage\input{chapter/general_conclusion.tex}
+  \bibliography{chapter/references}
+  \begin{appendices}
+    \cleardoublepage\input{chapter/annexe_nitriding.tex}
+    \cleardoublepage\input{chapter/annexe_diffusion.tex}
+    \cleardoublepage\input{chapter/annexe_chromatography.tex}
+    \cleardoublepage\input{chapter/annexe_dewpoint.tex}
+    \cleardoublepage\input{chapter/annexe_ammonia.tex}
+    \cleardoublepage\input{chapter/annexe_simplification.tex}
+    \cleardoublepage\input{chapter/annexe_odochian.tex}
+  \end{appendices}
+  \newpage\phantomsection
+  \pdfbookmark{\listfigurename}{\listfigurename}
+  {\singlespacing\listoffigures}
+  \newpage\phantomsection
+  \pdfbookmark{\listtablename}{\listtablename}
+  {\singlespacing\listoftables}
+  \input{chapter/resumes.tex}
+\end{document}

@@ -1,0 +1,10 @@
+\ProvidesFile{xthesis_en.def}[xthesis English definitions]
+\def\xthesis@covername{Cover page}
+\def\xthesis@these{Thesis}
+\def\xthesis@for{For the achievement of the title of}
+\def\xthesis@honor{Doctor}
+\def\xthesis@of{of}
+\def\xthesis@college{Your University}
+\def\xthesis@domain{Your domain}
+\def\xthesis@presented{presented by}
+\def\xthesis@release{Delivered on}

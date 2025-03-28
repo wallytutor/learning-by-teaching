@@ -1,0 +1,36 @@
+\chapter{Potentiel de nitruration}
+\label{an:nitriding-kn}
+
+Le potentiel de nitruration $K_{N}$ défini Section~\ref{sec:controle_nitruration} peut être calculé pour une nuance faiblement alliée à partir de l'approche CALPHAD. Le Code~\ref{lst:kn-aero} présente les étapes nécessaires pour le calcul de la relation entre le $K_{N}$ et la fraction massique en azote en utilisant Thermo-Calc~\cite{Andersson2002,Borgenstam2000}. La constante d'équilibre pour la réaction \ch{NH3 <=>[s] N^s + 3/2 H2} fournie par l'Équation~\ref{eq:ammonia_het_k} est utilisée dans cette simulation.
+
+\begin{lstlisting}[caption={\label{lst:kn-aero}Calcul du potentiel de nitruration pour la nuance 16NiCrMo13.}]
+GOTO_MODULE DATABASE_RETRIEVAL
+SWITCH_DATABASE TCFE7
+REJECT PHASES *
+DEFINE_SYSTEM FE C CR MN MO N NI SI
+REJECT PHASES *
+RESTORE PHASES FCC_A1 BCC_A2 HCP_A3
+RESTORE PHASES GRAPHITE CEMENTITE M23C6 
+RESTORE PHASES M6C MC_ETA FE4N_LP1 GAS
+RESTORE PHASES M7C3 M3C2 M5C2 MC_SHP FECN_CHI
+GET_DATA
+GOTO_MODULE POLY_3
+SET_CONDITION T=1173.0, P=101325.0, N=1
+SET_CONDITION W(C)=0.0016, W(CR)=0.010, W(MN)=0.0045, w(N)=0.0000
+SET_CONDITION W(MO)=0.0025, W(NI)=0.0320, W(SI)=0.0025
+SET_REFERENCE_STATE C GRAPHITE * 101325.0
+SET_REFERENCE_STATE N GAS * 101325.0
+CHANGE_STATUS PHASE GRAPHITE=SUSPENDED
+CHANGE_STATUS PHASE GAS=SUSPENDED
+COMPUTE_EQUILIBRIUM 
+SET_AXIS_VARIABLE 1 W(N) 0.0E-00 1.0E-02 1.0E-04
+STEP NORMAL
+ENTER FUNCTION LN = LOG(10);
+ENTER FUNCTION DG = -0.5*LN*(12.392-5886/T);
+ENTER FUNCTION KC = EXP(-DG);
+ENTER FUNCTION KN = ACR(N)/KC;
+POST
+SET_DIAGRAM_AXIS Y KN
+SET_DIAGRAM_AXIS X W(N)
+MAKE_EXPERIMENTAL_DATAFI kn_diagram_aero.exp
+\end{lstlisting}

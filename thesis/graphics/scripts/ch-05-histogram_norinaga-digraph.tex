@@ -1,0 +1,30 @@
+\documentclass[12pt,border=1pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{chemformula}
+
+\pgfplotsset{compat=newest, width=10cm,
+             xtick pos=left, ytick pos=left,
+             xtick scale label code/.code={},
+             yticklabel style={text width=2em,align=right}}
+
+\begin{document}
+
+ \begin{tikzpicture}
+    \begin{axis}
+      [
+    	ybar,
+    	ytick=\empty,
+    	bar width=0.5pt,
+    	xlabel={\small Degré du noeud},
+    	ylabel={\small Nombre},
+    	ymin=0,
+    	xmin=0
+    	]
+    	\addplot table[x index = 0, y index = 1] {ch-05-histogram_norinaga.txt};
+    \end{axis}
+ \end{tikzpicture}
+
+\end{document}

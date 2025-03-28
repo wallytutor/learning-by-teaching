@@ -1,0 +1,54 @@
+\documentclass{xtikzfig}
+
+\pgfplotsset{compat=newest, width=5.5cm,
+             xtick pos=left, ytick pos=left,
+             xtick scale label code/.code={},
+             yticklabel style={text width=2em,align=right}}
+
+\newcommand{\col}{black}
+\newcommand{\txt}{white}
+\newcommand{\pathfig}{/home/dalmazsi1/root/home/work/current/thesis_management/experiments/metallurgy/optical_microscopy/auto/carbo-trempe}
+
+\begin{document}
+  \begin{tikzpicture}
+    \node [anchor=south west,inner sep=0] (A) at (0,0)
+     {\includegraphics[scale=0.135]{\pathfig/carbo_1250x_01_000um.jpg}}; 
+    \node [right of=A, node distance=3cm] (B)
+     {\includegraphics[scale=0.135]{\pathfig/carbo_1250x_01_100um.jpg}}; 
+    \node [right of=B, node distance=3cm] (C)
+     {\includegraphics[scale=0.135]{\pathfig/carbo_1250x_01_200um.jpg}}; 
+    \node [right of=C, node distance=3cm] (D)
+     {\includegraphics[scale=0.135]{\pathfig/carbo_1250x_01_300um.jpg}};
+    %\node [right of=D, node distance=3cm] (E)
+    % {\includegraphics[scale=0.135]{\pathfig/carbo_1250x_01_400um.jpg}};  
+    \begin{scope}[x={(A.south east)},y={(A.north west)}]
+      %\draw[help lines,xstep=5.3,ystep=.2,color=gray] (0,0) grid (5.35,1);
+      \filldraw[fill=white,draw=black] (0.01,0.8) 
+        rectangle +(0.4,0.2) node[pos=.5] {\footnotesize\SI{0}{\micro\metre}};
+      \filldraw[fill=white,draw=black] (1.02,0.8) 
+        rectangle +(0.4,0.2) node[pos=.5] {\footnotesize\SI{100}{\micro\metre}};
+      \filldraw[fill=white,draw=black] (2.03,0.8) 
+        rectangle +(0.4,0.2) node[pos=.5] {\footnotesize\SI{200}{\micro\metre}};
+      \filldraw[fill=white,draw=black] (3.04,0.8) 
+        rectangle +(0.4,0.2) node[pos=.5] {\footnotesize\SI{300}{\micro\metre}};
+     % \filldraw[fill=white,draw=black] (4.05,0.8) 
+     %   rectangle +(0.4,0.2) node[pos=.5] {\footnotesize\SI{400}{\micro\metre}};
+      % Bars  
+      \filldraw[fill=white,draw=black] (0.75,0.01) 
+        rectangle +(0.25,0.15) node[pos=.5] {\tiny\SI{20}{\micro\metre}};
+      \filldraw[\col,very thick] (0.775,0.03) -- +(0.20,0.0);
+      \filldraw[fill=white,draw=black] (1.75,0.01) 
+        rectangle +(0.25,0.15) node[pos=.5] {\tiny\SI{20}{\micro\metre}};
+      \filldraw[\col,very thick] (1.775,0.03) -- +(0.20,0.0);
+      \filldraw[fill=white,draw=black] (2.76,0.01) 
+        rectangle +(0.25,0.15) node[pos=.5] {\tiny\SI{20}{\micro\metre}};
+      \filldraw[\col,very thick] (2.785,0.03) -- +(0.20,0.0);
+      \filldraw[fill=white,draw=black] (3.77,0.01) 
+        rectangle +(0.25,0.15) node[pos=.5] {\tiny\SI{20}{\micro\metre}};
+      \filldraw[\col,very thick] (3.795,0.03) -- +(0.20,0.0);
+     % \filldraw[fill=white,draw=black] (4.785,0.01) 
+     %   rectangle +(0.25,0.15) node[pos=.5] {\tiny\SI{20}{\micro\metre}};
+     % \filldraw[\col,very thick] (4.80,0.03) -- +(0.20,0.0);      
+    \end{scope}
+  \end{tikzpicture}
+\end{document}

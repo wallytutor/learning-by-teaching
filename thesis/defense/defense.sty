@@ -1,0 +1,186 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PACKAGES
+
+%% For languages and font
+\usepackage[T1]{fontenc} 
+\usepackage{fontspec} % for xelatex
+\usepackage[frenchb]{babel}
+
+%% References
+\usepackage[sort&compress,numbers]{natbib}
+\bibliographystyle{unsrtnat-fr}
+\citestyle{nature}
+
+%% Technical packages
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{chemformula}
+  \setchemformula{decimal-marker={,}}
+\usepackage{siunitx}
+  \sisetup{
+  	locale = FR,
+    list-final-separator = {\translate{et}},
+    list-pair-separator  = {\translate{et}},
+    range-phrase         = {\translate{à}}
+  }
+  \DeclareSIUnit[]\sccm{\cubic\centi\metre\per\minute}
+
+%% Graphics
+\usepackage[export]{adjustbox}
+\usepackage{pgfplots}
+  \pgfplotsset{compat=newest}
+%\usepackage{pgfplotstable}
+\usepackage{tikz}
+	\usetikzlibrary{arrows,arrows.meta,decorations.markings}
+  \usetikzlibrary{mindmap,trees,graphs,calc}
+  \tikzset{myarrow/.style={draw,decoration={markings,mark=at position 1 with {\arrow{>}}},postaction={decorate}}}
+  
+%% Tables and positioning
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{colortbl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COLORS
+
+\definecolor{IRTocre}{RGB}{243,145,0}
+\definecolor{past1}{rgb}{0.647,0.459,0.282}
+\definecolor{past2}{rgb}{0.988,0.843,0.678}
+\definecolor{past3}{rgb}{0.965,0.761,0.545}
+\definecolor{past4}{rgb}{0.322,0.588,0.647}
+\definecolor{past5}{rgb}{0.510,0.867,0.941}
+\definecolor{past6}{rgb}{0.773,0.745,0.463}
+\definecolor{citle}{RGB}{0,80,80}
+
+\def\cyclelist{{"past1", "past2", "past3", "past4", "past5", "past6"}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEAMER CONFIGURATION
+
+\mode<presentation>{
+  \usetheme{Rochester}
+  \usecolortheme{beaver}
+  \useinnertheme{rectangles}
+  \usefonttheme{professionalfonts} % using non standard fonts for beamer
+  \usefonttheme{serif}             % default family is serif
+  \setmainfont{Ubuntu}             % for xelatex
+
+  % font size
+  \setbeamerfont{title}{size=\Large}
+  \setbeamerfont{subtitle}{size=\large}
+  \setbeamerfont{author}{size=\large}
+  \setbeamerfont{date}{size=\footnotesize}
+  \setbeamerfont{frametitle}{size=\large}
+  \setbeamerfont{framesubtitle}{size=\normalsize}
+
+  % font color
+  \setbeamercolor{title}{fg=citle}
+  \setbeamercolor{subsection title}{fg=citle}
+  \setbeamercolor{headline}{fg=citle,bg=white}
+  \setbeamercolor{section number projected}{bg=citle,fg=white}
+  \setbeamercolor{subsection number projected}{bg=citle,fg=white}
+  \setbeamercolor*{item}{fg=citle}
+  
+  % markers on toc
+  \setbeamertemplate{sections/subsections in toc}[ball]
+ 
+  % customize itemize/enumerate
+  \setbeamertemplate{itemize/enumerate body begin}{\normalsize}
+  \setbeamertemplate{itemize/enumerate subbody begin}{\normalsize}
+  \setbeamertemplate{itemize items}[ball]
+  
+  % no navigation bar and add page number for suppressed navigation bar
+  \beamertemplatenavigationsymbolsempty 
+  \addtobeamertemplate{navigation symbols}{}{%
+    \ifnum\thepage>1\relax%
+	  \usebeamerfont{footline}%
+      \hspace{1em}\insertframenumber/\inserttotalframenumber%
+    \fi%
+  }
+  
+  \setbeamertemplate{subsection page}{%
+  	\begin{centering}%
+  		\vskip1.5cm\par%
+  		\begin{beamercolorbox}[sep=6pt,center]{subsection title}%
+  			\usebeamerfont{subsection title}%
+  			\usebeamercolor[fg]{subsection name}%
+  			\insertsubsection\par%
+  		\end{beamercolorbox}%
+  	\end{centering}%
+  }%
+  
+  \setbeamertemplate{frametitle}{}
+  \setbeamertemplate{headline}{%
+    \leavevmode%
+    \hbox{%
+      \begin{beamercolorbox}[wd=\paperwidth,ht=9.65ex,dp=1.5ex,right]{headline}
+        \begin{tikzpicture}[remember picture,overlay]%
+        \node[anchor=north east,yshift=2pt] at (current page.north east){%
+	      \includegraphics[height=0.9cm]{figures/logo/ijl.png}};%
+        \node[anchor=north west,xshift=1.5cm] at (current page.north west){% 
+          \ifnum\thepage>1\relax%
+          \makebox[\linewidth][l]{%
+            \begin{minipage}{\textwidth}%
+              \ifx\insertframesubtitle\@empty{%  
+                \vskip0.1cm%
+                \usebeamerfont{frametitle}\insertframetitle%
+              }\else{%
+                \vskip0.1cm%
+                \usebeamerfont{frametitle}\insertframetitle\vskip2pt\par%
+                \usebeamerfont{framesubtitle}\insertframesubtitle%
+              }\fi%
+            \end{minipage}%
+          }%
+          \fi
+        };%
+        \ifnum\thepage>1\relax
+	        \node[anchor=north west,yshift=-23pt,xshift=-7pt] at (current page.north west){%
+	            \includegraphics[width=1.7cm]{figures/logo/fig_slidetop}};%
+        \fi
+        \node[anchor=north west,yshift=2pt] at (current page.north west){% 
+        	\includegraphics[height=0.9cm]{figures/logo/irt}};%
+	    \ifnum\thepage>1\relax
+	        \path[anchor=north west,fill=IRTocre] (-16,0.14) rectangle (-15.84,1.2);
+	    \fi
+        \end{tikzpicture}%
+      \end{beamercolorbox}
+    }%
+    \vskip0pt%
+  }
+
+  % http://tex.stackexchange.com/questions/236218/
+  \def\insertframetitle{}
+  \def\insertframesubtitle{}
+  
+  % Insert section page and table of contents on a section basis
+  \AtBeginSection[]{%
+    \begin{frame}{Sommaire de la section}%
+      \tableofcontents[hideothersubsections,currentsection]%
+    \end{frame}%
+  }
+  \AtBeginSubsection{\frame{\subsectionpage}}
+}
+ 
+\AtBeginDocument{
+  \begin{frame}
+  \titlepage%
+  \end{frame}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GENERAL CONFIGURATION
+
+\setlength\parindent{0pt}
+\renewcommand{\footnotesize}{\fontsize{5.5}{6.0}\selectfont}
+\renewcommand{\normalsize}{\fontsize{7.5}{11.0}\selectfont}
+   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MACROS
+
+\newcommand{\dashedrule}[2]{
+  \resizebox{#2\columnwidth}{!}{
+    \begin{tikzpicture}
+	    \draw[dashed,very thin] (0,0) -- (#1,0);
+	  \end{tikzpicture}}
+}
+
+\DeclareSIUnit[]{\atm}{atm}
+\DeclareSIUnit[]{\HV}{HV0,3}
+\newcommand{\sccm}{\si{\cubic\centi\metre\per\minute}}
+
+\endinput

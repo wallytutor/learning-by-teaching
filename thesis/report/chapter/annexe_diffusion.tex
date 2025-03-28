@@ -1,0 +1,49 @@
+\chapter{Équation de la diffusion}
+\label{an:integration_diffusion}
+
+L'Équation~\ref{eq:fick_nd_nonlinear} requiert le calcul de la dérivée partielle des diffusivités par rapport aux concentrations des atomes interstitiels. Pour la diffusivité, on utilise une notation avec deux indices $D_{m,n}$ où $m$ désigne l'espèce diffusant et $n$ l'espèce pour laquelle on calcule la dérivée partielle. A partir des Équations~\ref{eq:diff_c}~et~\ref{eq:diff_n} des diffusivités, on obtient :
+
+\[
+D_{i,i}=D_{i}\cdot G_{i}\quad\quad\text{et}\quad\quad D_{i,j}=D_{i}\cdot G_{j}
+\]
+
+\noindent où les facteurs $G_{i}$ et $G_{j}$ sont donnés par :
+
+\[
+G_{i}=\biggr(\kappa_{i}E+\frac{5}{1-5\left(x_{C}+x_{N}\right)}\biggr)
+\quad\quad\text{et}\quad\quad 
+G_{j}=\frac{1}{1-5x_{i}}\biggr(\kappa_{j}E+\frac{5}{1-5\left(x_{C}+x_{N}\right)}-5\biggr)
+\]
+
+\noindent où $E=\nicefrac{(570000-320T)}{RT}$, et les constantes $\kappa$, qui ont leur origine dans le rayon atomique relatif de chaque espèce, sont données par $\kappa_{C}=1,00$ et $\kappa_{N}=0,72$.
+
+L'intégration du système d'équations produit par l'Équation~\ref{eq:fick_nd_nonlinear} se fait par discrétisation aux différences finies sur un domaine rectangulaire dont la profondeur $L$ est  divisée en $N_{x}$ cellules de longueur $\delta=\nicefrac{L}{(N_{x}-1)}$. Pour des approximations relatives à des milieux semi-infinis, l'intégration directe du flux peut être conduite selon la méthode présentée par \citet{Karabelchtchikova2007}. Du fait des non-linéarités introduites par la dépendance des diffusivités avec la composition, le système sera intégré de façon explicite en utilisant une méthode de Runge-Kutta-Felhman~\cite{Shampine1976} pour intégrer le vecteur des dérivées dans le temps $\mathbf{\dot{u}}=f(\mathbf{u})$, où le symbole des concentrations est remplacé par $\mathbf{u}$ pour marquer le caractère discret de cette variable qui représente la concentration. Pour chaque cellule d'index $n$ dans l'espace discrétisé, on a pour le pas de temps courant $m^{\prime}$:
+
+\[
+\dot{u}_{i,n}^{m^{\prime}}=\frac{D_{i}^{m^{\prime}}}{\delta^{2}}(u_{i,n+1}^{m^{\prime}}-2u_{i,n}^{m^{\prime}}+u_{i,n-1}^{m^{\prime}})+\frac{\dot{D}_{i}^{m\prime}}{2\delta}(u_{i,n+1}^{m^{\prime}}-u_{i,n-1}^{m^{\prime}})
+\]
+
+\[
+\dot{D}_{i}^{m\prime}=\frac{1}{2\delta}\big[D_{i,i}(u_{i,n+1}^{m^{\prime}}-u_{i,n-1}^{m^{\prime}})+D_{i,j}(u_{j,n+1}^{m^{\prime}}-u_{j,n-1}^{m^{\prime}})\big]
+\]
+
+\noindent où les indices $i$ représentent les indices des cellules comprises dans l'intervalle $[0;N_{x}-1]$ du vecteur solution $\mathbf{u}$ où sont stockées les concentrations en carbone et $j$ correspond aux indices des cellules comprises dans l'intervalle $[N_{x};2N_{x}-1]$ où sont stockées les concentrations en azote.
+
+Les conditions aux limites du type concentration constante (Dirichlet) peuvent être obtenues simplement en écrivant $\dot{u}_{n}=0$, avec $n$ représentant l'indice de la cellule où la condition à la limite est désirée. En utilisant la même convention pour $n$, dans le cas où une condition de flux est désirée, on peut calculer par différences centrées :
+
+\[
+u_{i,n-1}=u_{i,n+1}+\frac{2\delta J_{i,n}}{D_{i,n}}
+\]
+
+\noindent ce qui peut être utilisé directement pour estimer la dérivée temporelle à la limite du système.
+
+En supposant la densité $\rho$ constante de la matrice austénitique, ce système peut être intégré en fractions molaires, ce qui évite la conversion d'unités pour le calcul des diffusivités. Comme on s'intéresse aussi à la prise de masse surfacique des pièces traitées au cours du temps, en considérant toujours la densité constante, on peut montrer à partir de l'intégrale du profil de diffusion que :
+
+\begin{equation}
+\sigma_{t}=\rho\int_{0}^{\nicefrac{L}{2}}\big(Y_{C}(x)+Y_{N}(x)\big)dx-\sigma_{0}
+\label{eq:mass_gain}
+\end{equation}
+
+\noindent où $\sigma_{t}$ est la masse par unité de surface prise par la pièce à l'instant $t$, $Y_{i}(x)$ désigne la fraction massique de l'élément $i$ à une distance $x$ de la surface exposée et $\sigma_{0}$ est la valeur de l'intégrale au temps initial. La limite supérieure se calcule à $\nicefrac{L}{2}$ du domaine discrétisé. Des formules usuelles sont employées pour la conversion entre fractions molaires et massiques.
+
+\endinput

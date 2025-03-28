@@ -1,0 +1,46 @@
+// Digraph default
+
+digraph {
+    rankdir = LR;
+    ranksep = 0.2;
+    
+    node [fontname = "DejaVu Sans"];
+    edge [fontname = "DejaVu Sans"];
+ 
+    node [penwidth=1,shape=box,style=rounded];
+        
+    {
+        source    [label="Précurseurs"];
+        gas       [label="Atmosphère"];
+        interface [label="Interface"];
+        solid     [label="Solide"];
+        p1        [label="Cinétique chimique\nPhénomènes de transport"];
+        p2        [label="Cinétique de surface\nÉchanges de chaleur\net de matière"];
+        p3        [label="Diffusion-précipitation\nÉchanges de chaleur"];
+    }
+    
+    { 
+        rank = same;
+        source; p1; gas;
+    }
+    
+    {
+        rank = same;
+        interface; p2;
+    }
+
+    {
+        rank = same;
+        solid; p3;
+    }
+      
+    source -> p1; 
+    p1 -> gas;
+    p2 -> interface;
+    p3 -> solid;
+    
+    gas:s -> interface:s [label="Processus\nhétérogènes"];
+    interface:w -> gas:e;
+    interface:s -> solid:s [label="Transport à\nl'état solide"];
+    solid:w -> interface:e;
+}

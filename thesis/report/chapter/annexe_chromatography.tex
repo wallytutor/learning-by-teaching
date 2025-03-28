@@ -1,0 +1,95 @@
+\chapter{Caractérisation des atmosphères}
+\label{an:caracterisation_atmospheres}
+
+\section*{Concepts de base}
+
+Tandis que la distribution de temps de séjour $E(t_{s})$  fournit des informations importantes pour la compréhension du couplage hydrodynamique-cinétique, aucune information n'est donnée concernant la composition moyenne du gaz. De manière complémentaire à la $E(t_{s})$ pour la description de la dynamique des réacteurs réels, des techniques de chimie analytique sont nécessaires pour caractériser les atmosphères. Dans ce but, cette section présente une technique non-intrusive employée dans ce travail permettant l'évaluation de la composition des atmosphères à la sortie du réacteur: la chromatographie en phase gazeuse (CG).
+
+La chromatographie est une méthode d'analyse permettant la séparation des composants dans un mélange. Cette technique est devenue l'une des principales méthodes analytiques pour l'identification et la quantification de composants en phase liquide ou gazeuse. Son principe de fonctionnement est basé sur la mesure de la différence de concentrations d'équilibre entre les composants de deux phases non-miscibles. L'une de ces phases est appelée la phase stationnaire tandis que l'autre est appelée la phase mobile. La migration de la deuxième est forcée à travers la première, où les phénomènes permettant l'identification se déroulent. Les phases sont choisies de façon à ce que les solubilités des composants de l'échantillon soient différentes pour chaque phase. La migration différentielle des composants assure alors leur séparation~\cite{Rouessac2007}.
+
+Un détecteur placé à la sortie du système permet la détection des espèces en fonction du temps. Le diagramme donnant l'intensité du signal mesuré en fonction du temps est appelé chromatogramme. Dans le cas idéal, le temps de rétention est indépendant de la quantité injectée. L'identification d'un composant dans le chromatogramme est réalisée par comparaison. Pour un même instrument et pour des conditions expérimentales fixées permettant l'identification d'une série d'espèces précises, des essais doivent être conduits avec des composés purs pour déterminer les temps de rétention correspondant à chacun d'eux. Ensuite, les pics de l'échantillon comportant la série d'espèces à identifier sont corrélés aux temps de rétention des espèces pures. La méthode présente trois inconvénients principaux: \begin{inparaenum}[(i)] \item le processus n'est pas très rapide, \item l'identification absolue n'est pas possible, l'interaction entre l'échantillon et la phase stationnaire peut donner lieu à des modifications physicochimiques~\cite{Rouessac2007}.\end{inparaenum}
+
+\pagebreak
+
+Compte tenu du comportement cinétique de désorption des espèces, les pics dans le chromatogramme sont des distributions \textendash{} idéalement de type gaussien. Du fait de ce comportement statistique, si le signal envoyé par le détecteur varie de façon linéaire en fonction de la fraction molaire $x_{i}$ d'un composant, alors la même variation linéaire sera observée pour l'aire $U_{i}$ en dessous du pic correspondant dans le chromatogramme ($U_{i}\propto x_{i}$). Cette corrélation est la condition fondamentale permettant l'analyse quantitative à partir d'un chromatogramme~\cite{Rouessac2007}.
+
+Une méthode permettant l'étalonnage du système de chromatographie gazeuse consiste à injecter un volume $v_{i,0}$ connu d'une espèce $i$ dans un réacteur réel agité de volume $V_{b}$. Dans ce réacteur, on injecte un débit $Q$ contrôlé de gaz porteur qui est envoyé ensuite vers l'équipement de chromatographie. Connaissant la loi de dilution dans un tel réacteur: 
+
+\[
+x_{i}(t)=x_{i,0}\exp(-\nicefrac{t}{\tau})
+\]
+
+\noindent où $\tau=\nicefrac{Q}{V_{b}}$, les valeurs du signal $u_{i}$ doivent obéir une même loi. Donc, si l'on trace le logarithme $\ln(u_{i})=\ln(u_{0})-\nicefrac{t}{\tau_{exp}}$ en fonction du temps, on doit obtenir une droite dont la pente est égale à l'inverse de la valeur de $\tau$, que l'on note $\tau_{exp}$, valeur qui tient déjà compte des erreurs sur le volume $V_{b}$ et le débit $Q$. En utilisant cette grandeur expérimentale pour calculer la concentration dans le réacteur agité au cours du temps, on peut obtenir la relation d'étalonnage $x(u_{i})$ nécessaire.
+
+Il faut donc que les détecteurs produisent des réponses linéaires en fonction de la fraction molaire des espèces détectées pour que cette méthode d'étalonnage soit possible. Les détecteurs par ionisation par flamme (FID, de l'Anglais \textit{Flame Ionisation Detector}) et par différence de conductivité thermique (TCD, de l'anglais \textit{Thermal Conductivity Detector}) possèdent une telle propriété~\cite{Rouessac2007}. Compte tenu de leur principe de fonctionnement, les détecteurs du type FID sont normalement utilisés pour la détection des hydrocarbures. Ils remplissent aussi les conditions requises pour la détermination de la distribution de temps de séjour, la description expérimentale de cet aspect étant présentée dans la Section~\ref{sec:dynamique_experimentale}. L'utilisation des détecteurs du type TCD demande que les différences de conductivité thermique entre les espèces à identifier et le gaz porteur soient non-négligeables. Typiquement l'hélium est employé comme gaz porteur, permettant l'identification de la majorité des espèces possibles, espèces qui peuvent alors être séparées par une colonne de chromatographie. Alors que l'hélium est utile pour la détection de la majorité des espèces de la présente étude, la molécule \ch{H2} ne peut pas être mesurée étant donnée la faible différence entre sa conductivité thermique et celle de \ch{He}.
+
+\section*{Séquence de prélèvement à basse pression}
+
+Les étapes d'opération pour le système de prélèvement à basse pression pour la chromatographie gazeuse présenté Figure~\ref{fig:systeme_bp} sont fournies Tableau~\ref{tab:sequence_valves}. La durée de chaque étape doit être réglée en fonction des caractéristiques (diamètre et longueur des tuyaux) propres au système. La vanne $v_2$ contrôle la commutation des colonnes dans l'équipement de chromatographie et la vanne $v_1$ est responsable de l'injection. Dans le système utilisé, les vannes $v_3$ et $\bar{v}_3$, ainsi que les vannes $v_5$ et $\bar{v}_5$ sont synchronisées en opposition de phase, \textit{i.e} la fermeture de la première implique l'ouverture de la seconde. 
+
+%Ces étapes peuvent être décrites comme:
+%\begin{enumerate}[\hspace{1.25cm} 1.]
+%  \item nettoyage de la ligne principale de prélèvement,
+%  \item fermeture de la ligne principale de prélèvement,
+%  \item nettoyage du ballon d'échantillonnage,
+%  \item commutation des colonnes (dans le chromatographe),
+%  \item vidage du container et du ballon d'échantillonnage,
+%  \item ouverture de la communication avec le réacteur,
+%  \item début d'échantillonnage,
+%  \item stabilisation de l'échantillon,
+%  \item fermeture de la communication avec le réacteur,
+%  \item nettoyage du système,
+%  \item envoie de l'échantillon au chromatographe,
+%  \item début de l'injection de l'échantillon,
+%  \item fin de l'injection de l'échantillon,
+%  \item retour à la pompage de la ligne principale, et
+%  \item commutation des colonnes (dans le chromatographe).
+%\end{enumerate}
+
+\begin{table}[h]
+  \caption{\label{tab:sequence_valves}Séquence d'opération pour le prélèvement des gaz à basse pression: $\bullet$ désigne une vanne fermé et $\circ$ une vanne ouverte.}
+  
+  \centering{}\footnotesize{}%
+  \begin{tabular}{\$c^l^c^c^c^c^c^c^c^c}
+    \toprule[2pt]
+    \rowstyle{\bfseries}
+    \multirow{2}{1cm}[-3pt]{Étape} 
+    & \multirow{2}{3cm}[-3pt]{Action} 
+    & \multicolumn{8}{c}{\bfseries Vanne}\\
+    \cmidrule{3-10}
+     & & $v_1$ & $v_2$ & $v_3$ & $\bar{v}_3$ & $v_4$ & $v_5$ & $\bar{v}_5$ & $v_6$ \\
+    \midrule[2pt]
+    1  & nettoyage de la ligne principale de prélèvement
+    & $\bullet$ & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\circ$   \\[6pt]
+    2  & fermeture de la ligne principale de prélèvement
+    & $\bullet$ & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ \\[6pt]
+    3  & nettoyage du ballon d'échantillonnage
+    & $\bullet$ & $\bullet$ & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ \\[6pt]
+    4  & commutation des colonnes (chromatographe)
+    & $\bullet$ & $\circ$   & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ \\[6pt]
+    5  & vidage du container et du ballon d'échantillonnage
+    & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ \\[6pt]
+    6  & ouverture de la communication avec le réacteur
+    & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ & $\circ$   & $\circ$   \\[6pt]
+    7  & début d'échantillonnage
+    & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\circ$   \\[6pt]
+    8  & stabilisation de l'échantillon
+    & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ & $\circ$   \\[6pt]
+    9  & fermeture de la communication avec le réacteur
+    & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ & $\bullet$ \\[6pt]
+    10 & nettoyage du système
+    & $\bullet$ & $\circ$   & $\circ$   & $\bullet$ & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ \\[6pt]
+    11 & envoie de l'échantillon vers le chromatographe
+    & $\bullet$ & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ \\[6pt]
+    12 & début de l'injection de l'échantillon
+    & $\circ$   & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ \\[6pt]
+    13 & fin de l'injection de l'échantillon
+    & $\bullet$ & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ \\[6pt]
+    14 & retour à la pompage de la ligne principale
+    & $\bullet$ & $\circ$   & $\bullet$ & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\circ$   \\[6pt]
+    15 & commutation des colonnes (chromatographe)
+    & $\bullet$ & $\bullet$ & $\bullet$ & $\circ$   & $\bullet$ & $\bullet$ & $\circ$   & $\circ$   \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\endinput

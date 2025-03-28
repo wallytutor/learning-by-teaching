@@ -1,0 +1,64 @@
+\documentclass{standalone}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} 
+\usepackage[francais]{babel}
+  \renewcommand*\sfdefault{phv}
+  \renewcommand{\familydefault}{\sfdefault}   
+\usepackage{tikz}
+  \usetikzlibrary{arrows}
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Commands  
+\newcommand{\valve}[3]{
+  \shade[ball color=cyan!20!olive!20!] (#2,#3) node {#1} circle (0.3);}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document
+\begin{document}
+  \begin{tikzpicture}[
+      to/.style={->,>=stealth',semithick,font=\sffamily\footnotesize}
+    ]
+    % Pump
+    \shade[rounded corners=0.5mm, 
+      ball color=cyan!15!] (8.0,3.0) -- (7.0,1.6) -- (9.0,1.6) --cycle;
+    \shade[ball color=cyan!15!] (8.0,2.4) node {$P$} circle (0.60);
+
+    % Bottle
+    \shade[rounded corners=0.5mm,
+      ball color=gray!10!] (5.75,3.0) rectangle (6.25,2.6);  
+    \shade[rounded corners=2mm,
+      ball color=gray!10!] (5.35,2.7) rectangle (6.65,1.6);
+    
+    % Piping
+    \shade[ball color=gray!10!] (5.85,3.0) rectangle (6.15,4.0);
+    \shade[ball color=gray!10!] (5.0,3.9) rectangle (7.0,4.1);
+    \shade[ball color=olive!30!] (4.0,3.95) rectangle (5.0,4.05);    
+    \shade[ball color=olive!30!] (5.95,2.5) rectangle (6.05,6.0);
+    \shade[ball color=olive!30!] (7.95,3.0) rectangle (8.05,6.0);
+    \shade[ball color=olive!30!] (7.0,3.95) rectangle (10.0,4.05);
+    \shade[ball color=olive!30!] (4.0,5.95) rectangle (10.0,6.05);
+
+    % Sampler
+    \shade[rounded corners=2mm,
+           ball color=olive!30!] (5.75,2.5) rectangle (6.25,1.8);
+    \node at (6.0,2.15) {$B$};
+    
+    % Valves
+    \valve{$v_1$}{6}{7}
+    \valve{$v_2$}{8}{7}
+    \valve{$\bar{v_3}$}{5}{6}
+    \valve{$v_4$}{7}{6}
+    \valve{$v_6$}{9}{6}
+    \valve{$\bar{v_5}$}{8}{5.0}
+    \valve{$\bar{v_3}$}{5}{4}
+    \valve{$v_3$}{7}{4}
+    \valve{$v_5$}{9}{4} 
+
+    % Arrows
+    \draw[to] (4.0,6.0) -- node[above] {$4$} (3.5,6.0);
+    \draw[to] (3.5,4.0) -- node[above] {$3$} (4.0,4.0);
+    \draw[to] (10.5,6.0) -- node[above] {$1$} (10.0,6.0);
+    \draw[to] (10.5,4.0) -- node[above] {$2$} (10.0,4.0);
+  \end{tikzpicture}
+\end{document}

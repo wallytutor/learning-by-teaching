@@ -1,0 +1,11 @@
+\ProvidesFile{xthesis_fr.def}[xthesis French definitions]
+\def\xthesis@covername{Page de garde}
+\def\xthesis@these{Thèse}
+\def\xthesis@for{Pour l'obtention du titre de}
+\def\xthesis@honor{Docteur}
+\def\xthesis@of{de}
+\def\xthesis@college{Votre Université}
+\def\xthesis@domain{Votre Domaine}
+\def\xthesis@presented{présentée par}
+%FIXME
+\def\xthesis@release{Thèse soutenue publiquement le 22 juin 2017, à Nancy devant le jury composé de:}

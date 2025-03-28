@@ -1,0 +1,55 @@
+\documentclass[12pt,border=1pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{xcolor}
+
+\renewcommand*\sfdefault{phv}
+\renewcommand{\familydefault}{\sfdefault}
+
+\pgfplotsset{compat=newest, width=5.5cm,
+             xtick pos=left, ytick pos=left,
+             xtick scale label code/.code={},
+             yticklabel style={text width=2em,align=right}}
+
+\newcommand{\col}{black}
+\newcommand{\txt}{white}
+
+
+\begin{document}
+  \begin{tikzpicture}
+    \node [anchor=south west,inner sep=0] (A) at (0,0)
+     {\includegraphics[scale=0.15]{../src/C1/view_005_Fe_K.png}}; 
+    \node [right of=A, node distance=3cm] (B)
+     {\includegraphics[scale=0.15]{../src/C1/view_005_N_K.png}}; 
+    \node [right of=B, node distance=3cm] (C)
+     {\includegraphics[scale=0.15]{../src/C1/view_005_Cr_K.png}}; 
+    \node [right of=C, node distance=3cm] (D)
+     {\includegraphics[scale=0.15]{../src/C1/view_005_Mn_K.png}}; 
+    \node [right of=D, node distance=3cm] (E)
+     {\includegraphics[scale=0.15]{../src/C1/view_005_Si_K.png}};
+    \begin{scope}[x={(A.south east)},y={(A.north west)}]
+      %\draw[help lines,xstep=5.3,ystep=.2,color=gray] (0,0) grid (5.35,1);
+      \filldraw[fill=white,draw=black] (0.00,0.8) 
+        rectangle +(0.2,0.2) node[pos=.5] {\footnotesize Fe};
+      \filldraw[fill=white,draw=black] (1.08,0.8) 
+        rectangle +(0.2,0.2) node[pos=.5] {\footnotesize N};
+      \filldraw[fill=white,draw=black] (2.16,0.8) 
+        rectangle +(0.2,0.2) node[pos=.5] {\footnotesize Cr};
+      \filldraw[fill=white,draw=black] (3.24,0.8) 
+        rectangle +(0.2,0.2) node[pos=.5] {\footnotesize Mn};
+      \filldraw[fill=white,draw=black] (4.32,0.8) 
+        rectangle +(0.2,0.2) node[pos=.5] {\footnotesize Si};
+      \filldraw[\col,very thick] (0.025,0.02) -- node[above]
+        {\color{\txt}\footnotesize\SI{2}{\micro\metre}} +(0.4,0.0);
+      \filldraw[\col,very thick] (1.105,0.02) -- node[above]
+        {\color{\txt}\footnotesize\SI{2}{\micro\metre}} +(0.4,0.0);
+      \filldraw[\col,very thick] (2.185,0.02) -- node[above]
+        {\color{\txt}\footnotesize\SI{2}{\micro\metre}} +(0.4,0.0);
+      \filldraw[\col,very thick] (3.265,0.02) -- node[above]
+        {\color{\txt}\footnotesize\SI{2}{\micro\metre}} +(0.4,0.0);
+      \filldraw[\col,very thick] (4.345,0.02) -- node[above]
+        {\color{\txt}\footnotesize\SI{2}{\micro\metre}} +(0.4,0.0);
+    \end{scope}
+  \end{tikzpicture}
+\end{document}

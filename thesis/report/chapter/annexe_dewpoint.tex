@@ -1,0 +1,112 @@
+\chapter{Température de point de rosée}
+\label{an:dew-point}
+
+Le calcul des diagrammes de température de point de rosée est présenté dans cette annexe. Cela comprend des étapes de calcul de l'énergie libre $\Delta{}G$ de la réaction du gaz à l'eau \ch{CO + H2 <=> C_{m} + H2O} à la température de traitement puis de la relation entre l'activité du carbone dans le solide et la pression partielle d'eau dans l'atmosphère. Le Code~\ref{lst:delta-g} présente les étapes nécessaires pour le calcul de l'équilibre de la réaction du gaz à l'eau à \SI{1173}{\kelvin} et \SI{101325}{\pascal} en utilisant Thermo-Calc~\cite{Andersson2002,Borgenstam2000} et la base de données SSUB3.
+
+\begin{lstlisting}[caption={\label{lst:delta-g}Calcul de l'équilibre de la réaction du gaz à l'eau.}]
+GOTO_MODULE DATABASE_RETRIEVAL
+SWITCH_DATABASE SSUB3
+DEFINE_SYSTEM C H O
+REJECT PHASES *
+RESTORE PHASES GAS
+REJECT CONSTITUENTS GAS *
+RESTORE CONSTITUENTS GAS C1O1 H2 H2O1 C 
+GET_DATA
+GOTO_MODULE TABULATION_REACTION
+TABULATE_REACTION C1O1+H2=C+H2O1<G>; 101325 1173 1173,,
+\end{lstlisting}
+
+La simulation réalisée avec le Code~\ref{lst:delta-g} conduit à $\Delta{}G{}=\SI{3.23848E+04}{\joule}$. À partir de cette valeur, il est possible de calculer la constante d'équilibre en fonction des concentrations $K_{c}$ pour la réaction selon:
+
+\[
+K_{c}=\exp\biggr(-\frac{\SI{3.23848E+04}{\joule}}{RT}\biggr)
+\]
+ 
+En utilisant l'atmosphère de départ \ch{0,2 CO - 0,4 H2} (Tableau~\ref{tab:treatment_atmospheres}), la pression partielle $P(\ch{H2O})$ est calculée \textendash{} en \si{\pascal} \textendash{} selon l'expression:
+
+\[
+P(\ch{H2O})=\SI{101325}{\pascal}\times{}K_{c}{}\frac{x(\ch{CO})\,x(\ch{H2})}{a_{C}^{m}}
+\]
+
+\noindent où $x$ représente les fractions molaires des espèces et $a_{C}^{m}$ l'activité du carbone dans le solide. Le Code~\ref{lst:gaz-solide} présente la macro Thermo-Calc~\cite{Andersson2002,Borgenstam2000} utilisé pour le calcul du diagramme de température de point de rosée pour l'alliage 16NiCrMo13. L'état de référence supposé pour le carbone est le graphite.
+
+\newpage
+
+\begin{lstlisting}[caption={\label{lst:gaz-solide}Calcul de l'équilibre gaz-solide.}]
+GOTO_MODULE DATABASE_RETRIEVAL
+SWITCH_DATABASE TCFE7
+REJECT PHASES *
+DEFINE_SYSTEM FE C CR MN MO NI SI
+REJECT PHASES *
+RESTORE PHASES FCC BCC CEMENTITE M23C6 GRAPHITE 
+GET_DATA
+GOTO_MODULE POLY_3
+SET_CONDITION T=1173.0, P=101325.0, N=1
+SET_CONDITION W(C)=0.0016, W(CR)=0.010, W(MN)=0.0045
+SET_CONDITION W(MO)=0.0025, W(NI)=0.0320, W(SI)=0.0025
+SET_REFERENCE_STATE C GRAPHITE * 101325.0
+CHANGE_STATUS PHASE GRAPHITE=SUSPENDED
+COMPUTE_EQUILIBRIUM
+SET_AXIS_VARIABLE 1 W(C) 0.000 0.012 0.001
+STEP NORMAL
+ENTER FUNCTION KC = EXP(-3.23848E+04/(8.314472*T));
+ENTER FUNCTION PH2O = 101325*KC*(0.4)*(0.2)/ACR(C);
+POST
+SET_DIAGRAM_AXIS X W(C)
+SET_DIAGRAM_AXIS Y PH2O
+MAKE_EXPERIMENTAL_DATAFI dew_point_aero.exp
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\label{lst:point-de-rosee}Calcul de l'équilibre gaz-solide à la température de cémentation (\SI{1173}{\kelvin}) pour la determination de la fraction molaire de \ch{H2O} et calcul de la température de point de rosée.}]
+GOTO_MODULE DATABASE_RETRIEVAL
+SWITCH_DATABASE SSUB3
+DEFINE_SYSTEM C H O N
+REJECT PHASES *
+RESTORE PHASES GAS C_S
+REJECT CONSTITUENTS GAS *
+RESTORE CONSTITUENTS GAS H2O1
+RESTORE CONSTITUENTS GAS H2
+RESTORE CONSTITUENTS GAS O2
+RESTORE CONSTITUENTS GAS C1O1
+RESTORE CONSTITUENTS GAS C1O2
+RESTORE CONSTITUENTS GAS C
+RESTORE CONSTITUENTS GAS N2
+GET_DATA
+GOTO_MODULE POLY_3
+SET_REFERENCE_STATE C C_S * 101325.0
+SET_CONDITION T=1173, P=101325.0, N=1
+SET_CONDITION X(H)=0.4, X(C)=0.1, X(O)=0.1
+COMPUTE_EQUILIBRIUM
+LIST_EQUILIBRIUM SCREEN VWCS
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[caption={Résultat de la simulation réalisée en utilisant le Code~\ref{lst:point-de-rosee}. En utilisant la fraction $x(\ch{H2O})=2,82\times{}10^{-3}$ et l'Équation~\ref{eq:point_rosee}, on trouve $T_{r}=\SI{263}{\kelvin}$.}]
+ Output from POLY-3, equilibrium =     1, label A0  , database: SSUB3   
+
+Conditions:
+T=1173, P=1.01325E5, N=1, X(H)=0.4, X(C)=0.1, X(O)=0.1
+DEGREES OF FREEDOM 0
+
+Temperature   1173.00 K (   899.85 C),  Pressure  1.013250E+05
+Number of moles of components  1.00000E+00,  Mass in grams  8.80696E+00
+Total Gibbs energy -1.25816E+05,  Enthalpy  2.04824E+03,  Volume  4.79396E-02
+
+Component               Moles       W-Fraction  Activity   Potential  Ref.stat
+C                       1.0000E-01  1.3638E-01 1.0000E+00  0.0000E+00 C_S     
+H                       4.0000E-01  4.5777E-02 8.1868E-05 -9.1779E+04 SER     
+N                       4.0000E-01  6.3618E-01 2.0568E-06 -1.2771E+05 SER     
+O                       1.0000E-01  1.8166E-01 6.8413E-17 -3.6301E+05 SER     
+
+GAS                         Status ENTERED     Driving force  0.0000E+00
+Moles 9.9805E-01, Mass 8.7836E+00, Volume fraction 1.0000E+00  Mass fractions:
+N  6.37871E-01  O  1.82146E-01  C  1.34083E-01  H  4.58992E-02
+Constitution:
+N2    4.01563E-01  C1O1  1.95789E-01  C1O2  1.08568E-03  C     1.78312E-24
+H2    3.98742E-01  H2O1  2.82096E-03  O2    2.50435E-21
+
+C_S                         Status ENTERED     Driving force  0.0000E+00
+Moles 1.9457E-03, Mass 2.3370E-02, Volume fraction 0.0000E+00  Mass fractions:
+C  1.00000E+00  O  0.00000E+00  N  0.00000E+00  H  0.00000E+00
+\end{lstlisting}

@@ -1,0 +1,30 @@
+\chapter{Bilan matière pour la nitruration}
+\label{an:ammonia_decomposition}
+
+Étant donné l'important changement de volume qu'accompagne la décomposition de l'ammoniac selon la réaction \ch{NH3 <=> 1/2 N2 + 3/2 H2}, le calcul précis du potentiel de nitruration demande la connaissance du taux de conversion du précurseur \ch{NH3}. En considérant un mélange type ammoniac-ammoniac craqué, les expressions suivantes pour les débits en sortie $F_{j}^{o}$ des composants $j$ de l'atmosphère sont écrites à partir des débits à l'entrée $F_{j}^{i}$ et du taux de conversion $\alpha$:
+
+\[
+F_{\mathrm{NH_{3}}}^{o}=F_{\mathrm{NH_{3}}}^{i}\left(1-\alpha\right)
+\]
+
+\[
+F_{\mathrm{N_{2}}}^{o}=F_{\mathrm{N_{2}}}^{i}+\frac{1}{2}\alpha F_{\mathrm{NH_{3}}}^{i}
+\]
+
+\[
+F_{\mathrm{H_{2}}}^{o}=F_{\mathrm{H_{2}}}^{i}+\frac{3}{2}\alpha F_{\mathrm{NH_{3}}}^{i}
+\]
+
+Comme la mesure de l'ammoniac en sortie du réacteur par chromatographie gazeuse apporte la connaissance de la fraction molaire $x_{\mathrm{NH_{3}}}^{o}$de cette espèce, la relation suivante peut être écrite, où $F_{T}^{i}$ désigne le débit total à l'entrée:
+
+\[
+x_{\mathrm{NH_{3}}}^{o}=\frac{F_{\mathrm{NH_{3}}}^{o}}{F_{\mathrm{NH_{3}}}^{o}+F_{\mathrm{N_{2}}}^{o}+F_{\mathrm{H_{2}}}^{o}}=\frac{F_{\mathrm{NH_{3}}}^{i}\left(1-\alpha\right)}{F_{T}^{i}+\alpha F_{\mathrm{NH_{3}}}^{i}}
+\]
+
+Cela permet de calculer le taux de conversion de l'ammoniac dans le four et aussi de déterminer le débit à la sortie du réacteur à l'aide de l'expression suivante:
+
+\[
+\alpha=\frac{F_{\mathrm{NH_{3}}}^{i}-x_{\mathrm{NH_{3}}}^{o}F_{T}^{i}}{F_{\mathrm{NH_{3}}}^{i}\left(1+x_{\mathrm{NH_{3}}}^{o}\right)}=\frac{1-\nicefrac{x_{\mathrm{NH_{3}}}^{o}}{x_{\mathrm{NH_{3}}}^{i}}}{1+x_{\mathrm{NH_{3}}}^{o}}
+\]
+
+\endinput
