@@ -93,26 +93,3 @@ sudo firewall-cmd --permanent --add-service=ftp
 sudo firewall-cmd --permanent --add-port=990/tcp
 sudo firewall-cmd --reload
 ```
-
-## Fresh Ubuntu setup
-
-```bash
-sudo visudo
-sudo apt update && sudo apt upgrade -y && sudo apt autoremove
-```
-
-```bash
-sudo apt install python3-pip python3-venv
-```
-
-## Add user applications folder
-
-```bash
-if [ -d ~/Applications ]; then
-    for extrapath in ~/Applications/*; do
-        PATH="$extrapath:$PATH"
-    done
-fi
-
-unset extrapath
-```
