@@ -120,8 +120,9 @@ XDG_PICTURES_DIR="$HOME/"
 XDG_VIDEOS_DIR="$HOME/"
 ```
 
-4. Download `.deb` packages of Edge, Obsidian and Zettlr.
-5. Add user applications folder to `.bashrc`:
+4. Download `.deb` packages of Edge, Chrome, Obsidian and Zettlr.
+5. Once Edge and/or Chrome is available, `sudo apt remove snapd`..
+6. Add user applications folder to `.bashrc`:
 
 ```bash
 function extra_sources() {
@@ -144,7 +145,7 @@ extra_sources
 extra_paths
 ```
 
-6. Other `.bashrc` customization:
+7. Other `.bashrc` customization:
 
 ```bash
 function build_image() {
