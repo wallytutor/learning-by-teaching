@@ -3,5 +3,6 @@
   "userIgnoreFilters": [
     "**/venv/*"
   ],
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "useTab": false
 }

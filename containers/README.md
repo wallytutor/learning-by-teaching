@@ -82,8 +82,8 @@ Another approach is to execute the SIF image once, source the required variables
 
 ```bash
 function openfoam12() {
-	FOAM_NAME=$HOME/Applications/openfoam12-rockylinux9
-	apptainer run --cleanenv --env-file ${FOAM}.env ${FOAM}.sif
+    FOAM_NAME=$HOME/Applications/openfoam12-rockylinux9
+    apptainer run --cleanenv --env-file ${FOAM}.env ${FOAM}.sif
 }
 ```
 
