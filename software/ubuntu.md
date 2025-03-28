@@ -21,16 +21,22 @@ Install a temperature monitor cause scientific computing can burn:
 sudo apt install lm-sensors xfce4-sensors-plugin
 ```
 
+## Version control
+
+Install `git` and configure credentials:
+
+```bash
+sudo apt install git
+git config --global user.email "walter.dalmazsilva@gmail.com"
+git config --global user.name "Walter Dal'Maz Silva"
+```
+
 ## Scientific computing
 
 Install a good editor such as [Zed](https://zed.dev/download).
 
 ```bash
-sudo apt install \
-	git \
-	curl \
-	terminator
-	
+sudo apt install curl terminator
 ```
 
 ```bash
