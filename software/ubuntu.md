@@ -89,6 +89,12 @@ sudo apt install python3-pip python3-venv
 curl -fsSL https://install.julialang.org | sh
 ```
 
+Install [Rust](https://www.rust-lang.org/tools/install) programming language:
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
 - Install the whole of TeXLive:
 
 ```bash
@@ -118,17 +124,24 @@ XDG_VIDEOS_DIR="$HOME/"
 5. Add user applications folder to `.bashrc`:
 
 ```bash
-function add_extra_path() {
-	export PATH=$HOME/.local/bin:$PATH
-
-	if [ -d ~/Applications ]; then
-	    for extrapath in ~/Applications/*; do
-	        PATH="$extrapath:$PATH"
-	    done
-	fi
-
-	unset extrapath
+function extra_sources() {
+    source "$HOME/.cargo/env"
 }
+
+function extra_paths() {
+    export PATH=$HOME/.local/bin:$PATH
+
+    if [ -d ~/Applications ]; then
+        for extrapath in ~/Applications/*; do
+            export PATH="$extrapath:$PATH"
+        done
+    fi
+
+    unset extrapath
+}
+
+extra_sources
+extra_paths
 ```
 
 6. Other `.bashrc` customization:
