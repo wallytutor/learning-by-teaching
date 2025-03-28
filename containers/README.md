@@ -68,7 +68,17 @@ apptainer build "<img>.sif" "docker-archive://<img>.tar"
 apptainer run <img>.sif
 ```
 
-**IMPORTANT:** since `apptainer` makes use of user space, sourcing of applications is not done as root, so one must edit add to their `~/.bashrc` if path configuration is desired. Another approach is to execute the SIF image once, source the required variables required in the container, dump `env > draft.env`, edit the file as required and then wrap a call with contextualized environment as:
+## Apptainer and environment
+
+Since `apptainer` makes use of *user space*, sourcing of applications is not done as root, so one must edit add to their `~/.bashrc` if path configuration is desired and re-source that file when activating a container. For instance, the required environment variables for #OpenFOAM are provided `FOAM_SOURCE` file given below; in the *host system* outside the container it does not exist, so adding a test in `~/.bashrc` is required. Once you activate the container with `apptainer run <image-name>.sif`, by calling `source ~/.bashrc` the environment will be properly set.
+
+```bash
+FOAM_SOURCE=/opt/openfoam12/OpenFOAM-12/etc/bashrc
+
+[[ -f ${FOAM_SOURCE} ]] && source ${FOAM_SOURCE}
+```
+
+Another approach is to execute the SIF image once, source the required variables required in the container, dump `env > draft.env`, [edit the file](https://github.com/wallytutor/learning-by-teaching/blob/main/containers/clean-env.py) as required and then wrap a call with contextualized environment as:
 
 ```bash
 function openfoam12() {
@@ -100,14 +110,6 @@ sudo mount --make-rshared /
 
 # After making sure it is working, remove the image:
 /usr/bin/podman rmi "${R9OF12}"
-```
-
-As stated in the section concerning use of `apptainer`, you might need to append the following lines to your `.bashrc` file:
-
-```bash
-FOAM_SOURCE=/opt/openfoam12/OpenFOAM-12/etc/bashrc
-
-[[ -f ${FOAM_SOURCE} ]] && source ${FOAM_SOURCE}
 ```
 
 Now you can move the SIF image to another computer (for instance, you prepared this in a PC with access to the Internet to later use it in an isolated HPC), open a new terminal or `source ~/.bashrc` and run:
