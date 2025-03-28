@@ -13,6 +13,8 @@ Notes related to my learning and teaching interests in several fields related to
 - Typesetting equations reports and presentations (beamer) in LaTeX.
 - Domain specific skills related to the field of study (CFD, DFT, MD, ML, ...).
 
+A sample setup of an operating system for scientific computing and practicing the above skills is provided [here](ubuntu.md).
+
 Some technologies have been mainstream or important in the past, but nowadays some of them have already died or are becoming too niche to be put in such a list. That is the case of SVN for version control. As for programming languages in science, that is the case of *matlabish* (MATLAB, Octave, Scilab) environments, which are still used by *controls and automation* people, but are mostly incompatible with good software practices and should be discouraged.
 
 It is also worth getting familiar with high-performance computing (HPC); in the [Top 500](https://top500.org/) page you can get to know the most powerful computers on Earth.  The [specification benchmarking](https://spec.org/) page allows for the check of hardware specification, what is interesting when preparing investment in a computing structure. Lastly, when working in multi-user systems it is worth knowing about job management systems such as [Slurm](https://www.schedmd.com/).

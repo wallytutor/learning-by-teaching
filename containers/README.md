@@ -68,7 +68,14 @@ apptainer build "<img>.sif" "docker-archive://<img>.tar"
 apptainer run <img>.sif
 ```
 
-**IMPORTANT:** since `apptainer` makes use of user space, sourcing of applications is not done as root, so one must edit add to their `~/.bashrc` if path configuration is desired.
+**IMPORTANT:** since `apptainer` makes use of user space, sourcing of applications is not done as root, so one must edit add to their `~/.bashrc` if path configuration is desired. Another approach is to execute the SIF image once, source the required variables required in the container, dump `env > draft.env`, edit the file as required and then wrap a call with contextualized environment as:
+
+```bash
+function openfoam12() {
+	FOAM_NAME=$HOME/Applications/openfoam12-rockylinux9
+	apptainer run --cleanenv --env-file ${FOAM}.env ${FOAM}.sif
+}
+```
 
 ## Build workflow
 
@@ -88,7 +95,7 @@ sudo mount --make-rshared /
 # Save container to portable .tar:
 /usr/bin/podman save -o "${R9OF12}.tar" "localhost/${R9OF12}"
 
-# Convert container to 
+# Convert container to
 /usr/bin/apptainer build "${R9OF12}.sif" "docker-archive://${R9OF12}.tar"
 
 # After making sure it is working, remove the image:

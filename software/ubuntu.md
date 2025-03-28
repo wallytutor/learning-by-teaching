@@ -49,7 +49,7 @@ sudo vim /etc/fstab
 # Check fstab for errors:
 sudo findmnt --verify
 
-# Maybe 
+# Maybe
 sudo systemctl daemon-reload
 ```
 
@@ -69,15 +69,33 @@ gh auth login
 
 ## Scientific computing
 
-Install a good editor such as [Zed](https://zed.dev/download).
+- Install a good editor such as [Zed](https://zed.dev/download) or [VS Code](https://code.visualstudio.com/download).
+
+- Minimum set for editing, retrieving data, and containerizing:
 
 ```bash
-sudo apt install neovim curl terminator
+sudo apt install neovim curl terminator podman
 ```
+
+- Minimum set for using system's built-in Python useful:
 
 ```bash
 sudo apt install python3-pip python3-venv
 ```
+
+- Install [Julia](https://julialang.org/downloads/) programming language:
+
+```bash
+curl -fsSL https://install.julialang.org | sh
+```
+
+- Install the whole of TeXLive:
+
+```bash
+sudo apt install texlive-full
+```
+
+- For containers (`podman`, `apptainer`), consider checking [this page](../containers/README.md).
 
 ## Personal configuration
 
@@ -97,7 +115,7 @@ XDG_VIDEOS_DIR="$HOME/"
 ```
 
 4. Download `.deb` packages of Edge, Obsidian and Zettlr.
-5. Add user applications folder:
+5. Add user applications folder to `.bashrc`:
 
 ```bash
 function add_extra_path() {
@@ -110,5 +128,22 @@ function add_extra_path() {
 	fi
 
 	unset extrapath
+}
+```
+
+6. Other `.bashrc` customization:
+
+```bash
+function build_image() {
+    podman build -t $1 -f $2 .
+}
+
+function run_container() {
+    podman run -it $1 /bin/bash
+}
+
+function openfoam12() {
+	FOAM_NAME=$HOME/Applications/openfoam12-rockylinux9
+	apptainer run --cleanenv --env-file ${FOAM}.env ${FOAM}.sif
 }
 ```
