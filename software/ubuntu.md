@@ -1,5 +1,7 @@
 # Fresh Ubuntu
 
+This document provides the basic steps to setup a working Ubuntu system for scientific computing. It includes the general setup and customization steps. For more on #linux, please visit the dedicated [page](linux.md).
+
 ## Getting started
 
 First of all, become a password-less *sudoer*, run `sudo visudo` by adding the following lines to the end of the file (by replacing `walter` by your own user name):
@@ -21,6 +23,36 @@ Install a temperature monitor cause scientific computing can burn:
 sudo apt install lm-sensors xfce4-sensors-plugin
 ```
 
+## Mount a NTFS drive
+
+Add permanent mount points to external (NTFS) drives; use this section with care because this evolves between different versions of the packages. Tested and validated under Xubuntu 24.04.
+
+```bash
+# Install the required packages:
+sudo apt install ntfs-3g
+
+# Identify the disk to be mounted:
+sudo parted -l
+
+# Identify the UUID of the disk:
+ls -alt /dev/disk/by-uuid/
+
+# Test if mounting works:
+sudo mount -t ntfs3 /dev/<drive> /home/<mountpoint>/
+
+# Open fstab for edition:
+sudo vim /etc/fstab
+
+# Add a single line with the following:
+# /dev/disk/by-uuid/<UUID> /home/<mountpoint>/ ntfs  defaults,uid=1000,gid=1000,umask=0022 0 0
+
+# Check fstab for errors:
+sudo findmnt --verify
+
+# Maybe 
+sudo systemctl daemon-reload
+```
+
 ## Version control
 
 Install `git` (and `gh` if using GitHub) and configure credentials:
@@ -40,7 +72,7 @@ gh auth login
 Install a good editor such as [Zed](https://zed.dev/download).
 
 ```bash
-sudo apt install curl terminator
+sudo apt install neovim curl terminator
 ```
 
 ```bash
@@ -70,13 +102,13 @@ XDG_VIDEOS_DIR="$HOME/"
 ```bash
 function add_extra_path() {
 	export PATH=$HOME/.local/bin:$PATH
-	
+
 	if [ -d ~/Applications ]; then
 	    for extrapath in ~/Applications/*; do
 	        PATH="$extrapath:$PATH"
 	    done
 	fi
-	
+
 	unset extrapath
 }
 ```
