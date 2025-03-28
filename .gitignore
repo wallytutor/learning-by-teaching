@@ -6,6 +6,9 @@
 .virtual_documents/
 *.ipynb
 
+# CondaPkg
+.CondaPkg/
+
 # Generated PDF files
 outputs/*.pdf
 
