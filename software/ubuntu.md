@@ -74,7 +74,7 @@ gh auth login
 - Minimum set for editing, retrieving data, and containerizing:
 
 ```bash
-sudo apt install neovim curl terminator podman
+sudo apt install btop neovim curl terminator podman
 ```
 
 - Minimum set for using system's built-in Python useful:
