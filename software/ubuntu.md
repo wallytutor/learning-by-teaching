@@ -23,12 +23,16 @@ sudo apt install lm-sensors xfce4-sensors-plugin
 
 ## Version control
 
-Install `git` and configure credentials:
+Install `git` (and `gh` if using GitHub) and configure credentials:
 
 ```bash
-sudo apt install git
+sudo apt install git gh
+
 git config --global user.email "walter.dalmazsilva@gmail.com"
 git config --global user.name "Walter Dal'Maz Silva"
+
+# (optional)
+gh auth login
 ```
 
 ## Scientific computing
