@@ -77,116 +77,15 @@ Generally, when dealing with chemical species, one writes the equations in terms
 - [Arbitrary reaction orders](https://cantera.org/stable/reference/kinetics/reaction-rates.html#reaction-orders)
 
 ```python
-import cantera as ct
-import numpy as np
-import matplotlib.pyplot as plt
+%matplotlib agg
+from graf_simulation import GrafSimulation
 ```
 
 ```python
-class GrafSimulation:
-    """ Simulate single reactor with Graf's mechanism. """
-    def __init__(self, T, P, f, verbose=True):
-        gas = ct.Solution("graf.yaml")
-        gas.TPX = T, P, self._acetylene_mixture(f)
-        
-        reactor = ct.IdealGasConstPressureReactor(gas)
-        reactor.energy_enabled = False
-        
-        simulation = ct.ReactorNet([reactor])
-        simulation.verbose = verbose
-    
-        states = ct.SolutionArray(gas, extra=["t"])
-        
-        self._reactor = reactor
-        self._simulation = simulation
-        self._states = states
+simulation = GrafSimulation(T = 1173.0, P = 5000.0, f = 0.36, verbose=False)
+states = simulation.run(tout = 1.4, nsteps = 100)
 
-        self._feed_state()
-
-    def _acetylene_mixture(self, f):
-        """ Simulate single reactor with Graf's mechanism. """
-        X = {"C2H2": 0.98 * f, "CH4": 0.002 * f}
-        X["N2"] = 1.0 - sum(X.values())
-        return X
-
-    def _feed_state(self):
-        """ Feed solution state to solution array. """
-        state = self._reactor.thermo.state
-        self._states.append(state, t=self._simulation.time)
-
-    def run(self, tout, nsteps, ttol=1.0e-07):
-        """ Simulate system until `tout` seconds in `nsteps` steps. """
-        times = np.linspace(0, tout, nsteps)
-
-        for tend in times[1:]:
-            if self._simulation.time > tend:
-                raise RuntimeError("Simulation time greater than exit time...")
-                
-            self._simulation.advance(tend)
-            self._feed_state()
-                
-            if abs(tend - self._simulation.time) > ttol:
-                raise RuntimeError("Unable to reach exit time during advance...")
-
-        return self._states
-```
-
-```python
-def plot_simulation(states):
-    """ Displays model solution over time. """
-    # Same indexing as Octave
-    t = states.t
-    y1 = states.C2H2
-    y2 = states.H2
-    y3 = states.C2H4
-    y4 = states.CH4
-    y5 = states.C4H4
-    y6 = states.C6H6
-    y7 = states.C
-
-    plt.close("all")
-    plt.ioff()
-
-    fig, ax = plt.subplots(2, 2, figsize=(10, 8))
-    ax = np.ravel(ax)
-    
-    def set_subplot(ax, ymin=0.0):
-        ax.grid(linestyle=":")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Mass fraction")
-        ax.legend(loc="best")
-        ax.set_xlim(0, t[-1])
-        ax.set_ylim(ymin, None)
-    
-    ax[0].plot(t, y1, c="b", label="$C_2H_2$")
-    ax[1].plot(t, y2, c="b", label="$H_2$")
-    ax[1].plot(t, y7, c="r", label="$C_s$")
-    ax[2].plot(t, y3, c="b", label="$C_2H_4$")
-    ax[2].plot(t, y4, c="r", label="$CH_4$")
-    ax[3].plot(t, y5, c="b", label="$C_4H_4$")
-    ax[3].plot(t, y6, c="r", label="$C_6H_6$")
-    
-    set_subplot(ax[0], ymin=0.24)
-    set_subplot(ax[1])
-    set_subplot(ax[2])
-    set_subplot(ax[3])
-    
-    fig.tight_layout()
-    return fig, ax
-```
-
-```python
-tout = 1.4
-nsteps = 100
-
-T = 1173.0
-P = 5000.0
-f = 0.36
-
-simulation = GrafSimulation(T, P, f, verbose=False)
-states = simulation.run(tout, nsteps)
-
-fig, ax = plot_simulation(states)
+fig, ax = simulation.plot()
 fig.savefig("graf_plot_cantera.png", dpi=300)
 ```
 

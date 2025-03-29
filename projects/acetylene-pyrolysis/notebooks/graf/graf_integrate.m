@@ -1,9 +1,8 @@
 function [h, sol] = graf_integrate(T, P, Y, tout, nsteps, saveas)
     % Integrate kinetics over time and display results.
-    R = 8.314472;              % Gas constant (J/mol/K)
 
     % Create anonymous function.
-    f =  @(Y, t) graf_kinetics(Y, t, P, R * T);
+    f =  @(Y, t) graf_kinetics(Y, t, T, P);
 
     t = linspace(0, tout, nsteps);
     lsode_options('integration method', 'stiff');
