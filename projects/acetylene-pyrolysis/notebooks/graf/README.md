@@ -33,13 +33,7 @@ In this study we will perform the integration of a simplified chemical mechanism
     <td>$CH_4 + CH_4 \rightarrow C_2H_2 + 3 H_2$</td>
     <td style="text-align: center;">8.6e+06</td>
     <td style="text-align: center;">1.9500e+05</td>
-    <td>$r_{4}=k_{4}(T)[CH_4]^0.21$</td>
-  </tr>
-  <tr>
-    <td>$C_2H_2 \rightarrow 2 C(s) + H_2$</td>
-    <td style="text-align: center;">5.5e+06</td>
-    <td style="text-align: center;">1.6500e+05</td>
-    <td>$r_{5}=k_{5}(T)\dfrac{[C_2H_2]^{1.90}}{1+18[H_2]}$</td>
+    <td>$r_{4}=k_{4}(T)[CH_4]^{0.21}$</td>
   </tr>
   <tr>
     <td>$C_2H_2 + C_2H_2 \rightarrow C_4H_4$</td>
@@ -58,6 +52,12 @@ In this study we will perform the integration of a simplified chemical mechanism
     <td style="text-align: center;">1.8e+03</td>
     <td style="text-align: center;">6.4500e+04</td>
     <td>$r_{8}=k_{8}(T)[C_2H_2]^{1.30}[C_4H_4]^{0.60}$</td>
+  </tr>
+  <tr>
+    <td>$C_2H_2 \rightarrow 2 C(s) + H_2$</td>
+    <td style="text-align: center;">5.5e+06</td>
+    <td style="text-align: center;">1.6500e+05</td>
+    <td>$r_{5}=k_{5}(T)\dfrac{[C_2H_2]^{1.90}}{1+18[H_2]}$</td>
   </tr>
   <tr>
     <td>$C_6H_6 \rightarrow 6 C(s) + 3 H_2$</td>
