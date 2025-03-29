@@ -3,11 +3,13 @@ import cantera as ct
 import numpy as np
 import matplotlib.pyplot as plt
 
+ct.add_directory("../../../../references/kinetics/graf_2007_global")
+
 
 class GrafSimulation:
     """ Simulate single reactor with Graf's mechanism. """
     def __init__(self, *, T, P, f, verbose=True):
-        gas = ct.Solution("graf.yaml")
+        gas = ct.Solution("graf-2007.yaml")
         gas.TPX = T, P, self._acetylene_mixture(f)
 
         reactor = ct.IdealGasConstPressureReactor(gas)

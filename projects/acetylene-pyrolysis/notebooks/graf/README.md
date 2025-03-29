@@ -79,6 +79,7 @@ Generally, when dealing with chemical species, one writes the equations in terms
 ```python
 %matplotlib agg
 from graf_simulation import GrafSimulation
+import cantera as ct
 ```
 
 ```python
