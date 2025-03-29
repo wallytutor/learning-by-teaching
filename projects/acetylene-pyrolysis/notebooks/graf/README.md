@@ -63,7 +63,7 @@ In this study we will perform the integration of a simplified chemical mechanism
     <td>$C_6H_6 \rightarrow 6 C(s) + 3 H_2$</td>
     <td style="text-align: center;">1.0e+03</td>
     <td style="text-align: center;">7.5000e+04</td>
-    <td>$r_{9}=k_{9}(T)\dfrac{[C_2H_2]^{0.75}}{1+22[H_2]}$</td>
+    <td>$r_{9}=k_{9}(T)\dfrac{[C_6H_6]^{0.75}}{1+22[H_2]}$</td>
   </tr>
 </table>
 
@@ -71,4 +71,130 @@ In this study we will perform the integration of a simplified chemical mechanism
 Generally, when dealing with chemical species, one writes the equations in terms of mass fractions. This is useful (and in many other applications) to easily evaluate mass balance. Rate equations are provided above are computed with concentrations, so if integrating mass fraction rates one must perform the conversion inside the rate expression, as provided below. The rate of generation/consumption of each species is given by the weighted sum of the rates of each equation where it appears multiplied by its stoichiometric coefficient in this reaction. For providing a general formulation, this is generally done with a matrix of stoichiometric coefficients often called $\nu$ (the Greek letter *nu*), where negative signs represent reacting species that are consumed and positive signs the generated products. Function `graf_kinetics` implements the species rates for this system as described above. Notice that for the porter gas $N_2$ that does not participate in reactions, we compute its rate as the balance of the other species, ensuring mass conservation in the system. You are invited to remove this balance and study the effect of integrating without it for different numerical tolerances: mass conservation, *i.e.* $\sum{}Y=1$, may diverge from unit depending on integration conditions.
 
 
+## Cantera implementation
+
+- [Chemically activated reactions](https://cantera.org/stable/reference/kinetics/rate-constants.html#chemically-activated-reactions)
+- [Arbitrary reaction orders](https://cantera.org/stable/reference/kinetics/reaction-rates.html#reaction-orders)
+
+```python
+import cantera as ct
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+```python
+class GrafSimulation:
+    """ Simulate single reactor with Graf's mechanism. """
+    def __init__(self, T, P, f, verbose=True):
+        gas = ct.Solution("graf.yaml")
+        gas.TPX = T, P, self._acetylene_mixture(f)
+        
+        reactor = ct.IdealGasConstPressureReactor(gas)
+        reactor.energy_enabled = False
+        
+        simulation = ct.ReactorNet([reactor])
+        simulation.verbose = verbose
+    
+        states = ct.SolutionArray(gas, extra=["t"])
+        
+        self._reactor = reactor
+        self._simulation = simulation
+        self._states = states
+
+        self._feed_state()
+
+    def _acetylene_mixture(self, f):
+        """ Simulate single reactor with Graf's mechanism. """
+        X = {"C2H2": 0.98 * f, "CH4": 0.002 * f}
+        X["N2"] = 1.0 - sum(X.values())
+        return X
+
+    def _feed_state(self):
+        """ Feed solution state to solution array. """
+        state = self._reactor.thermo.state
+        self._states.append(state, t=self._simulation.time)
+
+    def run(self, tout, nsteps, ttol=1.0e-07):
+        """ Simulate system until `tout` seconds in `nsteps` steps. """
+        times = np.linspace(0, tout, nsteps)
+
+        for tend in times[1:]:
+            if self._simulation.time > tend:
+                raise RuntimeError("Simulation time greater than exit time...")
+                
+            self._simulation.advance(tend)
+            self._feed_state()
+                
+            if abs(tend - self._simulation.time) > ttol:
+                raise RuntimeError("Unable to reach exit time during advance...")
+
+        return self._states
+```
+
+```python
+def plot_simulation(states):
+    """ Displays model solution over time. """
+    # Same indexing as Octave
+    t = states.t
+    y1 = states.C2H2
+    y2 = states.H2
+    y3 = states.C2H4
+    y4 = states.CH4
+    y5 = states.C4H4
+    y6 = states.C6H6
+    y7 = states.C
+
+    plt.close("all")
+    plt.ioff()
+
+    fig, ax = plt.subplots(2, 2, figsize=(10, 8))
+    ax = np.ravel(ax)
+    
+    def set_subplot(ax, ymin=0.0):
+        ax.grid(linestyle=":")
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Mass fraction")
+        ax.legend(loc="best")
+        ax.set_xlim(0, t[-1])
+        ax.set_ylim(ymin, None)
+    
+    ax[0].plot(t, y1, c="b", label="$C_2H_2$")
+    ax[1].plot(t, y2, c="b", label="$H_2$")
+    ax[1].plot(t, y7, c="r", label="$C_s$")
+    ax[2].plot(t, y3, c="b", label="$C_2H_4$")
+    ax[2].plot(t, y4, c="r", label="$CH_4$")
+    ax[3].plot(t, y5, c="b", label="$C_4H_4$")
+    ax[3].plot(t, y6, c="r", label="$C_6H_6$")
+    
+    set_subplot(ax[0], ymin=0.24)
+    set_subplot(ax[1])
+    set_subplot(ax[2])
+    set_subplot(ax[3])
+    
+    fig.tight_layout()
+    return fig, ax
+```
+
+```python
+tout = 1.4
+nsteps = 100
+
+T = 1173.0
+P = 5000.0
+f = 0.36
+
+simulation = GrafSimulation(T, P, f, verbose=False)
+states = simulation.run(tout, nsteps)
+
+fig, ax = plot_simulation(states)
+fig.savefig("graf_plot_cantera.png", dpi=300)
+```
+
+![Reference scenario](graf_plot_cantera.png)
+
+
+## Octave implementation
+
 To run the integrator from an Octave terminal active at this level, call/modify `graf_main`.
+
+![Reference scenario](graf_plot_octave.png)

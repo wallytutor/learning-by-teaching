@@ -1,4 +1,4 @@
-function h = graf_plot(t, Y)
+function h = graf_plot(t, Y, saveas)
     % Display solution of kinetics integration in a standard way.
     h = figure();
 
@@ -7,7 +7,7 @@ function h = graf_plot(t, Y)
     grid();
     set(gca, 'GridLineStyle', ':');
     xlabel("Time (s)");
-    ylabel("Mole fraction");
+    ylabel("Mass fraction");
     l = legend("C_2H_2  ");
     set(l, 'location', 'northeast');
 
@@ -16,7 +16,7 @@ function h = graf_plot(t, Y)
     grid();
     set(gca, 'GridLineStyle', ':');
     xlabel("Time (s)");
-    ylabel("Mole fraction");
+    ylabel("Mass fraction");
     l = legend({"H_2  ", "C_s  "});
     set(l, 'location', 'northwest');
 
@@ -25,7 +25,7 @@ function h = graf_plot(t, Y)
     grid();
     set(gca, 'GridLineStyle', ':');
     xlabel("Time (s)");
-    ylabel("Mole fraction");
+    ylabel("Mass fraction");
     l = legend({"C_2H_4  ", "CH_4 "});
     set(l, 'location', 'northwest');
 
@@ -34,7 +34,9 @@ function h = graf_plot(t, Y)
     grid();
     set(gca, 'GridLineStyle', ':');
     xlabel("Time (s)");
-    ylabel("Mole fraction");
+    ylabel("Mass fraction");
     l = legend({"C_4H_4  ", "C_6H_6  "});
     set(l, 'location', 'northwest');
+
+    print(saveas, '-dpng', '-r300');
 endfunction

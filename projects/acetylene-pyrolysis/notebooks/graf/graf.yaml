@@ -276,19 +276,56 @@ species:
 reactions:
   # Pair 1
   - equation: C2H2 + H2 => C2H4
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    orders: {C2H2: 1.0, H2: 0.36}
+    rate-constant: {A: 4.4e+03, b: 0.0, Ea: 103.0}
+    
   - equation: C2H4 => C2H2 + H2
-
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    orders: {C2H4: 0.5}
+    rate-constant: {A: 3.8e+07, b: 0.0, Ea: 200.0}
+    
   # Pair 2
   - equation: C2H2 + 3 H2 => 2 CH4
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    orders: {C2H2: 0.35, H2: 0.22}
+    rate-constant: {A: 1.4e+05, b: 0.0, Ea: 150.0}
+  
   - equation: 2 CH4 => C2H2 + 3 H2
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    orders: {CH4: 0.21}
+    rate-constant: {A: 8.6e+06, b: 0.0, Ea: 195.0}
 
   # Pair 3
   - equation: 2 C2H2 => C4H4
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    orders: {C2H2: 1.6}
+    rate-constant: {A: 1.2e+05, b: 0.0, Ea: 120.7}
+    
   - equation: C4H4 => 2 C2H2
-
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    orders: {C4H4: 0.75}
+    rate-constant: {A: 1.0e+15, b: 0.0, Ea: 335.2}
+    
   # Irreversible
   - equation: C2H2 + C4H4 => C6H6
-
-  # Fall-off
-  - equation: C2H2 => 2 C + H2
-  - equation: C6H6 => 6 C + 3 H2
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    orders: {C2H2: 1.3, C4H4: 0.6}
+    rate-constant: {A: 1.8e+03, b: 0.0, Ea: 64.5}
+    
+  # Chemically-activated: enforce H2 coefficient through the use of
+  # a high pressure ratio with compatible pre-exponential factor.
+  # tested Troe: {A: 1.0, T3: 1.0, T1: 1.0e+09} -> F ~ 1, no effect!
+  - equation: C2H2 (+ H2) => 2 C + H2 (+ H2)
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    type: chemically-activated
+    orders: {C2H2: 1.9}
+    high-P-rate-constant: [305555.55555555556, 0.0, 165.0]
+    low-P-rate-constant: [5.5e+06, 0.0, 165.0]
+    
+  - equation: C6H6 (+ H2) => 6 C + 3 H2 (+ H2)
+    units: {length: m, time: s, quantity: mol, activation-energy: kJ/mol}
+    type: chemically-activated
+    orders: {C6H6: 0.75}
+    high-P-rate-constant: [45.45454545454545, 0.0, 75.0]
+    low-P-rate-constant: [1.0e+03, 0.0, 75.0]
