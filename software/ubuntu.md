@@ -83,22 +83,28 @@ sudo apt install btop neovim curl terminator podman
 sudo apt install python3-pip python3-venv
 ```
 
+- Install Octave programming language:
+
+```bash
+sudo apt install octave
+```
+
 - Install [Julia](https://julialang.org/downloads/) programming language:
 
 ```bash
 curl -fsSL https://install.julialang.org | sh
 ```
 
-Install [Rust](https://www.rust-lang.org/tools/install) programming language:
+- Install [Rust](https://www.rust-lang.org/tools/install) programming language:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-- Install the whole of TeXLive:
+- Install the whole of TeXLive and pandoc:
 
 ```bash
-sudo apt install texlive-full
+sudo apt install texlive-full pandoc
 ```
 
 - For containers (`podman`, `apptainer`), consider checking [this page](../containers/README.md).
@@ -121,8 +127,14 @@ XDG_VIDEOS_DIR="$HOME/"
 ```
 
 4. Download `.deb` packages of Edge, Chrome, Obsidian and Zettlr.
-5. Once Edge and/or Chrome is available, `sudo apt remove snapd`..
-6. Add user applications folder to `.bashrc`:
+5. Once Edge and/or Chrome is available, `sudo apt remove snapd`.
+6. Productivity tools I use in graphical environments:
+
+```bash
+sudo apt install texstudio jabref
+```
+
+7. Add user applications folder to `.bashrc`:
 
 ```bash
 function extra_sources() {
@@ -145,7 +157,7 @@ extra_sources
 extra_paths
 ```
 
-7. Other `.bashrc` customization:
+8. Other `.bashrc` customization:
 
 ```bash
 function build_image() {
