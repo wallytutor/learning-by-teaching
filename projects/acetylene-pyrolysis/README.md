@@ -21,6 +21,14 @@ The kinetics mechanisms used in this study are provided in different formats at:
 
 Everything should be fine by here to manage the project through the notebook.
 
+
+## Summary of actions
+
+- [x] Add Graf (2007) as a baseline comparison to paper: the mechanism was implemented in Octave for verification of the setup of a Cantera mechanims (using chemically-activated reactions to reach the desired description); results were satisfactory and all is summarized in [graf-kinetics-mechanism](notebooks/graf-kinetics-mechanism.md).
+
+- [ ] Convert Graf (2007), Norinaga (2009), and own mechanism to OpenFOAM format; test mechanisms predictions for main species using `chemFoam` for verification of proper conversion before moving towards CFD simulations. This is performed in [tests-mechanisms-conversion](notebooks/tests-mechanisms-conversion.md).
+
+
 ```julia
 using CairoMakie
 ```

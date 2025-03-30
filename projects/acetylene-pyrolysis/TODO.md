@@ -1,9 +1,5 @@
 # List of goals
 
-- [ ] Add Graf (2007) as a baseline comparison to paper.
-
-- [ ] Verification of mechanisms with PSR models with Cantera and chemFoam (simulations/chemFoam)
-
 - [ ] Simulation of experimental conditions with a non-isothermal PFR(src/legacy/)
 
 - [ ] Extension to real geometry of reactor with OpenFOAM(simulations/reactingFoam)
