@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from subprocess import run
+from textwrap import dedent
 import cantera as ct
 import numpy as np
 import matplotlib.pyplot as plt
@@ -92,3 +94,30 @@ class GrafSimulation:
 
         fig.tight_layout()
         return fig, ax
+
+
+def make_octave_program(states, saveas="graf_plot_octave"):
+    """ Generate an Octave program with equivalent initial state. """
+    T = states.T[0]
+    P = states.P[0]
+    Y = states.Y[0].tolist()
+    t = states.t[-1]
+    n = states.shape[0]
+
+    code = dedent(f"""\
+        graphics_toolkit("qt");
+        GrafSimulation({T}, {P}, {Y}, {t}, {n}, "{saveas}");
+        """)
+
+    return code
+
+
+def run_octave_program(states, saveas="graf_plot_octave"):
+    """ Manage the code generation and execution of Octave code. """
+    program_file = f"sandbox-{saveas}.m"
+    program_code = make_octave_program(states, saveas=saveas)
+
+    with open(program_file, "w") as fp:
+        fp.write(program_code)
+
+    run(["octave", program_file])

@@ -79,6 +79,7 @@ Generally, when dealing with chemical species, one writes the equations in terms
 ```python
 %matplotlib agg
 from graf_simulation import GrafSimulation
+from graf_simulation import run_octave_program
 import cantera as ct
 ```
 
@@ -95,6 +96,10 @@ fig.savefig("graf_plot_cantera.png", dpi=300)
 
 ## Octave implementation
 
-To run the integrator from an Octave terminal active at this level, call/modify `graf_main`.
+Belowe we run the Octave simulation manager with the same initial conditions as the above Cantera implementation. It will define an integration manager based on [LSODE](https://computing.llnl.gov/casc/nsde/pubs/u113855.pdf) to perform system integration. Notice that several options were set with `lsode_options` and you might want to tweak them in other scenarios. See `GrafSimulation.m` for details.
+
+```python
+run_octave_program(states, saveas="graf_plot_octave")
+```
 
 ![Reference scenario](graf_plot_octave.png)
