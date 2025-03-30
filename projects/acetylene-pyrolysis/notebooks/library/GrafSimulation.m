@@ -6,7 +6,7 @@ classdef GrafSimulation < handle
             obj.t_sol = t_sol;
             obj.Y_sol = Y_sol;
 
-            obj.graf_plot(t_sol, Y_sol, saveas);
+            obj.graf_plot(t_sol, 100 * Y_sol, saveas);
         end % function
     end % methods
 
@@ -37,7 +37,7 @@ classdef GrafSimulation < handle
             grid();
             set(gca, 'GridLineStyle', ':');
             xlabel("Time (s)");
-            ylabel("Mass fraction");
+            ylabel("Mass percentage");
             l = legend("C_2H_2  ");
             set(l, 'location', 'northeast');
 
@@ -46,7 +46,7 @@ classdef GrafSimulation < handle
             grid();
             set(gca, 'GridLineStyle', ':');
             xlabel("Time (s)");
-            ylabel("Mass fraction");
+            ylabel("Mass percentage");
             l = legend({"H_2  ", "C_s  "});
             set(l, 'location', 'northwest');
 
@@ -55,7 +55,7 @@ classdef GrafSimulation < handle
             grid();
             set(gca, 'GridLineStyle', ':');
             xlabel("Time (s)");
-            ylabel("Mass fraction");
+            ylabel("Mass percentage");
             l = legend({"C_2H_4  ", "CH_4 "});
             set(l, 'location', 'northwest');
 
@@ -64,7 +64,7 @@ classdef GrafSimulation < handle
             grid();
             set(gca, 'GridLineStyle', ':');
             xlabel("Time (s)");
-            ylabel("Mass fraction");
+            ylabel("Mass percentage");
             l = legend({"C_4H_4  ", "C_6H_6  "});
             set(l, 'location', 'northwest');
 

@@ -78,6 +78,9 @@ Generally, when dealing with chemical species, one writes the equations in terms
 
 ```python
 %matplotlib agg
+import sys
+sys.path.insert(0, "library")
+
 from graf_simulation import GrafSimulation
 from graf_simulation import run_octave_program
 import cantera as ct
@@ -88,10 +91,14 @@ simulation = GrafSimulation(T = 1173.0, P = 5000.0, f = 0.36, verbose=False)
 states = simulation.run(tout = 1.4, nsteps = 100)
 
 fig, ax = simulation.plot()
-fig.savefig("graf_plot_cantera.png", dpi=300)
+ax[0].set_ylim(24, 34)
+ax[1].set_ylim(0, 5)
+ax[2].set_ylim(0, 0.45)
+ax[3].set_ylim(0, 2.5)
+fig.savefig("media/graf_plot_cantera.png", dpi=300)
 ```
 
-![Reference scenario](graf_plot_cantera.png)
+![Reference scenario](media/graf_plot_cantera.png)
 
 
 ## Octave implementation
@@ -99,7 +106,7 @@ fig.savefig("graf_plot_cantera.png", dpi=300)
 Belowe we run the Octave simulation manager with the same initial conditions as the above Cantera implementation. It will define an integration manager based on [LSODE](https://computing.llnl.gov/casc/nsde/pubs/u113855.pdf) to perform system integration. Notice that several options were set with `lsode_options` and you might want to tweak them in other scenarios. See `GrafSimulation.m` for details.
 
 ```python
-run_octave_program(states, saveas="graf_plot_octave")
+run_octave_program(states, saveas="media/graf_plot_octave")
 ```
 
-![Reference scenario](graf_plot_octave.png)
+![Reference scenario](media/graf_plot_octave.png)

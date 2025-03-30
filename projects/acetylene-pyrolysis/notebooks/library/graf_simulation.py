@@ -1,16 +1,25 @@
 # -*- coding: utf-8 -*-
+from pathlib import Path
+from tempfile import NamedTemporaryFile
 from subprocess import run
 from textwrap import dedent
 import cantera as ct
 import numpy as np
 import matplotlib.pyplot as plt
 
-ct.add_directory("../../../../references/kinetics/graf_2007_global")
+
+def add_directory():
+    """ Add path at repository root to Cantera path. """
+    here = Path(__file__).resolve().parent
+    ctdir =  here / "../../../../references/kinetics/graf_2007_global"
+    ct.add_directory(ctdir)
 
 
 class GrafSimulation:
     """ Simulate single reactor with Graf's mechanism. """
     def __init__(self, *, T, P, f, verbose=True):
+        add_directory()
+
         gas = ct.Solution("graf-2007.yaml")
         gas.TPX = T, P, self._acetylene_mixture(f)
 
@@ -59,13 +68,13 @@ class GrafSimulation:
         """ Displays model solution over time. """
         # Same indexing as Octave
         t  = self._states.t
-        y1 = self._states.C2H2
-        y2 = self._states.H2
-        y3 = self._states.C2H4
-        y4 = self._states.CH4
-        y5 = self._states.C4H4
-        y6 = self._states.C6H6
-        y7 = self._states.C
+        y1 = 100 * self._states.C2H2
+        y2 = 100 * self._states.H2
+        y3 = 100 * self._states.C2H4
+        y4 = 100 * self._states.CH4
+        y5 = 100 * self._states.C4H4
+        y6 = 100 * self._states.C6H6
+        y7 = 100 * self._states.C
 
         plt.close("all")
         fig, ax = plt.subplots(2, 2, figsize=(10, 8))
@@ -74,7 +83,7 @@ class GrafSimulation:
         def set_subplot(ax, ymin=0.0):
             ax.grid(linestyle=":")
             ax.set_xlabel("Time (s)")
-            ax.set_ylabel("Mass fraction")
+            ax.set_ylabel("Mass percentage")
             ax.legend(loc="best")
             ax.set_xlim(0, t[-1])
             ax.set_ylim(ymin, None)
@@ -87,7 +96,7 @@ class GrafSimulation:
         ax[3].plot(t, y5, c="b", label="$C_4H_4$")
         ax[3].plot(t, y6, c="r", label="$C_6H_6$")
 
-        set_subplot(ax[0], ymin=0.24)
+        set_subplot(ax[0])
         set_subplot(ax[1])
         set_subplot(ax[2])
         set_subplot(ax[3])
@@ -104,7 +113,10 @@ def make_octave_program(states, saveas="graf_plot_octave"):
     t = states.t[-1]
     n = states.shape[0]
 
+    library = Path(__file__).resolve().parent
+
     code = dedent(f"""\
+        addpath("{library}");
         graphics_toolkit("qt");
         GrafSimulation({T}, {P}, {Y}, {t}, {n}, "{saveas}");
         """)
@@ -114,10 +126,10 @@ def make_octave_program(states, saveas="graf_plot_octave"):
 
 def run_octave_program(states, saveas="graf_plot_octave"):
     """ Manage the code generation and execution of Octave code. """
-    program_file = f"sandbox-{saveas}.m"
     program_code = make_octave_program(states, saveas=saveas)
 
-    with open(program_file, "w") as fp:
-        fp.write(program_code)
+    with NamedTemporaryFile() as program_file:
+        with open(program_file.name, "w") as fp:
+            fp.write(program_code)
 
-    run(["octave", program_file])
+        run(["octave", program_file.name])
