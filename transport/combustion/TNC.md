@@ -22,6 +22,7 @@ Study notes from the book by [@Poinsot2022TNC] and complementary information fro
 - [Adiabatic flame temperature](https://elearning.cerfacs.fr/combustion/n7masterCourses/adiabaticflametemperature/index.php)
 - [Conservation equations - part 1](https://elearning.cerfacs.fr/combustion/n7masterCourses/conservationequations/index.php)
 - [Conservation equations - part 2](https://elearning.cerfacs.fr/combustion/n7masterCourses/conservationequationsP2/index.php)
+- Appendices of [@Williams1985]
 
 ## Chapter 2
 
@@ -41,4 +42,6 @@ Study notes from the book by [@Poinsot2022TNC] and complementary information fro
 
 ## Chapter 10
 
+## Going further
 
+- [@Hirschfelder1969]
