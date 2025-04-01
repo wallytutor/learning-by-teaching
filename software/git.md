@@ -4,6 +4,17 @@
 
 - [TortoiseGIT](https://tortoisegit.org/): for Windows users, this applications add the possibility of managing version control and other features directly from the file explorer.
 
+## Creating gh-pages branch
+
+To create a GitHub pages branch with no history do the following
+
+```bash
+git checkout --orphan gh-pages
+git reset --hard
+git commit --allow-empty -m "fresh and empty gh-pages branch"
+git push origin gh-pages
+```
+
 ## Adding submodules
 
 Generally speaking adding a submodule to a repository should be a simple matter of
