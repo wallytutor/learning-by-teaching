@@ -49,6 +49,55 @@ where by definition the sensible contribution at $T=T_\circ$ is zero. The table 
 | Sensible (mixture)   | $e_s=\int_{T_\circ}^{T}C_{v}dT - RT_\circ/W$         | $h_{s}=\int_{T_\circ}^{T}C_{p}dT$     |
 | Total (mixture)      | $e = \sum_{k}^{N_{spec}}e_{k}Y_{k}$                  | $h = \sum_{k}^{N_{spec}}h_{k}Y_{k}$   |
 | Total (non-chemical) | $E = e_{s} + \frac{1}{2}u_iu_i$                      | $H = h_{s} + \frac{1}{2}u_iu_i$       |
+The viscous and pressure tensors are given by
+
+$$
+\tau_{ij} =
+-2\mu\frac{\partial{}u_k}{\partial{}x_k}\delta_{ij}
++\mu\left(
+    \frac{\partial{}u_i}{\partial{}x_j}
+    +\frac{\partial{}u_j}{\partial{}x_i}
+\right)
+\quad{},\quad
+p_{ij}=-p\delta_{ij}
+\quad\text{and}\quad
+\sigma_{ij}=\tau_{ij}+p_{ij}
+$$
+
+Important dimensionless numbers in combustion include [Lewis](https://en.wikipedia.org/wiki/Lewis_number) and [Prandtl](https://en.wikipedia.org/wiki/Prandtl_number) numbers. They are often related through the [Schmidt](https://en.wikipedia.org/wiki/Schmidt_number) number.
+
+$$
+\mathcal{Le}_k=\frac{\alpha}{D_k}=\frac{\lambda}{\rho{}C_pD_k}
+\quad\text{and}\quad
+\mathcal{Pr}=\frac{\nu}{\alpha}=\frac{\mu{}C_p}{\lambda}
+\quad\text{and}\quad
+\mathcal{Sc}_k=\frac{\nu}{D_k}=\mathcal{Pr}\mathcal{Le}_k
+$$
+
+Notice that the above definition of Lewis number is already simplified, as one takes the mixture averaged diffusion coefficient $D_k$ of a species; this is done by most diffusion codes as solving full-multicomponent diffusion is a problem in itself. This fallback to Fick's law will be further discussed in what follows. This number is important in laminar flames, as it compares the diffusion speeds of heat and species. It can be shown to be roughly constant through kinetic theory analysis.
+
+For the chemical source terms, often one adopts a mass action kinetics approach; through elemental mass balance in individual equations and different formalisms for representation of reaction rates the rates of progress of a given species can be computed. The most popular kinetics rate representation formalism is expressed as Arrhenius rate laws; among the formats, kinetic mechanisms are often stored in CHEMKIN format. Because of the broad range of activation energies appearing in Arrhenius expressions, kinetic mechanisms are often stiff, what imply time-steps and meshes in reacting flows that are much smaller/finer than the pure fluid dynamics counterparts.
+
+| Quantity             | Domain           | Definition                                                                    |
+| -------------------- | ---------------- | ----------------------------------------------------------------------------- |
+| Stoichiometric ratio | Any              | $s = \left(\dfrac{Y_O}{Y_F}\right)_{st}=\dfrac{v^\prime_OW_O}{v^\prime_FW_F}$ |
+| Equivalence ratio    | Premixed flames  | $\phi=s\dfrac{Y_F}{Y_O}=s\dfrac{\dot{m}_F}{\dot{m}_O}$                        |
+| Equivalence ratio    | Diffusion flames | $\phi=s\dfrac{Y_F^1}{Y_O^2}$                                                  |
+| Equivalence ratio    | Diffusion flames | $\phi_g=s\dfrac{\dot{m}_F^1}{\dot{m}_O^2}=\phi\dfrac{\dot{m}^1}{\dot{m}^2}$   |
+
+Topics to finish:
+
+- Conservation of momentum
+- Conservation of mass and species
+- Hirschfelder and Curtiss approximation
+- Conservation of energy
+
+### Exercises
+
+- [ ] Derive viscous stress tensor.
+- [ ] Explain the concept of *bulk viscosity*.
+- [ ] Program a full multicomponent diffusion program.
+- [ ] Review Soret and Dufour effects.
 
 ### Additional materials for following this chapter:
 
