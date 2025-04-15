@@ -1,7 +1,7 @@
 ---
 title: Packed bed heat storage
 author: Walter Dal'Maz Silva
-date: \today
+date: April 15th 2025
 bibliography: ../references/references.bib
 ---
 
