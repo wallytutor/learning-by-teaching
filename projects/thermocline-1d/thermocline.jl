@@ -13,6 +13,12 @@ using VoronoiFVM
 # ╔═╡ a6fe7e2d-8353-4ccb-a635-1c127c57268d
 using OrdinaryDiffEqBDF
 
+# ╔═╡ 7825344f-4e20-4cfb-8bf6-81d067cd0e05
+using OrdinaryDiffEqRosenbrock
+
+# ╔═╡ 35f546bf-5054-4964-9a60-64b86e3aedc5
+using OrdinaryDiffEqSDIRK
+
 # ╔═╡ 6afd101f-c029-488a-a732-a3131ded5126
 using ExtendableGrids
 
@@ -26,17 +32,23 @@ using GridVisualize
 md"""
 ```math
 \begin{aligned}
-\frac{\partial{}T_s}{\partial{}t}&=%
-\frac{q_s}{\rho_s{}c_{s}}+%
-\frac{\partial}{\partial{}x}\left(\frac{k}{\rho_s{}c_{s}}\frac{\partial{}T_s}{\partial{}x}\right)
+\frac{\partial{}T_s}{\partial{}t}+%
+\frac{q_s}{\rho_s{}c_{s}}-%
+\frac{\partial}{\partial{}x}\left(\frac{k}{\rho_s{}c_{s}}\frac{\partial{}T_s}{\partial{}x}\right)&=0
 \\[6pt]
 %
-\frac{\partial{}T_g}{\partial{}t}&=%
+\frac{\partial{}T_g}{\partial{}t}+%
 \frac{q_g}{\rho_g{}c_{g}}+%
-\frac{\partial{}(-u_gT_g)}{\partial{}x}
+u_g\frac{\partial{}T_g}{\partial{}x}&=0
 \end{aligned}
 ```
 """
+
+# ╔═╡ a12421e2-a795-49a7-8821-8f60c4e25747
+begin
+	default_plotter!(CairoMakie)
+	CairoMakie.activate!(type = "png")
+end
 
 # ╔═╡ c85103b8-c322-4fa9-8da8-0c667d1a4e4a
 R = 8.314_462
@@ -60,7 +72,7 @@ begin
 	mg = 0.25
 end;
 
-# ╔═╡ ee903b83-bf57-49b3-9233-20b212fc2f24
+# ╔═╡ 9dceeb74-f371-4243-b121-5c79d6f25042
 begin
 	# XXX: use Maxwell model instead for ks in model!
 	Is = 1.0 / (ρs * cs)
@@ -68,50 +80,55 @@ begin
 	
 	Ag = ϵ * At
 	As = At - Ag
-end;
-
-# ╔═╡ 13a303ca-8836-4a7d-a4c4-2fa1c6e435e4
-ug = mg * R * Tg/ (pg * Wg * Ag)
-
-# ╔═╡ 9dceeb74-f371-4243-b121-5c79d6f25042
-function model_storage(f, u, node, data)
-    f[1] = u[1]
-    f[2] = u[2]
 	
-    return nothing
-end
+	function model_storage(f, u, node, data)
+	    f[1] = u[1]
+	    f[2] = u[2]
+	    return nothing
+	end
 
-# ╔═╡ 75dead58-623e-4af2-8bb9-0e8f3c479b21
-function model_diffusion(f, u, edge, data)
-	ug = mg * R * u[2, 1] / (pg * Wg * Ag)
+	function model_diffusion(f, u, edge, data)
+		# T_si = u[1, 1]
+		# T_sj = u[1, 2]
+		
+		T_gi = u[2, 1]
+		T_gj = u[2, 2]
+		# ρgi = (pg * Wg) / (R * T_gi)
+		# ugi = mg / (ρgi * Ag)
+		ugi = mg * R * T_gi / (pg * Wg * Ag)
+
+		# T_gj = u[2, 2]
+		# ρgj = (pg * Wg) / (R * T_gj)
+		# ugj = mg / (ρgj * Ag)
+		
+		# f[1] = 0.0
+	    f[1] = αs * (u[1, 2] - u[1, 1])
+	    f[2] = -ugi * (T_gj - T_gi)
 	
-    f[1] = 0 #αs * (u[1, 2] - u[1, 1])
-    f[2] = -ug * u[2, 2]
+	    return nothing
+	end
+		
+	function model_reaction(f, u, node, data)
+		Ig = R * u[2] / (pg * Wg * cg)
+		qg = -h * (u[1] - u[2])
+		qs = -qg
+		
+	    f[1] = qs * Is
+	    f[2] = qg * Ig
+		
+	    return nothing
+	end
 
-    return nothing
-end;
-
-# ╔═╡ e6d567ba-eae7-4863-a2d6-473b2073b751
-function model_reaction(f, u, node, data)
-	Ig = R * u[2] / (pg * Wg * cg)
-	q_gs = h * (u[2] - u[1])
-	
-    f[1] =  q_gs * Is
-    f[2] = -q_gs * Ig
-	
-    return nothing
-end;
-
-# ╔═╡ 420d85a7-59ee-4b49-97c5-071e3f0f59aa
-function model_bc(f, u, node, data)
-    boundary_dirichlet!(f, u, node, species = 2, value = Tg)
-    return nothing
+	function model_bc(f, u, node, data)
+		boundary_neumann!(f, u, node, species = 1, value = 0)
+		# boundary_neumann!(f, u, node, species = 2, region = 2, value = 0)
+	    boundary_dirichlet!(f, u, node, species = 2, region = 1, value = Tg)
+	    return nothing
+	end
 end;
 
 # ╔═╡ 033a24da-90de-42f2-8e5a-9693bc06aff7
-function ODESolver(system, inival, solver;
-		tend = 0.1, dt = 1.0e-06, reltol = 1.0e-08
-	)
+function ODESolver(system, inival, solver, tend; dt, reltol)
 	state = VoronoiFVM.SystemState(system)
 	problem = ODEProblem(state, inival, (0, tend))
 	odesol = solve(problem, solver; dt, reltol)
@@ -120,7 +137,8 @@ end
 
 # ╔═╡ c86dbe9e-509a-4b72-98d4-bd6e033c28aa
 begin
-	model_grid = simplexgrid(0:0.01:0.1)
+	tend = 0.03
+	model_grid = simplexgrid(0:0.005:1.0)
 	
 	system = VoronoiFVM.System(model_grid;
 		species   = [1, 2], 
@@ -130,43 +148,43 @@ begin
 		breaction = model_bc
 	)
 	
-	problem = ODEProblem(system, unknowns(system), (0, 0.1))
-
-	solver = QNDF2()
-	solver = FBDF()
+	# solver = QNDF2()
+	# solver = FBDF()
+	# solver = Rosenbrock23()
+	solver = ImplicitEuler()
+	
+	problem = ODEProblem(system, unknowns(system), (0, tend))
 	solve(problem, solver)
 
 	inival = unknowns(system, inival = Ts)
-	# inival[1, 1:end] .= Ts
-	# inival[2, 1:end] .= Ts
+	inival[1, 1:end] .= Ts
+	inival[2, 1:end] .= Ts+1
 end;
 
-# ╔═╡ 073f9a9e-be00-4bf9-9515-750d4822e03e
-t_run = @elapsed model_tsol = ODESolver(system, inival, solver)
-
-# ╔═╡ 5b3e02a0-81a2-46ff-9c07-f96071438cbe
-(t_run = t_run, VoronoiFVM.history_details(model_tsol)...)
-
-# ╔═╡ a12421e2-a795-49a7-8821-8f60c4e25747
-begin
-	default_plotter!(CairoMakie)
-	CairoMakie.activate!(type = "png")
+# ╔═╡ 13a303ca-8836-4a7d-a4c4-2fa1c6e435e4
+let
+	ug = mg * R * Tg / (pg * Wg * Ag)
+	Lg = ug * tend
 end
 
 # ╔═╡ df95fd6b-7921-43e2-a445-d1df4b2ab710
 let
-	model_sol = model_tsol(0.01)
+	tend = 3000.0
+	
+	dt = 1.0e-08
+	reltol = 1.0e-04
+	
+	t_run = @elapsed sol = ODESolver(system, inival, solver, tend; dt, reltol)
+	@info(x="", t_run = t_run, VoronoiFVM.history_details(sol)...)
+	
+	model_sol = sol(tend)
+	limitss = (Ts-1, Ts+10)
+	limitsg = (Ts-100, Tg+100)
 	
 	vis = GridVisualizer(; layout = (1, 2), size = (600, 300))
-	scalarplot!(vis[1, 1], model_grid, model_sol[1, :], show = true)
-	scalarplot!(vis[1, 2], model_grid, model_sol[2, :], show = true)
+	scalarplot!(vis[1, 1], model_grid, model_sol[1, :]; limitss, show = true)
+	scalarplot!(vis[1, 2], model_grid, model_sol[2, :]; limitsg, show = true)
 end
-
-# ╔═╡ 58bd9761-5452-42cf-a876-299caceee88b
-
-
-# ╔═╡ 7747d54c-e693-4954-b84b-a347a8941cf5
-
 
 # ╔═╡ c2659d14-fbd4-40d4-b64c-8e7c9b087eee
 
@@ -241,6 +259,8 @@ DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 ExtendableGrids = "cfc395e8-590f-11e8-1f13-43a2532b2fa8"
 GridVisualize = "5eed8a63-0fb0-45eb-886d-8d5a387d12b8"
 OrdinaryDiffEqBDF = "6ad6398a-0878-4a85-9266-38940aa047c8"
+OrdinaryDiffEqRosenbrock = "43230ef6-c299-4910-a778-202eb28ce4ce"
+OrdinaryDiffEqSDIRK = "2d112036-d095-4a1e-ab9a-08536f3ecdbf"
 VoronoiFVM = "82b139dc-5afc-11e9-35da-9b9bdfd336f3"
 
 [compat]
@@ -249,6 +269,8 @@ DataStructures = "~0.18.22"
 ExtendableGrids = "~1.12.0"
 GridVisualize = "~1.11.0"
 OrdinaryDiffEqBDF = "~1.3.0"
+OrdinaryDiffEqRosenbrock = "~1.8.0"
+OrdinaryDiffEqSDIRK = "~1.3.0"
 VoronoiFVM = "~2.9.1"
 """
 
@@ -258,7 +280,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.3"
 manifest_format = "2.0"
-project_hash = "8c90b13d3bda3eef12ee3108c0b4534e5e0c2b1d"
+project_hash = "7478d6b4eac590879e00a1b3462993713698c752"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "e2478490447631aedba0823d4d7a80b2cc8cdb32"
@@ -1921,6 +1943,12 @@ git-tree-sha1 = "1b89e3e84752a3cbd2c94db565e6ea7acb5279b2"
 uuid = "127b3ac7-2247-4354-8eb6-78cf4e7c58e8"
 version = "1.5.0"
 
+[[deps.OrdinaryDiffEqRosenbrock]]
+deps = ["ADTypes", "DiffEqBase", "FastBroadcast", "FiniteDiff", "ForwardDiff", "LinearAlgebra", "LinearSolve", "MacroTools", "MuladdMacro", "OrdinaryDiffEqCore", "OrdinaryDiffEqDifferentiation", "Polyester", "PrecompileTools", "Preferences", "RecursiveArrayTools", "Reexport", "Static"]
+git-tree-sha1 = "bede3226fd485741e364239e23236e07ace77639"
+uuid = "43230ef6-c299-4910-a778-202eb28ce4ce"
+version = "1.8.0"
+
 [[deps.OrdinaryDiffEqSDIRK]]
 deps = ["ADTypes", "DiffEqBase", "FastBroadcast", "LinearAlgebra", "MacroTools", "MuladdMacro", "OrdinaryDiffEqCore", "OrdinaryDiffEqDifferentiation", "OrdinaryDiffEqNonlinearSolve", "RecursiveArrayTools", "Reexport", "SciMLBase", "TruncatedStacktraces"]
 git-tree-sha1 = "b3a7e3a2f355d837c823b435630f035aef446b45"
@@ -2922,29 +2950,23 @@ version = "3.6.0+0"
 """
 
 # ╔═╡ Cell order:
-# ╟─f56bb170-f599-4e85-9415-c381f319e3ae
+# ╠═f56bb170-f599-4e85-9415-c381f319e3ae
 # ╠═ad8afdde-1adc-11f0-171a-bfbc24876d24
 # ╠═b22460ce-8d40-4389-803d-8caa93648b47
 # ╠═a6fe7e2d-8353-4ccb-a635-1c127c57268d
+# ╠═7825344f-4e20-4cfb-8bf6-81d067cd0e05
+# ╠═35f546bf-5054-4964-9a60-64b86e3aedc5
 # ╠═6afd101f-c029-488a-a732-a3131ded5126
 # ╠═b3fe0fc9-d963-4f8b-84d3-6167aa371b75
 # ╠═0f3dae54-cd2b-4c12-8060-29321ef6363b
+# ╠═a12421e2-a795-49a7-8821-8f60c4e25747
 # ╠═c85103b8-c322-4fa9-8da8-0c667d1a4e4a
 # ╠═947d17f1-c513-4063-a705-5d532a45a8b9
-# ╠═ee903b83-bf57-49b3-9233-20b212fc2f24
-# ╠═13a303ca-8836-4a7d-a4c4-2fa1c6e435e4
 # ╠═9dceeb74-f371-4243-b121-5c79d6f25042
-# ╠═75dead58-623e-4af2-8bb9-0e8f3c479b21
-# ╠═e6d567ba-eae7-4863-a2d6-473b2073b751
-# ╠═420d85a7-59ee-4b49-97c5-071e3f0f59aa
 # ╠═033a24da-90de-42f2-8e5a-9693bc06aff7
 # ╠═c86dbe9e-509a-4b72-98d4-bd6e033c28aa
-# ╠═073f9a9e-be00-4bf9-9515-750d4822e03e
-# ╠═5b3e02a0-81a2-46ff-9c07-f96071438cbe
-# ╠═a12421e2-a795-49a7-8821-8f60c4e25747
+# ╠═13a303ca-8836-4a7d-a4c4-2fa1c6e435e4
 # ╠═df95fd6b-7921-43e2-a445-d1df4b2ab710
-# ╠═58bd9761-5452-42cf-a876-299caceee88b
-# ╠═7747d54c-e693-4954-b84b-a347a8941cf5
 # ╠═c2659d14-fbd4-40d4-b64c-8e7c9b087eee
 # ╠═0ed8180e-1b60-4b83-a173-ba0fcce02221
 # ╟─93c72d1e-a5e4-4e33-80ca-958e5fa49603
