@@ -6,7 +6,7 @@ Nous serons hébergés à [Le Blueberry](https://maps.app.goo.gl/8i8qcnftoQjdhDu
 
 ## Logistique
 
-Les trajets pour aller à Malaucène (arrêt Palivettes) peuvent être consultés à partir le site des transports de la région [Zou!](https://itineraires-zou.maregionsud.fr/fr/itineraire); normalement il y a deux bus par jour mais les horaires ne nous conviennent pas. À la place suivre [cette trace](https://www.komoot.com/tour/2180404783?share_token=aXlhmi9f17fD9kJ7zQEeZO5Ug4usXXISv8xcDe4PMAzRedN5pP&ref=wtd) à vélo.
+Les trajets pour aller à Malaucène (arrêt Palivettes) peuvent être consultés à partir le site des transports de la région [Zou!](https://itineraires-zou.maregionsud.fr/fr/itineraire); normalement il y a deux bus par jour mais les horaires ne nous conviennent pas. À la place suivre [cette trace](https://www.komoot.com/tour/2186399367?ref=aso&share_token=aIY3yVJXDksGtE8zO5Ovo8dsWdCoX62cSHnJoHDeDX8MAW5IP6) à vélo.
 
 Pour aller le jeudi:
 
