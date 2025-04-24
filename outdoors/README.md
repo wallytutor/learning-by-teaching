@@ -17,6 +17,8 @@
 
 - [Partir Ici](https://partir-ici.fr/envies/sport-nature/)
 
+- [SNCF Rhône Alpes - Réservation vélo](https://www.ter.sncf.com/auvergne-rhone-alpes/services-contacts/voyager-avec-velo/embarquement-velo)
+
 ### Vélo de Montagne
 
 - [Sites FFC](https://sitesvtt.ffc.fr/sites/)
