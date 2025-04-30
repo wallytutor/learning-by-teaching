@@ -2,7 +2,7 @@
 
 ## Jeudi 8 - Guarys B-day
 
-- Arrivée dans la matinée, déjeuner en ville, Lo Guaru a bien aimé le [Restaurant Calendal](https://maps.app.goo.gl/dGB1biC4Sxzy2mri6) parce qu'il n'est pas un de ces piège touriste de la plage.
+- Arrivée dans la matinée, déjeuner en ville, Lo Guaru a bien aimé le [Restaurant Calendal](https://maps.app.goo.gl/dGB1biC4Sxzy2mri6) parce qu'il n'est pas un de ces piège touriste de la plage ; update *réservation faite pour 13h / 5 personnes*.
 
 - Après midi possibilité d'aller jusqu'à [Port Pin](https://maps.app.goo.gl/KbvS7Hwp3NFt57n87) comme c'est pas trop loin et passer le reste de la journée là-bas ; s'il n'y a pas trop de vent on prendra le paddle et on fait des tours.
 
@@ -10,7 +10,7 @@
 
 - Pour le diner c'est un peu compliqué à Cassis, voici quelques propositions :
 
-    - [Poissonerie Laurent](https://maps.app.goo.gl/SJzs6xWwc2ed6Tff9) on a déjà eu de bonnes et mauvaises expériences.
+    - [Poissonerie Laurent](https://maps.app.goo.gl/SJzs6xWwc2ed6Tff9) on a déjà eu de bonnes et mauvaises expériences ; update *réservation faite pour 21h / 6 personnes*.
     - [À Table](https://maps.app.goo.gl/wEQUxUSLv5y9ByNk7) notre dernier BNB était juste au dessus, ça m'a l'air bien.
     
 ## Vendredi 9 - En Vau
