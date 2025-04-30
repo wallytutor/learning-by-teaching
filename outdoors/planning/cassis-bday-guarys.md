@@ -8,11 +8,8 @@
 
 - Check-in après 16h, [5 avenue Alphonse Daudet, Cassis](https://maps.app.goo.gl/FuXiPTVQBNeRNC5r5), c'est une boîte à clé sécurisée, alors nous pouvons entrer plus tard sans se presser trop.
 
-- Pour le diner c'est un peu compliqué à Cassis, voici quelques propositions :
+- Pour le diner c'est un peu compliqué à Cassis, alors on ira à la [Poissonerie Laurent](https://maps.app.goo.gl/SJzs6xWwc2ed6Tff9) où on a déjà eu de bonnes et mauvaises expériences ; update *réservation faite pour 21h / 6 personnes*.
 
-    - [Poissonerie Laurent](https://maps.app.goo.gl/SJzs6xWwc2ed6Tff9) on a déjà eu de bonnes et mauvaises expériences ; update *réservation faite pour 21h / 6 personnes*.
-    - [À Table](https://maps.app.goo.gl/wEQUxUSLv5y9ByNk7) notre dernier BNB était juste au dessus, ça m'a l'air bien.
-    
 ## Vendredi 9 - En Vau
 
 - Aller à En Vau par la [route classique](https://www.komoot.com/tour/2201255838?share_token=aoC9ZXDRgbQG8v3QW0GpFRUAbg2j2Q66vWesfh8Cg4VTe0HmgW&ref=wtd) ; Mi Guary a parlé d'aller en kayak, mais ça va être galère pour se garer, etc je trouve, à vous de voir.
@@ -26,6 +23,8 @@
 - Le matin (très tôt) je souhaite courir un peu : si quelqu'un veut m'accompagner, prendre des chaussures de trail et le sac d'hydratation pour faire [ce parcours](https://www.komoot.com/tour/2201296702?share_token=aZA5VKwbC7FeGCdorzWOeuONg2Ee27SlYwrqeRhIvGeisorGcW&ref=wtd).
 
 - Idées???
+
+- [À Table](https://maps.app.goo.gl/wEQUxUSLv5y9ByNk7) notre dernier BNB était juste au dessus, ça m'a l'air bien ?
 
 ## Dimanche 11 - Rester tranquille
 
