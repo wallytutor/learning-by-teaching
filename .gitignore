@@ -34,3 +34,6 @@ __pycache__/*
 
 # Octave
 octave-workspace
+
+# Any log
+*.log
