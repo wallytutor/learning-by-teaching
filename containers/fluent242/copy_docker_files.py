@@ -2,23 +2,20 @@
 """ Provides a module to copy files from the Ansys installation directory. """
 from itertools import chain
 from pathlib import Path
+import json
 import shutil
 import sys
 
 
-def create_lists(fluent_version:  str) -> tuple[list[str], list[str]]:
+def create_lists(fluent_version: Path) -> tuple[list[str], list[str]]:
     """ Creates the lists of files to copy and remove. """
-    def lines(file):
-        with open(Path(fluent_version) / file) as fp:
-            return [line.rstrip("\n") for line in fp.readlines()]
+    with open(fluent_version/ "copy_docker_files.json") as fp:
+        data = json.load(fp)
 
-    def create(files_list):
-        return list(chain.from_iterable([lines(f) for f in files_list]))
-        
-    # to_cp = 
-    # to_rm = 
+    to_cp = [vk for v in data["copy"].values() for vk in v]
+    to_rm = [vk for v in data["remove"].values() for vk in v]
 
-    return create(to_cp), create(to_rm)
+    return to_cp, to_rm
 
 
 def only_copy_new(copy):
@@ -73,8 +70,6 @@ def copy_files(src: str) -> None:
     ----------
     src: str
         Path of ``ansys_inc`` folder in the Ansys installation directory.
-    fluent_version: str
-        Path of ``docker/fluent_<version>`` folder.
     """
     fluent_version = Path(__file__).resolve().parent
     cp_list, rm_list = create_lists(fluent_version)

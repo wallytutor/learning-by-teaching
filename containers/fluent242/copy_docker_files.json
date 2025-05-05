@@ -92,7 +92,7 @@
             "v242/CEI/apex242/machines/linux_2.6_64/Python-3.7.4/lib/python3.7/site-packages/grpcio-1.17.1.dist-info",
             "v242/CEI/apex242/machines/linux_2.6_64/Python-3.7.4/lib/python3.7/site-packages/grpcio-1.22.0.dist-info",
             "v242/CEI/apex242/machines/linux_2.6_64/Python-3.7.4/lib/python3.7/site-packages/grpcio_tools-1.17.1.dist-info",
-            "v242/CEI/apex242/machines/linux_2.6_64/Python-3.7.4/lib/python3.7/site-packages/grpcio_tools-1.22.0.dist-info",
+            "v242/CEI/apex242/machines/linux_2.6_64/Python-3.7.4/lib/python3.7/site-packages/grpcio_tools-1.22.0.dist-info"
         ],
         "excludeFluentList": [
             "v242/fluent/fluent24.2.0/addons/gpuapp"
