@@ -1,0 +1,80 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! PARAMETERS
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Header
+  CHECK KEYWORDS Warn
+  Mesh DB "domain" "."
+  Include Path "setup"
+  Results Directory "results"
+End
+
+Constants
+  ! Gravity(4) = 0 -1 0 9.82
+  Stefan Boltzmann = 5.670374419e-08
+End
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! PARAMETERS
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! Initial body temperature:
+$ T_INI = 2400.0;
+
+! External radiation temperature:
+! $ T_RAD = 10.0 + 273.0;
+
+! External radiation temperature:
+! $ T_CONV = 20.0 + 273.0;
+
+! Floor temperature:
+! $ T_FLOOR = 300.0 + 273.0;
+
+! Heat transfer coefficient:
+! $ HTC = 15.0;
+
+! Get data model (path must be relative to case):
+$ source("setup/coded.js");
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! SIMULATION
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Simulation
+  Max Output Level = 5
+  Solver Input File = case.sif
+
+  ! Cartesian 2D simulation:
+  Coordinate System = Cartesian 2D
+  Coordinate Mapping(3) = 1 2 3
+
+  ! Second order integration method:
+  Simulation Type = Transient
+  Timestepping Method = BDF
+  BDF Order = 2
+
+  ! Timestep sizes and output intervals:
+  ! Time                    60    60  3480
+  Timestep Sizes    (3) =    1    10    60
+  Output Intervals  (3) =   60     6    10
+  Timestep intervals(3) =   60     6    58
+
+  ! Output for calculation restart:
+  Output File = "results/restart.result"
+  Output Variable 1 = Temperature
+  Binary Output = True
+
+  Convergence Monitor = True
+End
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! SHARED
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Include "materials.sif"
+Include "solution.sif"
+Include "conditions.sif"
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! EOF
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
