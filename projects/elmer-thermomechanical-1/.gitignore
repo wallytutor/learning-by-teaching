@@ -1,7 +1,7 @@
 # Mesh:
-model/domain/*.msh
-model/domain/mesh.*
-model/domain/partitioning.*
+domain/*.msh
+domain/mesh.*
+domain/partitioning.*
 
 # Logs:
 log.*
