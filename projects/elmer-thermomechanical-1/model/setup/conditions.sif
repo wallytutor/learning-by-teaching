@@ -1,3 +1,8 @@
+Initial Condition 1
+  Name = "Ingot Initial Temperature"
+  Temperature = $(T_INI)
+End
+
 Boundary Condition 1
   Name = "Adiabatic axis"
   Target Boundaries(1) = 1
@@ -53,5 +58,7 @@ Boundary Condition 4
   ! External Temperature = $(T_CONV)
   ! Heat Transfer Coefficient = $(HTC)
   ! Radiation = Idealized
-  ! Displacement 2 = 0.0
+
+  ! Do not fall in the void:
+  Displacement 2 = 0.0
 End
