@@ -328,6 +328,9 @@ Solver 6
   Variable = Displacement
   Variable DOFs = 2
 
+  Calculate Stresses = True
+  Calculate Strains = True
+
   Linear System Solver = Iterative
   Linear System Iterative Method = BiCGStab
   Linear System Max Iterations = 500
