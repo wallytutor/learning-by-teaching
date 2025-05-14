@@ -16,6 +16,9 @@ ElmerSolver > log.solver
 
 ```bash
 ElmerGrid 2 2 domain/ -partdual -metiskway 8
+ElmerGrid 2 2 domain/ -partdual -metisrec 8
+ElmerGrid 2 2 domain/ -partition 4 2 1
+
 mpiexec -n 8 ElmerSolver_mpi > log.solver
 ```
 

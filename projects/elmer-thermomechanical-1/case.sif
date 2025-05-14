@@ -20,7 +20,7 @@ End
 
 ! Initial body temperature:
 ! $ T_INI = 2400.0;
-$ T_INI = 2300.0;
+$ T_INI = 2200.0;
 
 ! Get data model (path must be relative to case):
 $ source("coded.ini");
@@ -60,6 +60,52 @@ End
 !! MATERIAL
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+! Material 1
+!   Name = "Sample Solid"
+! 
+!   ! Temperature of the stress-free reference state: in this case,\
+!   ! the initial temperature of the simulation, NOT room temperature!
+!   Reference Temperature = $(T_INI)
+! 
+!   ! Indicates in *Enthalpy* the range to handle phase change; notice\
+!   ! that here *Enthalpy = density times latent heat of fusion:*
+!   Phase Change Intervals(2,1) = 2277 2327
+! 
+!   Density = Variable Temperature
+!     Real 
+!         Include "solid/density.dat"
+!     End
+! 
+!   Heat Capacity = Variable Temperature
+!     Real
+!         Include "solid/heat-capacity.dat"
+!     End
+! 
+!   Enthalpy = Variable Temperature
+!     Real
+!         Include "solid/enthalpy-step.dat"
+!     End
+! 
+!   Heat Conductivity = Variable Temperature
+!     Real
+!         Include "solid/heat-conductivity.dat"
+!     End
+! 
+!   Emissivity = Variable Temperature
+!     Real
+!         Include "solid/emissivity.dat"
+!     End
+! 
+!   Youngs Modulus = Variable Temperature
+!     Real MATC "young_modulus(tx)"
+! 
+!   Poisson Ratio = Variable Temperature
+!     Real MATC "poisson_ratio(tx)"
+! 
+!   Heat Expansion Coefficient = Variable Temperature
+!     Real MATC "thermal_expansion_coef(tx)"
+! End
+
 Material 1
   Name = "Sample Solid"
 
@@ -69,41 +115,27 @@ Material 1
 
   ! Indicates in *Enthalpy* the range to handle phase change; notice\
   ! that here *Enthalpy = density times latent heat of fusion:*
-  Phase Change Intervals(2,1) = 2277 2327
+  Phase Change Intervals(2,1) = 3000 3100
 
-  Density = Variable Temperature
-    Real 
-        Include "solid/density.dat"
-    End
+  Density = 4000.0
 
-  Heat Capacity = Variable Temperature
-    Real
-        Include "solid/heat-capacity.dat"
-    End
+  Heat Capacity = 1000.0
 
   Enthalpy = Variable Temperature
     Real
-        Include "solid/enthalpy-step.dat"
+        298   0
+        2400  0
     End
 
-  Heat Conductivity = Variable Temperature
-    Real
-        Include "solid/heat-conductivity.dat"
-    End
+  Heat Conductivity = 10.0
 
-  Emissivity = Variable Temperature
-    Real
-        Include "solid/emissivity.dat"
-    End
+  Emissivity = 0.9
 
-  Youngs Modulus = Variable Temperature
-    Real MATC "young_modulus(tx)"
+  Youngs Modulus = 400.0e+03
 
-  Poisson Ratio = Variable Temperature
-    Real MATC "poisson_ratio(tx)"
+  Poisson Ratio = 0.25
 
-  Heat Expansion Coefficient = Variable Temperature
-    Real MATC "thermal_expansion_coef(tx)"
+  Heat Expansion Coefficient = 8.0e-06
 End
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -132,6 +164,7 @@ Boundary Condition 2
 
   Save Scalars = True
   Side Mask = Logical True
+  ! Force 1 = 2000000.0
 End
 
 Boundary Condition 3
