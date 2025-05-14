@@ -22,7 +22,7 @@ End
 $ T_INI = 2400.0;
 
 ! Get data model (path must be relative to case):
-$ source("coded.js");
+$ source("coded.ini");
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! SIMULATION
@@ -42,10 +42,10 @@ Simulation
   BDF Order = 2
 
   ! Timestep sizes and output intervals:
-  ! Time                    60    60  3480
-  Timestep Sizes    (3) =    1    10    60
-  Output Intervals  (3) =   60     6    10
-  Timestep intervals(3) =   60     6    58
+  ! Time                    60    60  3480  7200
+  Timestep Sizes    (4) =    1    10    60    60
+  Output Intervals  (4) =   60     6    10    10
+  Timestep intervals(4) =   60     6    58   120
 
   ! Output for calculation restart:
   Output File = "results/restart.result"
@@ -96,14 +96,18 @@ Material 1
     End
 
   Youngs Modulus = Variable Temperature
-    Real MATC "(417 - 0.0525 * tx) * 1000"
+    Real MATC "young_modulus_mpa(tx)"
 
   Poisson Ratio = Variable Temperature
-    Real MATC "0.25"
+    Real MATC "poisson_ratio(tx)"
 
   Heat Expansion Coefficient = Variable Temperature
     Real MATC "thermal_expansion_coef(tx)"
 End
+
+! 
+
+! 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! CONDITIONS
@@ -180,7 +184,7 @@ Solver 2
   Target Variable = Temperature
   Flux Coefficient = Heat Conductivity
   Calculate Flux = True
-  Calculate Flux Magnitude = True
+  Calculate Flux Magnitude = False
 
   Stabilize = True
   Optimize Bandwidth = True
@@ -287,7 +291,7 @@ Solver 5
   Linear System Precondition Recompute = 1
 End
 
-! Thermal expansion solver:
+! Stress solver:
 Solver 6
   Procedure = "StressSolve" "StressSolver"
   Equation = Stress Analysis
@@ -296,8 +300,11 @@ Solver 6
   Variable = Displacement
   Variable DOFs = 2
 
+  Displace Mesh = True
   Calculate Stresses = True
   Calculate Strains = True
+  Calculate Principal = True
+  Calculate Pangle = False
 
   Linear System Solver = Iterative
   Linear System Iterative Method = BiCGStab
@@ -321,7 +328,10 @@ Equation 1
   Phase Change Model = Temporal
 
   ! XXX: calculation getting stuck if this is enforced!
-  ! Check Latent Heat Release = True
+  Check Latent Heat Release = True
+
+  Stress Analysis = True
+  Plane Stress = False
 End
 
 Body 1
