@@ -19,7 +19,8 @@ End
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ! Initial body temperature:
-$ T_INI = 2400.0;
+! $ T_INI = 2400.0;
+$ T_INI = 2300.0;
 
 ! Get data model (path must be relative to case):
 $ source("coded.ini");
@@ -96,7 +97,7 @@ Material 1
     End
 
   Youngs Modulus = Variable Temperature
-    Real MATC "young_modulus_mpa(tx)"
+    Real MATC "young_modulus(tx)"
 
   Poisson Ratio = Variable Temperature
     Real MATC "poisson_ratio(tx)"
@@ -104,10 +105,6 @@ Material 1
   Heat Expansion Coefficient = Variable Temperature
     Real MATC "thermal_expansion_coef(tx)"
 End
-
-! 
-
-! 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! CONDITIONS
@@ -173,6 +170,8 @@ Solver 1
   Parameter 2 = Heat Conductivity
   Parameter 3 = Enthalpy
   Parameter 4 = Heat Capacity
+  Parameter 5 = Youngs Modulus
+  Parameter 6 = Poisson Ratio
 End
 
 ! Flux solver:
@@ -316,6 +315,37 @@ Solver 6
   Linear System Abort Not Converged = False
   Linear System Residual Output = 10
   Linear System Precondition Recompute = 1
+
+!  Procedure = "ElasticSolve" "ElasticSolver"
+!  Equation = ElasticSolver
+!  Exec Solver = Always
+!
+!  Variable = Displacement
+!  Variable DOFs = 2
+!
+!  Calculate Stresses = True
+!  Calculate Strains = True
+!  Calculate Principal = True
+!  Calculate Pangle = False
+!
+!  Linear System Solver = Iterative
+!  Linear System Iterative Method = "BiCGStab"
+!  Linear System Max Iterations = 500
+!  Linear System Convergence Tolerance = 1.0e-08
+!  Linear System Abort Not Converged = True
+!  Linear System Preconditioning = ILU0
+!  Linear System Residual Output = 1
+!  Steady State Convergence Tolerance = 1.0e-05
+!  Nonlinear System Convergence Tolerance = 1.0e-05
+!  Nonlinear System Max Iterations = 1
+!  Nonlinear System Newton After Iterations = 3
+!  Nonlinear System Newton After Tolerance = 1.0e-02
+!  Nonlinear System Relaxation Factor = 1.0
+!  Adaptive Error Limit = 0.1
+!  Adaptive Remesh = True
+!  Adaptive Max Change = 2
+!  Adaptive Coarsening = Logical True
+!  Time Derivative Order = 2
 End
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -326,12 +356,9 @@ Equation 1
   Name = "System"
   Active Solvers(6) = 1 2 3 4 5 6
   Phase Change Model = Temporal
-
-  ! XXX: calculation getting stuck if this is enforced!
   Check Latent Heat Release = True
-
-  Stress Analysis = True
   Plane Stress = False
+  ! Stress Analysis = True
 End
 
 Body 1
