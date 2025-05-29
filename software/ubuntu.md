@@ -173,3 +173,19 @@ function openfoam12() {
 	apptainer run --cleanenv --env-file ${FOAM}.env ${FOAM}.sif
 }
 ```
+
+## Limiting CPU frequency
+
+Management of CPU frequency can be done through `cpufrequtils`; sometimes it will only work if cores are set individually (with flag `-c` to specify the zero-based core number).
+
+```bash
+# Check before:
+cpufreq-info
+
+# Modify bounds:
+cpufreq-set -c <i> -u 2.5GHz
+...
+
+# Check after:
+cpufreq-info
+```
