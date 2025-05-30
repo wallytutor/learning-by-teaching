@@ -2,7 +2,7 @@
 
 ## Using Podman
 
-In the open source community [podman](https://podman.io/) takes the place of [docker](https://www.docker.com/) for the creation of application containers. It mimics the commercial software to allow developers work with both tools *almost* interchangeably. It is not uncommon to find people creating aliases of `docker` in their sandbox environments to point to their `podman` executable. One must be aware that although the command interfaces are very similar, they are not the *exactly* same and advance usage requires mastering each of them individually.
+In the open source community [podman](https://podman.io/) takes the place of [docker](https://www.docker.com/) for the creation of application containers. It mimics the commercial software to allow developers work with both tools *almost* interchangeably. It is not uncommon to find people creating aliases of `docker` in their sandbox environments to point to their `podman` executable (some Linux distributions even have packages dedicated to this automatic override). One must be aware that although the command interfaces are very similar, they are not the *exactly* same and advance usage requires mastering each of them individually.
 
 The following summarizes some daily life commands with `podman`.
 
@@ -16,6 +16,12 @@ podman images
 
 ```bash
 podman run -it <img> /bin/bash
+```
+
+- Run image exposing port `<container>` to host at `<host>`:
+
+```bash
+podman run -p <container>:<host> <img>
 ```
 
 - Dump image `<img>` to `<img>.tar` for portability:
@@ -45,7 +51,9 @@ podman rmi <ID>
 
 ## Using Apptainer
 
-Using `podman` locally is great, but packaging redistributable containers for reuse in HPC is much smoother with [Apptainer](https://apptainer.org/). The tool started at [Lawrence Berkeley National Laboratory](https://www.lbl.gov/) can be [downloaded](https://github.com/apptainer/apptainer/releases) for several Linux systems and deployed locally. Under Debian (or its variants, as Ubuntu), navigate to the download directory and install with the following, taking care to replace the right version:
+Using `podman` locally is great, but packaging redistributable containers for reuse in HPC is much smoother with [Apptainer](https://apptainer.org/). The tool started at [Lawrence Berkeley National Laboratory](https://www.lbl.gov/) can be [downloaded](https://github.com/apptainer/apptainer/releases) for several Linux systems and deployed locally.
+
+Under Debian (or its variants, as Ubuntu), navigate to the download directory and install with the following, taking care to replace the right version:
 
 ```shell
 export APPTAINER_VERSION=1.3.6_amd64.deb
@@ -56,7 +64,7 @@ sudo dpkg -i apptainer_${APPTAINER_VERSION}
 # sudo dpkg -i apptainer-suid-dbgsym_${APPTAINER_VERSION}
 ```
 
-- Converting a local `podman` dump into a Singularity image:
+- Converting a local `podman` *tar-dump* into a Singularity image:
 
 ```bash
 apptainer build "<img>.sif" "docker-archive://<img>.tar"
@@ -67,6 +75,14 @@ apptainer build "<img>.sif" "docker-archive://<img>.tar"
 ```bash
 apptainer run <img>.sif
 ```
+
+Although Apptainer has its own image scripting system through [*definition files*](https://apptainer.org/docs/user/latest/definition_files.html), personal experience has shown that the workflow is much smoother by generating container files and then converting them to Singularity format as explained above.
+
+There reason is that container files generate intermediate check-points from which they will continue the build if some failure is encountered, *i.e.* each `RUN` command in a container will generate a partial image.
+
+When working with Apptainer definition files, failures imply full rebuild of the image, what might become extremely boring when trying to compile new code. A workaround is to use a sequence of definition files, one importing from the dump of the previous one, but that not only will generate a large size of temporary dumps as it will become difficult to manage.
+
+After getting excited by the Apptainer definition files because they do not need chaining of commands with a `&& \` to make a shell block, I personally gave up on them after loosing a few days of my life recompiling again and again... so for now I stick with the container creation and conversion workflow discussed in more detail below.
 
 ## Apptainer and environment
 
@@ -115,7 +131,7 @@ sudo mount --make-rshared /
 Now you can move the SIF image to another computer (for instance, you prepared this in a PC with access to the Internet to later use it in an isolated HPC), open a new terminal or `source ~/.bashrc` and run:
 
 ```bash
-apptainer run /<path>/<to>/openfoam12-rockylinux9.sif
+apptainer run -B $PWD /<path>/<to>/openfoam12-rockylinux9.sif
 ```
 
 **Note:** use `apptainer run` when you want to execute the container's default application or task; on the other hand, use `apptainer shell` when you need an interactive session to explore or debug the container. For the OpenFOAM example above, both are very similar as no default application is launched, but a shell session itself.
