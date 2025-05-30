@@ -1,6 +1,6 @@
 # Fortran
 
-## Quickstart
+## Quick-start
 
 Code (with a few modifications in some cases) from tutorial provided [here](https://fortran-lang.org/learn/quickstart/). Recommended study order, as per the original source:
 
@@ -14,3 +14,37 @@ Code (with a few modifications in some cases) from tutorial provided [here](http
 1. [arrays](src/quickstart/arrays.f90)
 1. [array_slice](src/quickstart/array_slice.f90)
 1. [allocatable](src/quickstart/allocatable.f90)
+1. [string](src/quickstart/string.f90)
+1. [allocatable_string](src/quickstart/allocatable_string.f90)
+1. [string_array](src/quickstart/string_array.f90)
+
+## Cheat-sheet
+
+### General
+
+- Subroutines can be declared directly inside a program
+
+```fortran
+program program_name
+    implicit none
+
+    some_subroutine()
+
+    contains
+
+    subroutine some_subroutine()
+        print *, "Hello, world!"
+    end subroutine some_subroutine
+
+end program program_name
+```
+
+### Strings
+
+- Constant size allocation with `character(len=<n>)` for `n` characters
+
+- Runtime allocation declared with `character(:), allocatable`
+
+- Allocation can be done explicitly `allocate(character(<n>) :: <var-name>)` or implicitly on assignment
+
+- Concatenation is performed with `//`
