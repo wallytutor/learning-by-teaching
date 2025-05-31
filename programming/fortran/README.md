@@ -17,6 +17,8 @@ Code (with a few modifications in some cases) from tutorial provided [here](http
 1. [string](src/quickstart/string.f90)
 1. [allocatable_string](src/quickstart/allocatable_string.f90)
 1. [string_array](src/quickstart/string_array.f90)
+1. [control_if](src/quickstart/control_if.f90)
+1. [control_loop](src/quickstart/control_loop.f90)
 
 ## Cheat-sheet
 
@@ -39,6 +41,12 @@ program program_name
 end program program_name
 ```
 
+## Flow control
+
+- Both single branch `if` and `if-else` conditionals are supported
+
+- Multi-branch is obtained by chaining `if-else` conditionals
+
 ### Strings
 
 - Constant size allocation with `character(len=<n>)` for `n` characters
@@ -48,3 +56,5 @@ end program program_name
 - Allocation can be done explicitly `allocate(character(<n>) :: <var-name>)` or implicitly on assignment
 
 - Concatenation is performed with `//`
+
+- An array of strings keeps strings of a single size (which can be trimmed for display)

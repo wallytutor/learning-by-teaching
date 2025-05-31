@@ -1,5 +1,5 @@
-program floatc
-    use, intrinsic :: iso_fortran_env, only: sp=>real32, dp=>real64
+program floatf
+    use, intrinsic :: iso_c_binding, only: sp=>c_float, dp=>c_double
     implicit none
 
     real(sp) :: float32
@@ -8,4 +8,4 @@ program floatc
     float32 = 1.0_sp  ! Explicit suffix for literal constants
     float64 = 1.0_dp
     print*, float32, float64
-end program floatc
+end program floatf
