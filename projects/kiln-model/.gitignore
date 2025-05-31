@@ -1,0 +1,12 @@
+# Ignore binaries
+/bin/
+
+# Generated documentation
+/docs/build/
+
+# Virtual environment
+/venv/
+
+# Any object or module
+*.o
+*.mod
