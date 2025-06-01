@@ -3,7 +3,7 @@
 #######################################################################
 
 FC           = /usr/bin/gfortran
-FCFLAGS      = -O2 -Wall -Jbin
+FCFLAGS      = -O2 -Wall -Jbin -fdefault-real-8
 
 SRC_DIR      = src
 BIN_DIR      = bin
@@ -12,13 +12,15 @@ MODULES      = \
 	bin/coefficients.o \
 	bin/kinetics.o     \
 	bin/kramers.o      \
-	bin/plugflow.o
+	bin/plugflow.o     \
+	bin/thermo.o
 
 TESTS        = \
 	bin/test_coefficients \
 	bin/test_kinetics     \
 	bin/test_kramers      \
-	bin/test_plugflow
+	bin/test_plugflow     \
+	bin/test_thermo
 
 #######################################################################
 # ALL
@@ -44,6 +46,7 @@ test: $(TESTS)
 	@ ./bin/test_kinetics
 	@ ./bin/test_kramers
 	@ ./bin/test_plugflow
+	@ ./bin/test_thermo
 
 bin/kiln.a: $(MODULES)
 	ar rcs bin/kiln.a bin/*.o
@@ -61,8 +64,11 @@ bin/kinetics.o: src/core/kinetics.f90
 bin/kramers.o: src/core/kramers.f90
 	$(FC) $(FCFLAGS) -c src/core/kramers.f90 -o bin/kramers.o
 
-bin/plugflow.o: src/core/kramers.f90
+bin/plugflow.o: src/core/plugflow.f90
 	$(FC) $(FCFLAGS) -c src/core/plugflow.f90 -o bin/plugflow.o
+
+bin/thermo.o: src/core/thermo.f90
+	$(FC) $(FCFLAGS) -c src/core/thermo.f90 -o bin/thermo.o
 
 #######################################################################
 # TESTS
@@ -80,12 +86,15 @@ bin/test_kramers: bin/kiln.a test/test_kramers.f90
 bin/test_plugflow: bin/kiln.a test/test_plugflow.f90
 	$(FC) $(FCFLAGS) test/test_plugflow.f90 bin/kiln.a -o bin/test_plugflow
 
+bin/test_thermo: bin/kiln.a test/test_thermo.f90
+	$(FC) $(FCFLAGS) test/test_thermo.f90 bin/kiln.a -o bin/test_thermo
+
 #######################################################################
 # CLEAN
 #######################################################################
 
 clean:
-	rm -rf $(BIN_DIR)
+	rm -rf $(BIN_DIR) src/core/*.mod
 
 dist-clean: clean
 	rm -rf docs/build/ venv/
