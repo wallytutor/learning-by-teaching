@@ -19,9 +19,17 @@ jupyter:
 - [Resources on FEM](https://jsdokken.com/dolfinx-tutorial/fem.html#introduction-to-the-finite-element-method)
 
 ```python
+from pathlib import Path
 from mpi4py import MPI
+from dolfinx import io
 from dolfinx import mesh
 from dolfinx import fem
+from dolfinx import plot
+from dolfinx import default_scalar_type
+from dolfinx.fem.petsc import LinearProblem
+import pyvista as pv
+import numpy as np
+import ufl
 ```
 
 ## Integration by parts
@@ -112,12 +120,123 @@ V = fem.functionspace(domain, ("Lagrange", 1))
 ```
 
 ```python
-# uD = fem.Function(V)
-# uD.interpolate(lambda x: 1 + x[0]**2 + 2 * x[1]**2)
+uD = fem.Function(V)
+uD.interpolate(lambda x: 1 + x[0]**2 + 2 * x[1]**2)
 ```
 
 ```python
-import dolfinx
+# Create facet to cell connectivity required to determine boundary facets
+tdim = domain.topology.dim
+fdim = tdim - 1
+
+domain.topology.create_connectivity(fdim, tdim)
+boundary_facets = mesh.exterior_facet_indices(domain.topology)
+```
+
+```python
+boundary_dofs = fem.locate_dofs_topological(V, fdim, boundary_facets)
+bc = fem.dirichletbc(uD, boundary_dofs)
+```
+
+```python
+u = ufl.TrialFunction(V)
+v = ufl.TestFunction(V)
+```
+
+```python
+f = fem.Constant(domain, default_scalar_type(-6))
+```
+
+```python
+a = ufl.dot(ufl.grad(u), ufl.grad(v)) * ufl.dx
+L = f * v * ufl.dx
+```
+
+```python
+problem = LinearProblem(a, L, bcs=[bc], petsc_options={"ksp_type": "preonly", "pc_type": "lu"})
+uh = problem.solve()
+```
+
+```python
+V2 = fem.functionspace(domain, ("Lagrange", 2))
+uex = fem.Function(V2)
+uex.interpolate(lambda x: 1 + x[0]**2 + 2 * x[1]**2)
+```
+
+```python
+L2_error = fem.form(ufl.inner(uh - uex, uh - uex) * ufl.dx)
+error_local = fem.assemble_scalar(L2_error)
+error_L2 = np.sqrt(domain.comm.allreduce(error_local, op=MPI.SUM))
+```
+
+```python
+error_max = np.max(np.abs(uD.x.array-uh.x.array))
+
+# Only print the error on one process
+if domain.comm.rank == 0:
+    print(f"Error_L2 : {error_L2:.2e}")
+    print(f"Error_max : {error_max:.2e}")
+```
+
+```python
+print(pv.global_theme.jupyter_backend)
+```
+
+```python
+pv.start_xvfb()
+domain.topology.create_connectivity(tdim, tdim)
+topology, cell_types, geometry = plot.vtk_mesh(domain, tdim)
+grid = pv.UnstructuredGrid(topology, cell_types, geometry)
+```
+
+```python
+plotter = pv.Plotter()
+plotter.add_mesh(grid, show_edges=True)
+plotter.view_xy()
+
+if not pv.OFF_SCREEN:
+    plotter.show()
+else:
+    figure = plotter.screenshot("fundamentals_mesh.png")
+```
+
+```python
+u_topology, u_cell_types, u_geometry = plot.vtk_mesh(V)
+```
+
+```python
+u_grid = pv.UnstructuredGrid(u_topology, u_cell_types, u_geometry)
+u_grid.point_data["u"] = uh.x.array.real
+u_grid.set_active_scalars("u")
+
+u_plotter = pv.Plotter()
+u_plotter.add_mesh(u_grid, show_edges=True)
+u_plotter.view_xy()
+
+if not pv.OFF_SCREEN:
+    u_plotter.show()
+```
+
+```python
+warped = u_grid.warp_by_scalar()
+
+plotter2 = pv.Plotter()
+plotter2.add_mesh(warped, show_edges=True, show_scalar_bar=True)
+if not pv.OFF_SCREEN:
+    plotter2.show()
+```
+
+```python
+results_folder = Path("results")
+results_folder.mkdir(exist_ok=True, parents=True)
+filename = results_folder / "fundamentals"
+
+with io.VTXWriter(domain.comm, filename.with_suffix(".bp"), [uh]) as vtx:
+    vtx.write(0.0)
+
+with io.XDMFFile(domain.comm, filename.with_suffix(".xdmf"), "w") as xdmf:
+    xdmf.write_mesh(domain)
+    xdmf.write_function(uh)
 ```
 
 ```python
