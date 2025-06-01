@@ -45,6 +45,9 @@ test: $(TESTS)
 	@ ./bin/test_kramers
 	@ ./bin/test_plugflow
 
+bin/kiln.a: $(MODULES)
+	ar rcs bin/kiln.a bin/*.o
+
 #######################################################################
 # MODULES
 #######################################################################
@@ -65,17 +68,17 @@ bin/plugflow.o: src/core/kramers.f90
 # TESTS
 #######################################################################
 
-bin/test_coefficients: test/test_coefficients.f90
-	$(FC) $(FCFLAGS) test/test_coefficients.f90 -o bin/test_coefficients
+bin/test_coefficients: bin/kiln.a test/test_coefficients.f90
+	$(FC) $(FCFLAGS) test/test_coefficients.f90 bin/kiln.a -o bin/test_coefficients
 
-bin/test_kinetics: test/test_kinetics.f90
-	$(FC) $(FCFLAGS) test/test_kinetics.f90 -o bin/test_kinetics
+bin/test_kinetics: bin/kiln.a test/test_kinetics.f90
+	$(FC) $(FCFLAGS) test/test_kinetics.f90 bin/kiln.a -o bin/test_kinetics
 
-bin/test_kramers: test/test_kramers.f90
-	$(FC) $(FCFLAGS) test/test_kramers.f90 -o bin/test_kramers
+bin/test_kramers: bin/kiln.a test/test_kramers.f90
+	$(FC) $(FCFLAGS) test/test_kramers.f90 bin/kiln.a -o bin/test_kramers
 
-bin/test_plugflow: test/test_plugflow.f90
-	$(FC) $(FCFLAGS) test/test_plugflow.f90 -o bin/test_plugflow
+bin/test_plugflow: bin/kiln.a test/test_plugflow.f90
+	$(FC) $(FCFLAGS) test/test_plugflow.f90 bin/kiln.a -o bin/test_plugflow
 
 #######################################################################
 # CLEAN
