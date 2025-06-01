@@ -6,7 +6,7 @@ module thermo
     !============
     
     private
-    ! public
+    public set_mass_basis_flag
 
     !! Ideal gas constant [J/(mol.K)].
     real(dp), parameter :: GAS_CONSTANT = 8.31446261815324
@@ -19,6 +19,9 @@ module thermo
 
     !! Water latent heat of evaporation [J/kg].
     real(dp), parameter :: WATER_LATENT_HEAT_EVAP = 2260000.0
+
+    !! If true, use mass basis thermodynamics.
+    logical :: use_mass_basis = .true.
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! thermo_base_t
@@ -88,6 +91,12 @@ module thermo
 
 contains
 
+    subroutine set_mass_basis_flag(use_mass)
+        logical, intent(in) :: use_mass
+
+        use_mass_basis = use_mass
+    end subroutine set_mass_basis_flag
+
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! CONSTRUCTORS
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -131,6 +140,11 @@ contains
 
         p = c(1) + T * (c(2) + T * (c(3) + T * (c(4) + c(5) * T)))
         p = GAS_CONSTANT * p
+
+        if (use_mass_basis) then
+            p = 1000.0 * p / self%molar_mass
+        end if
+
     end function specific_heat_nasa7
 
     ! function [p] = shomate_specific_heat(T, c)
