@@ -7,26 +7,45 @@ module thermo
     !============
 
     private
+    public T_NORMAL
+    public T_STANDARD
+    public ONE_ATM
     public thermo_nasa7_t
     public set_flag_mass_basis
     public set_flag_verbose_thermo
     public set_flag_check_fractions
-    public species_methane_air_1step
+
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ! PARAMETERS
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    !! Reference normal temperature [K].
+    real(dp), parameter :: T_NORMAL = 273.15_dp
+
+    !! Reference standard state temperature [K].
+    real(dp), parameter :: T_STANDARD = 298.15_dp
+
+    !! Reference atmospheric pressure [Pa].
+    real(dp), parameter :: ONE_ATM = 101325.0_dp
 
     !! Ideal gas constant [J/(mol.K)].
-    real(dp), parameter :: GAS_CONSTANT = 8.31446261815324
+    real(dp), parameter :: GAS_CONSTANT = 8.31446261815324_dp
 
     !! Stefan-Boltzmann constant W/(m².K⁴).
-    real(dp), parameter :: SIGMA = 5.6703744191844314e-08
+    real(dp), parameter :: SIGMA = 5.6703744191844314e-08_dp
 
     !! Water specific heat [J/(kg.K)].
-    real(dp), parameter :: WATER_SPECIFIC_HEAT = 4186.0
+    real(dp), parameter :: WATER_SPECIFIC_HEAT = 4186.0_dp
 
     !! Water latent heat of evaporation [J/kg].
-    real(dp), parameter :: WATER_LATENT_HEAT_EVAP = 2260000.0
+    real(dp), parameter :: WATER_LATENT_HEAT_EVAP = 2260000.0_dp
 
     !! Tolerance applied to fraction checks.
-    real(dp), parameter :: SMALL_FRACTION = 1.0e-08
+    real(dp), parameter :: SMALL_FRACTION = 1.0e-08_dp
+
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ! FLAGS
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     !! If true, use mass basis thermodynamics.
     logical :: use_mass_basis = .true.
@@ -118,6 +137,7 @@ module thermo
         real(dp), allocatable             :: mass_fractions(:)
         real(dp), allocatable             :: mole_fractions(:)
       contains
+        procedure :: density            => density_solution_nasa7
         procedure :: set_mass_fractions => set_mass_fractions_solution_nasa7
         procedure :: set_mole_fractions => set_mole_fractions_solution_nasa7
         procedure :: specific_heat      => specific_heat_solution_nasa7
@@ -204,6 +224,18 @@ contains
             p = .false.
         end if
     end function normalize_fractions
+
+    function density(T, P, Y, W) result(rho)
+        real(dp) :: T
+        real(dp) :: P
+        real(dp) :: Y(:)
+        real(dp) :: W(:)
+        real(dp) :: M
+        real(dp) :: rho
+
+        M = 1.0_dp / sum(Y / W)
+        rho = P * M / (GAS_CONSTANT * T)
+    end function density
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! CONSTRUCTORS
@@ -352,6 +384,16 @@ contains
     ! solution_nasa7_t
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+    function density_solution_nasa7(self, T, P) result(rho)
+        class(solution_nasa7_t), intent(inout) :: self
+        real(dp) :: T
+        real(dp) :: P
+        real(dp) :: rho
+
+        rho = density(T, P, self%mass_fractions, self%molar_masses)
+        rho = rho / 1000.0_dp
+    end function density_solution_nasa7
+
     function set_mass_fractions_solution_nasa7(self, Y) result(p)
         class(solution_nasa7_t), intent(inout) :: self
         real(dp),                intent(in)    :: Y(self%n_species)
@@ -425,63 +467,5 @@ contains
             p = p + self%mass_fractions(i) * prop
         end do
     end function enthalpy_solution_nasa7
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! DATA
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    subroutine species_methane_air_1step(species)
-        type(thermo_nasa7_t) :: species(5)
-
-        species(1) = new_thermo_nasa7('CH4', 16.04300_dp, 1000.00_dp, &
-            [+5.149876130000e+00_dp, -1.367097880000e-02_dp, &
-             +4.918005990000e-05_dp, -4.847430260000e-08_dp, &
-             +1.666939560000e-11_dp, -1.024664760000e+04_dp, &
-             -4.641303760000e+00_dp],                        &
-            [+7.485149500000e-02_dp, +1.339094670000e-02_dp, &
-             -5.732858090000e-06_dp, +1.222925350000e-09_dp, &
-             -1.018152300000e-13_dp, -9.468344590000e+03_dp, &
-             +1.843731800000e+01_dp])
-
-        species(2) = new_thermo_nasa7('O2',  31.99800_dp, 1000.00_dp, &
-            [+3.782456360000e+00_dp, -2.996734160000e-03_dp, &
-             +9.847302010000e-06_dp, -9.681295090000e-09_dp, &
-             +3.243728370000e-12_dp, -1.063943560000e+03_dp, &
-             +3.657675730000e+00_dp],                        &
-            [+3.282537840000e+00_dp, +1.483087540000e-03_dp, &
-             -7.579666690000e-07_dp, +2.094705550000e-10_dp, &
-             -2.167177940000e-14_dp, -1.088457720000e+03_dp, &
-             +5.453231290000e+00_dp])
-
-        species(3) = new_thermo_nasa7('CO2', 44.00900_dp, 1000.00_dp, &
-            [+2.356773520000e+00_dp, +8.984596770000e-03_dp, &
-             -7.123562690000e-06_dp, +2.459190220000e-09_dp, &
-             -1.436995480000e-13_dp, -4.837196970000e+04_dp, &
-             +9.901052220000e+00_dp],                        &
-            [+3.857460290000e+00_dp, +4.414370260000e-03_dp, &
-             -2.214814040000e-06_dp, +5.234901880000e-10_dp, &
-             -4.720841640000e-14_dp, -4.875916600000e+04_dp, &
-             +2.271638060000e+00_dp])
-
-        species(4) = new_thermo_nasa7('H2O', 18.01500_dp, 1000.00_dp, &
-            [+4.198640560000e+00_dp, -2.036434100000e-03_dp, &
-             +6.520402110000e-06_dp, -5.487970620000e-09_dp, &
-             +1.771978170000e-12_dp, -3.029372670000e+04_dp, &
-             -8.490322080000e-01_dp],                        &
-            [+3.033992490000e+00_dp, +2.176918040000e-03_dp, &
-             -1.640725180000e-07_dp, -9.704198700000e-11_dp, &
-             +1.682009920000e-14_dp, -3.000429710000e+04_dp, &
-             +4.966770100000e+00_dp])
-
-        species(5) = new_thermo_nasa7('N2',  28.01400_dp, 1000.00_dp, &
-            [+3.298677000000e+00_dp, +1.408240400000e-03_dp, &
-             -3.963222000000e-06_dp, +5.641515000000e-09_dp, &
-             -2.444854000000e-12_dp, -1.020899900000e+03_dp, &
-             +3.950372000000e+00_dp],                        &
-            [+2.926640000000e+00_dp, +1.487976800000e-03_dp, &
-             -5.684760000000e-07_dp, +1.009703800000e-10_dp, &
-             -6.753351000000e-15_dp, -9.227977000000e+02_dp, &
-             +5.980528000000e+00_dp])
-    end subroutine species_methane_air_1step
 
 end module thermo

@@ -9,11 +9,12 @@ SRC_DIR      = src
 BIN_DIR      = bin
 
 MODULES      = \
-	bin/coefficients.o \
-	bin/kinetics.o     \
-	bin/kramers.o      \
-	bin/plugflow.o     \
-	bin/thermo.o
+	bin/coefficients.o    \
+	bin/kinetics.o        \
+	bin/kramers.o         \
+	bin/plugflow.o        \
+	bin/thermo.o          \
+	bin/methane_air_1step.o
 
 TESTS        = \
 	bin/test_coefficients \
@@ -58,13 +59,13 @@ bin/kiln.a: $(MODULES)
 	ar rcs bin/kiln.a bin/*.o
 
 #######################################################################
-# MODULES
+# CORE MODULES
 #######################################################################
 
 bin/coefficients.o: src/core/coefficients.f90
 	$(FC) $(FCFLAGS) -c src/core/coefficients.f90 -o bin/coefficients.o
 
-bin/kinetics.o: src/core/kinetics.f90
+bin/kinetics.o: src/core/kinetics.f90 bin/thermo.o
 	$(FC) $(FCFLAGS) -c src/core/kinetics.f90 -o bin/kinetics.o
 
 bin/kramers.o: src/core/kramers.f90
@@ -75,6 +76,13 @@ bin/plugflow.o: src/core/plugflow.f90
 
 bin/thermo.o: src/core/thermo.f90
 	$(FC) $(FCFLAGS) -c src/core/thermo.f90 -o bin/thermo.o
+
+#######################################################################
+# SPECIALIZED MODULES
+#######################################################################
+
+bin/methane_air_1step.o: src/models/methane_air_1step.f90 bin/thermo.o
+	$(FC) $(FCFLAGS) -c src/models/methane_air_1step.f90 -o bin/methane_air_1step.o
 
 #######################################################################
 # TESTS
