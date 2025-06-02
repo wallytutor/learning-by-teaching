@@ -36,9 +36,15 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 venv:
-	python3 -m venv venv && . venv/bin/activate && pip install ford
+	python3 -m venv venv
 
-doc: venv
+docpip: venv
+	. venv/bin/activate && python3 -m pip install --upgrade pip
+
+doctools: docpip
+	. venv/bin/activate && pip install -r docs/requirements.txt
+
+doc: doctools
 	. venv/bin/activate && ford $(PWD)/docs/src/index.md -r 0.0.1
 
 test: $(TESTS)
