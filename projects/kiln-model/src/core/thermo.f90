@@ -39,7 +39,7 @@ module thermo
         real(dp) :: molar_mass
       contains
         procedure (thermo_eval), deferred :: specific_heat
-        ! procedure (thermo_eval), deferred :: enthalpy
+        procedure (thermo_eval), deferred :: enthalpy
         ! procedure (thermo_eval), deferred :: entropy
     end type thermo_base_t
 
@@ -62,6 +62,8 @@ module thermo
         real(dp) :: coefs_hi(7)
       contains
         procedure :: specific_heat => specific_heat_nasa7
+        procedure :: enthalpy      => enthalpy_nasa7
+        ! procedure :: entropy       => entropy_nasa7
     end type thermo_nasa7_t
 
     interface thermo_nasa7_t
@@ -98,6 +100,10 @@ module thermo
 
 contains
 
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ! GLOBAL
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     subroutine set_flag_mass_basis(flag)
         logical, intent(in) :: flag
 
@@ -132,63 +138,106 @@ contains
         new_thermo_nasa7%coefs_lo = coefs_lo
         new_thermo_nasa7%coefs_hi = coefs_hi
     end function new_thermo_nasa7
+    
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ! thermo_base_t
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    subroutine select_quantity_basis(self, p)
+        class(thermo_base_t), intent(in)    :: self
+        real(dp),             intent(inout) :: p
+
+        if (use_mass_basis) then
+            p = 1000.0_dp * p / self%molar_mass
+        end if
+    end subroutine select_quantity_basis
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! SPECIFIC HEAT
+    ! thermo_nasa7_t
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     function specific_heat_nasa7(self, T) result(p)
-        !! Molar specific heat from NASA7 polynomial [J/(mol.K)].
+        !! Specific heat from NASA7 polynomial [J/(<base>.K)].
         class(thermo_nasa7_t), intent(in) :: self
         real(dp),              intent(in) :: T
-            !! Temperature of solution [K].
-        real(dp)                          :: p
-            !! Coefficients in molar units.
 
         ! XXX: how do I handle this selection without copy?
-        ! real(dp), pointer                 :: c(:)
-        real(dp), allocatable             :: c(:)
+        ! real(dp), pointer :: c(:)
+        real(dp) :: c(7)
+        real(dp) :: p
+
+        call range_selector_nasa7(self, T, c)
+        call eval_specific_heat_nasa7(T, c, p)
+        call select_quantity_basis(self, p)
+    end function specific_heat_nasa7
+    
+    function enthalpy_nasa7(self, T) result(p)
+        !! Enthalpy from NASA7 polynomial [J/(<base>.K)].
+        class(thermo_nasa7_t), intent(in) :: self
+        real(dp),              intent(in) :: T
+        
+        ! XXX: how do I handle this selection without copy?
+        ! real(dp), pointer :: c(:)
+        real(dp) :: c(7)
+        real(dp) :: p
+
+        call range_selector_nasa7(self, T, c)
+        call eval_enthalpy_nasa7(T, c, p)
+        call select_quantity_basis(self, p)
+    end function enthalpy_nasa7
+
+    subroutine range_selector_nasa7(self, T, c)
+        class(thermo_nasa7_t), intent(in)  :: self
+        real(dp),              intent(in)  :: T
+        real(dp),              intent(out) :: c(7)
 
         if (T.lt.self%temperature_change) then
             c = self%coefs_lo
         else
             c = self%coefs_hi
         end if
+    end subroutine range_selector_nasa7
 
-        p = c(1) + T * (c(2) + T * (c(3) + T * (c(4) + c(5) * T)))
+    subroutine eval_specific_heat_nasa7(T, c, p)
+        real(dp), intent(in)  :: T
+        real(dp), intent(in)  :: c(7)
+        real(dp), intent(out) :: p
+
+        p = c(5)
+        p = c(4) + T * p
+        p = c(3) + T * p
+        p = c(2) + T * p
+        p = c(1) + T * p
         p = GAS_CONSTANT * p
+    end subroutine eval_specific_heat_nasa7
 
-        if (use_mass_basis) then
-            p = 1000.0 * p / self%molar_mass
-        end if
+    subroutine eval_enthalpy_nasa7(T, c, p)
+        real(dp), intent(in)  :: T
+        real(dp), intent(in)  :: c(7)
+        real(dp), intent(out) :: p
 
-    end function specific_heat_nasa7
+        p = c(5) / 5.0_dp
+        p = c(4) / 4.0_dp + T * p
+        p = c(3) / 3.0_dp + T * p
+        p = c(2) / 2.0_dp + T * p
+        p = c(1) / 1.0_dp + T * p
+        p = GAS_CONSTANT * T * (p + c(6) / T)
+    end subroutine eval_enthalpy_nasa7
+
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ! thermo_shomate_t
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     ! function [p] = shomate_specific_heat(T, c)
     !     % Molar specific heat with Shomate equation [J/(mol.K)].
     !     p = T.*(c(2)+T.*(c(3)+c(4).*T))+c(5)./T.^2+c(1);
     ! endfunction
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! ENTHALPY
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    ! function [p] = poly_nasa7_enthapy(T, c)
-    !     % Molar enthalpy from NASA7 polynomial [J/mol].
-    !     d = c(1:5) ./ linspace(1, 5, 5);
-    !     p = d(1)+T.*(d(2)+T.*(d(3)+T.*(d(4)+d(5).*T)))+c(6)./T;
-    !     p = Thermodata.GAS_CONSTANT .* T .* p;
-    ! end
-
+    !
     ! function [p] = shomate_enthalpy(T, c)
     !     % Molar enthalpy with Shomate equation [J/mol].
     !     p = T.*(c(1)+T.*(c(2)/2+T.*(c(3)/3+c(4)/4.*T)))-c(5)./T+c(6)-c(8);
     ! endfunction
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! ENTROPY
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
+    !
     ! function [p] = shomate_entropy(T, c)
     !     % Entropy with Shomate equation [J/K].
     !     p = c(1).*log(T)+T.*(c(2)+T.*(c(3)/2+c(4)/3.*T))+c(5)./(2.*T.^2)+c(7);

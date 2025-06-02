@@ -9,7 +9,7 @@ program test_thermodynamics
     integer :: i
     type(thermo_nasa7_t) :: species(5)
     character(:), allocatable :: name
-    real(dp) :: T, cp
+    real(dp) :: T, cp, hm
     
     print *, 'TEST: thermo'
 
@@ -18,12 +18,13 @@ program test_thermodynamics
     call species_methane_air_1step(species)
 
     T = 873.15_dp
-    print '(A, F8.2, A)', 'Evaluation of specific heat at ', T, ' K'
+    print '(A, F8.2, A)', 'Evaluation of properties at ', T, ' K'
 
     do i = 1,size(species)
         name = species(i)%name
         cp = species(i)%specific_heat(T)
-        print '(A10, A, F6.1, A)', name, ' is ', cp, ' J/(kg.K)'
+        hm = species(i)%enthalpy(T)
+        print '(A10, A, F10.1, A, F15.1, A)', name, ' ', cp, ' J/(kg.K)', hm, ' J/kg'
     end do
 
 end program test_thermodynamics
