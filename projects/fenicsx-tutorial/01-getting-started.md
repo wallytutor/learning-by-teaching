@@ -115,7 +115,7 @@ fdim = tdim - 1
 - Create an unstructured grid that can be used by `pyvista`:
 
 ```python
-domain.topology.create_connectivity(tdim, tdim)
+domain.topology.create_connectivity(fdim, tdim)
 topology, cell_types, geometry = vtk_mesh(domain, tdim)
 grid = pv.UnstructuredGrid(topology, cell_types, geometry)
 ```
