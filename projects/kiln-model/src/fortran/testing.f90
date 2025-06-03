@@ -1,4 +1,4 @@
-program test_thermodynamics
+program testing
     use, intrinsic :: iso_fortran_env, only : dp => real64
     use thermo
     use methane_air_1step
@@ -78,4 +78,4 @@ contains
         print *, ''
     end subroutine test_reaction_enthalpy
 
-end program test_thermodynamics
+end program testing
