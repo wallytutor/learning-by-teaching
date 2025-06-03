@@ -13,10 +13,7 @@ jupyter:
     name: python3
 ---
 
-# Getting started with FEM and FEniCSx
-
-
-- [Resources on FEM](https://jsdokken.com/dolfinx-tutorial/fem.html#introduction-to-the-finite-element-method)
+# [Poisson equation](https://jsdokken.com/dolfinx-tutorial/chapter1/fundamentals.html#solving-the-poisson-equation)
 
 ```python
 from pathlib import Path
@@ -49,50 +46,12 @@ from ufl import dx
 
 import pyvista as pv
 import numpy as np
-import ufl
 ```
 
 ```python
 print(pv.global_theme.jupyter_backend)
 pv.start_xvfb()
 ```
-
-## Integration by parts
-
-
-Standard form based on product rule
-
-$$
-\int_{\Omega}u\cdotp{}(\nabla{v})\,dV =
-\int_{\Omega}\nabla{(ab)}\,dV -
-\int_{\Omega}v\cdotp(\nabla{u})\,dV
-$$
-
-or making use of Gauss theorem:
-
-$$
-\int_{\Omega}u\cdotp{}(\nabla{v})\,dV =
-\int_{\partial\Omega}{ab}\cdot\vec{n}\,dA -
-\int_{\Omega}v\cdotp(\nabla{u})\,dV
-$$
-
-
-## Abstract variational notation
-
-
-An arbitrary linear finite element variation problem is stated as
-
-$$
-a(u,v) = L(v)\qquad\forall{v}\in\hat{V}
-$$
-
-where: 
-- $a(u,v)$ is called the bilinear form
-- $L(v)$ is the linear form
-
-
-## [Poisson equation](https://jsdokken.com/dolfinx-tutorial/chapter1/fundamentals.html#solving-the-poisson-equation)
-
 
 Poisson equation with Dirichlet boundary condition $u_D$ is stated as:
 
