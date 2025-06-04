@@ -224,10 +224,12 @@ _ = u_grid.set_active_scalars("u")
 - Plot solution projection in 2D:
 
 ```python
-u_plotter = pv.Plotter()
-u_plotter.add_mesh(u_grid, show_edges=True, cmap="jet")
-u_plotter.view_xy()
-u_plotter.show()
+opts = dict(show_edges=True, show_scalar_bar=True, cmap="jet")
+
+plotter1 = pv.Plotter()
+plotter1.add_mesh(u_grid, **opts)
+plotter1.view_xy()
+plotter1.show()
 ```
 
 - We can also warp the mesh by scalar to make use of the 3D plotting:
