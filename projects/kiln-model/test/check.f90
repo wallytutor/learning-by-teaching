@@ -1,4 +1,4 @@
-program testing
+program check
     use, intrinsic :: iso_fortran_env, only : dp => real64
     use thermo
     use methane_air_1step
@@ -8,11 +8,10 @@ program testing
     !============
 
     integer :: i
-    logical :: check
     type(solution_methane_air_1step_t) :: mixture
 
     character(:), allocatable :: name
-    
+
     print *, 'TEST: thermo'
     print *, ''
 
@@ -31,9 +30,10 @@ contains
     subroutine test_air_properties(solution)
         type(solution_nasa7_t), intent(inout) :: solution
         real(dp) :: X(5)
+        logical :: dummy
 
         X = [0.0_dp, 0.21_dp, 0.0_dp, 0.0_dp, 0.79_dp]
-        check = solution%set_mole_fractions(X)
+        dummy = solution%set_mole_fractions(X)
 
         print *, 'Density ......... ', solution%density(T_NORMAL, ONE_ATM)
         print *, 'Specific heat ... ', solution%specific_heat(T_NORMAL)
@@ -41,7 +41,7 @@ contains
         print *, 'Y ', solution%mass_fractions
         print *, 'END OF test_air_properties'
         print *, ''
-    end subroutine test_air_properties    
+    end subroutine test_air_properties
 
     subroutine test_print_properties(solution, T)
         type(solution_nasa7_t), intent(in) :: solution
@@ -78,4 +78,4 @@ contains
         print *, ''
     end subroutine test_reaction_enthalpy
 
-end program testing
+end program check
