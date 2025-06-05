@@ -29,9 +29,10 @@ contains
 
     subroutine test_air_properties(solution)
         type(solution_nasa7_t), intent(inout) :: solution
-        real(dp) :: X(5)
+        real(dp) :: X(5), Y(5)
         logical :: dummy
 
+        print *, 'Setting mole fractions'
         X = [0.0_dp, 0.21_dp, 0.0_dp, 0.0_dp, 0.79_dp]
         dummy = solution%set_mole_fractions(X)
 
@@ -39,6 +40,18 @@ contains
         print *, 'Specific heat ... ', solution%specific_heat(T_NORMAL)
         print *, 'X ', solution%mole_fractions
         print *, 'Y ', solution%mass_fractions
+
+        print *, 'Setting mass fractions'
+        Y = solution%mass_fractions
+        dummy = solution%set_mass_fractions(Y)
+
+        print *, 'Density ......... ', solution%density(T_NORMAL, ONE_ATM)
+        print *, 'Specific heat ... ', solution%specific_heat(T_NORMAL)
+        print *, 'X ', solution%mole_fractions
+        print *, 'Y ', solution%mass_fractions
+
+        print *, 'Residual = ', maxval(X - solution%mole_fractions)
+
         print *, 'END OF test_air_properties'
         print *, ''
     end subroutine test_air_properties
