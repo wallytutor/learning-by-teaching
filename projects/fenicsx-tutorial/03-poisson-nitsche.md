@@ -60,7 +60,13 @@ V = functionspace(domain, ("Lagrange", 1))
 u_d = Function(V)
 u_e = exact_solution(x)
 
-u_d.interpolate(Expression(u_e, V.element.interpolation_points()))
+# As proposed in tutorial:
+# u_d.interpolate(Expression(u_e, V.element.interpolation_points()))
+
+# Why was it proposed as given above in this tutorial?
+# In a past one the following *simpler* solution was used.
+u_d.interpolate(exact_solution)
+
 f = -div(grad(u_e))
 ```
 
