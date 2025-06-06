@@ -8,7 +8,7 @@ module thermo_base
         contains
         procedure (thermo_eval), deferred :: specific_heat
         procedure (thermo_eval), deferred :: enthalpy
-        ! procedure (thermo_eval), deferred :: entropy
+        procedure (thermo_eval), deferred :: entropy
     end type thermo_base_t
 
     abstract interface

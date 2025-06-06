@@ -22,7 +22,7 @@ program check
     mixture = solution_methane_air_1step_t()
 
     call test_air_properties(mixture%solution)
-    call test_print_properties(mixture%solution, T_STANDARD)
+    call test_print_properties(mixture%solution, 300.0_dp)
     call test_reaction_enthalpy(mixture%solution, T_STANDARD)
 
 contains
@@ -59,15 +59,20 @@ contains
     subroutine test_print_properties(solution, T)
         type(solution_nasa7_t), intent(in) :: solution
         real(dp),               intent(in) :: T
-        real(dp) :: cp, hm
+        real(dp) :: cp, hm, sm, h298
 
         print '(A, F8.2, A)', 'Evaluation of properties at ', T, ' K'
+
 
         do i = 1,size(solution%species)
             name = solution%species(i)%name
             cp = solution%species(i)%specific_heat(T)
             hm = solution%species(i)%enthalpy(T)
-            print '(A10, A, F10.1, A, F15.1, A)', name, ' ', cp, ' J/(kg.K)', hm, ' J/kg'
+            sm = solution%species(i)%entropy(T)
+
+            hm = (hm - solution%species(i)%enthalpy(298.15_dp)) / 1000.0_dp
+
+            print '(A10," ",F10.2," J/(mol.K)",F15.2," kJ/mol",F15.1," J/(mol.K)")', name, cp, hm, sm
         end do
 
         print *, 'END OF test_print_properties'
@@ -86,7 +91,9 @@ contains
         hm = hm - 2*solution%species(2)%enthalpy(T)
         hm = hm + 1*solution%species(3)%enthalpy(T)
         hm = hm + 2*solution%species(4)%enthalpy(T)
-        print '(A, F6.1, A)', 'CH4 oxydation ', hm / 1000.0_dp, ' kJ/mol'
+        hm = hm / 1000.0_dp
+
+        print '("CH4 oxydation ",F6.1," kJ/mol")', hm
         print *, 'END OF test_reaction_enthalpy'
         print *, ''
     end subroutine test_reaction_enthalpy

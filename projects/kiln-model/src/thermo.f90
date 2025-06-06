@@ -10,7 +10,6 @@ module thermo
     !============
 
     private
-    public thermo_nasa7_t
     public set_flag_mass_basis
     public set_flag_verbose_thermo
     public set_flag_check_fractions
@@ -28,36 +27,17 @@ module thermo
     !! If true, check if fractions add up to unity.
     logical :: check_fractions = .false.
 
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! thermo_nasa7_t
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    type, public, extends(thermo_base_t) :: thermo_nasa7_t
-        real(dp) :: temperature_change
-        real(dp) :: coefs_lo(7)
-        real(dp) :: coefs_hi(7)
-      contains
-        procedure :: specific_heat => specific_heat_nasa7
-        procedure :: enthalpy      => enthalpy_nasa7
-        ! procedure :: entropy       => entropy_nasa7
-    end type thermo_nasa7_t
-
-    interface thermo_nasa7_t
-        procedure :: new_thermo_nasa7
-    end interface thermo_nasa7_t
-
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! solution_nasa7_t
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     type, public :: solution_nasa7_t
         !! Solution phase using NASA7 thermodynamic model.
-        integer                           :: n_species
-        type(thermo_nasa7_t), allocatable :: species(:)
-        real(dp), allocatable             :: molar_masses(:)
-        real(dp), allocatable             :: mass_fractions(:)
-        real(dp), allocatable             :: mole_fractions(:)
+        integer                    :: n_species
+        type(nasa7_t), allocatable :: species(:)
+        real(dp), allocatable      :: molar_masses(:)
+        real(dp), allocatable      :: mass_fractions(:)
+        real(dp), allocatable      :: mole_fractions(:)
       contains
         procedure :: density            => density_solution_nasa7
         procedure :: set_mass_fractions => set_mass_fractions_solution_nasa7
@@ -163,24 +143,9 @@ contains
     ! CONSTRUCTORS
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    type(thermo_nasa7_t) function new_thermo_nasa7(&
-            name, molar_mass,temperature_change, coefs_lo, coefs_hi)
-        character(len=*), intent(in) :: name
-        real(dp),         intent(in) :: molar_mass
-        real(dp),         intent(in) :: temperature_change
-        real(dp),         intent(in) :: coefs_lo(7)
-        real(dp),         intent(in) :: coefs_hi(7)
-
-        new_thermo_nasa7%name = name
-        new_thermo_nasa7%molar_mass = molar_mass
-        new_thermo_nasa7%temperature_change = temperature_change
-        new_thermo_nasa7%coefs_lo = coefs_lo
-        new_thermo_nasa7%coefs_hi = coefs_hi
-    end function new_thermo_nasa7
-
     type(solution_nasa7_t) function new_solution_nasa7(species)
-        type(thermo_nasa7_t), intent(in) :: species(:)
-        integer                          :: n, i
+        type(nasa7_t), intent(in) :: species(:)
+        integer                   :: n, i
 
         n = size(species)
         new_solution_nasa7%n_species = n
@@ -210,97 +175,6 @@ contains
             p = 1000.0_dp * p / self%molar_mass
         end if
     end subroutine select_quantity_basis
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! thermo_nasa7_t
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    function specific_heat_nasa7(self, T) result(p)
-        !! Specific heat from NASA7 polynomial [J/(<base>.K)].
-        class(thermo_nasa7_t), intent(in) :: self
-        real(dp),              intent(in) :: T
-
-        ! XXX: how do I handle this selection without copy?
-        ! real(dp), pointer :: c(:)
-        real(dp) :: c(7)
-        real(dp) :: p
-
-        call range_selector_nasa7(self, T, c)
-        call eval_specific_heat_nasa7(T, c, p)
-        call select_quantity_basis(self, p)
-    end function specific_heat_nasa7
-
-    function enthalpy_nasa7(self, T) result(p)
-        !! Enthalpy from NASA7 polynomial [J/<base>].
-        class(thermo_nasa7_t), intent(in) :: self
-        real(dp),              intent(in) :: T
-
-        ! XXX: how do I handle this selection without copy?
-        ! real(dp), pointer :: c(:)
-        real(dp) :: c(7)
-        real(dp) :: p
-
-        call range_selector_nasa7(self, T, c)
-        call eval_enthalpy_nasa7(T, c, p)
-        call select_quantity_basis(self, p)
-    end function enthalpy_nasa7
-
-    subroutine range_selector_nasa7(self, T, c)
-        class(thermo_nasa7_t), intent(in)  :: self
-        real(dp),              intent(in)  :: T
-        real(dp),              intent(out) :: c(7)
-
-        if (T.lt.self%temperature_change) then
-            c = self%coefs_lo
-        else
-            c = self%coefs_hi
-        end if
-    end subroutine range_selector_nasa7
-
-    subroutine eval_specific_heat_nasa7(T, c, p)
-        real(dp), intent(in)  :: T
-        real(dp), intent(in)  :: c(7)
-        real(dp), intent(out) :: p
-
-        p = c(5)
-        p = c(4) + T * p
-        p = c(3) + T * p
-        p = c(2) + T * p
-        p = c(1) + T * p
-        p = GAS_CONSTANT * p
-    end subroutine eval_specific_heat_nasa7
-
-    subroutine eval_enthalpy_nasa7(T, c, p)
-        real(dp), intent(in)  :: T
-        real(dp), intent(in)  :: c(7)
-        real(dp), intent(out) :: p
-
-        p = c(5) / 5.0_dp
-        p = c(4) / 4.0_dp + T * p
-        p = c(3) / 3.0_dp + T * p
-        p = c(2) / 2.0_dp + T * p
-        p = c(1) / 1.0_dp + T * p
-        p = GAS_CONSTANT * T * (p + c(6) / T)
-    end subroutine eval_enthalpy_nasa7
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! thermo_shomate_t
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    ! function [p] = shomate_specific_heat(T, c)
-    !     % Molar specific heat with Shomate equation [J/(mol.K)].
-    !     p = T.*(c(2)+T.*(c(3)+c(4).*T))+c(5)./T.^2+c(1);
-    ! endfunction
-    !
-    ! function [p] = shomate_enthalpy(T, c)
-    !     % Molar enthalpy with Shomate equation [J/mol].
-    !     p = T.*(c(1)+T.*(c(2)/2+T.*(c(3)/3+c(4)/4.*T)))-c(5)./T+c(6)-c(8);
-    ! endfunction
-    !
-    ! function [p] = shomate_entropy(T, c)
-    !     % Entropy with Shomate equation [J/K].
-    !     p = c(1).*log(T)+T.*(c(2)+T.*(c(3)/2+c(4)/3.*T))+c(5)./(2.*T.^2)+c(7);
-    ! endfunction
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! solution_nasa7_t
