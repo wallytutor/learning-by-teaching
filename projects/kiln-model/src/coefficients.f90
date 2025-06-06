@@ -3,6 +3,7 @@ module coefficients
 
     !============
     implicit none
+    private
     !============
     
 contains

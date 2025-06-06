@@ -4,6 +4,7 @@ module nasa7
 
     !============
     implicit none
+    private
     !============
 
     type, public, extends(thermo_base_t) :: nasa7_t
@@ -34,11 +35,11 @@ contains
         real(dp),         intent(in) :: coefs_lo(7)
         real(dp),         intent(in) :: coefs_hi(7)
 
-        new_thermo%name = name
-        new_thermo%molar_mass = molar_mass
-        new_thermo%temperature_change = temperature_change
-        new_thermo%coefs_lo = coefs_lo
-        new_thermo%coefs_hi = coefs_hi
+        new_thermo % name = name
+        new_thermo % molar_mass = molar_mass
+        new_thermo % temperature_change = temperature_change
+        new_thermo % coefs_lo = coefs_lo
+        new_thermo % coefs_hi = coefs_hi
     end function
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

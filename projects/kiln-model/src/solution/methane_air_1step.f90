@@ -1,28 +1,23 @@
 module methane_air_1step
     !! Provide thermodynamic models and sample hard-coded data.
     use constant
-    use thermo
+    use ideal_gas
     use nasa7
 
     !============
     implicit none
+    private
     !============
 
-    private
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! solution_methane_air_1step_t
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    type, public :: solution_methane_air_1step_t
-        type(solution_nasa7_t) :: solution
+    type, public :: methane_air_1step_t
+        type(ideal_gas_t) :: solution
       contains
 
-    end type solution_methane_air_1step_t
+    end type methane_air_1step_t
 
-    interface solution_methane_air_1step_t
+    interface methane_air_1step_t
         procedure :: new_solution
-    end interface solution_methane_air_1step_t
+    end interface methane_air_1step_t
 
 contains
 
@@ -30,11 +25,16 @@ contains
     ! CONSTRUCTOR
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    type(solution_methane_air_1step_t) function new_solution()
+    type(methane_air_1step_t) function new_solution()
         type(nasa7_t) :: species(5)
-
+        integer :: i
         call create_species(species)
-        new_solution%solution = solution_nasa7_t(species)
+        new_solution % solution = ideal_gas_t(species)
+
+        do i = 1, new_solution % solution % n_species
+            print *, new_solution % solution % species(i) % name
+            print *, len(new_solution % solution % species(i) % name)
+        end do
     end function new_solution
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -93,6 +93,6 @@ contains
              -5.684760000000e-07_dp, +1.009703800000e-10_dp, &
              -6.753351000000e-15_dp, -9.227977000000e+02_dp, &
              +5.980528000000e+00_dp])
-    end subroutine create_species
+    end subroutine
 
 end module methane_air_1step

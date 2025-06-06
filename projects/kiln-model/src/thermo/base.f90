@@ -1,11 +1,16 @@
 module thermo_base
     use constant
 
-    type, abstract :: thermo_base_t
+    !============
+    implicit none
+    private
+    !============
+
+    type, public, abstract :: thermo_base_t
         !! Base abstract type for any compound thermodynamic model.
         character(:), allocatable :: name
         real(dp)                  :: molar_mass
-        contains
+      contains
         procedure (thermo_eval), deferred :: specific_heat
         procedure (thermo_eval), deferred :: enthalpy
         procedure (thermo_eval), deferred :: entropy
@@ -19,7 +24,5 @@ module thermo_base
             real(dp)                         :: p
         end function thermo_eval
     end interface
-
-contains
 
 end module thermo_base

@@ -3,6 +3,7 @@ module plugflow
 
     !============
     implicit none
+    private
     !============
     
 contains

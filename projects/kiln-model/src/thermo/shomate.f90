@@ -2,6 +2,11 @@ module shomate
     use constant
     use thermo_base
 
+    !============
+    implicit none
+    private
+    !============
+
     ! type, public, extends(thermo_base_t) :: thermo_shomate_t
     !     real(dp) :: coefs_lo(8)
     !     real(dp) :: coefs_hi(8)
