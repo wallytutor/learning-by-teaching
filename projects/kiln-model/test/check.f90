@@ -1,5 +1,5 @@
 program check
-    use, intrinsic :: iso_fortran_env, only : dp => real64
+    use constant
     use thermo
     use methane_air_1step
 
