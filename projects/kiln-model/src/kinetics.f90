@@ -1,6 +1,6 @@
 module kinetics
-    use, intrinsic :: iso_fortran_env, only : dp => real64
-    use thermo
+    use constant
+    ! use thermo
 
     !============
     implicit none

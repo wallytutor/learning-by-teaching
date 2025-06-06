@@ -1,6 +1,6 @@
 module methane_air_1step
     !! Provide thermodynamic models and sample hard-coded data.
-    use, intrinsic :: iso_fortran_env, only : dp => real64
+    use constant
     use thermo
 
     !============

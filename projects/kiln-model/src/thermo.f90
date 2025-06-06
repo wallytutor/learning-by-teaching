@@ -1,47 +1,19 @@
 module thermo
     !! Provide thermodynamic models and sample hard-coded data.
-    use, intrinsic :: iso_fortran_env, only : dp => real64
+
+    use constant
+    use nasa7
+    use thermo_base
 
     !============
     implicit none
     !============
 
     private
-    public T_NORMAL
-    public T_STANDARD
-    public ONE_ATM
     public thermo_nasa7_t
     public set_flag_mass_basis
     public set_flag_verbose_thermo
     public set_flag_check_fractions
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! PARAMETERS
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    !! Reference normal temperature [K].
-    real(dp), parameter :: T_NORMAL = 273.15_dp
-
-    !! Reference standard state temperature [K].
-    real(dp), parameter :: T_STANDARD = 298.15_dp
-
-    !! Reference atmospheric pressure [Pa].
-    real(dp), parameter :: ONE_ATM = 101325.0_dp
-
-    !! Ideal gas constant [J/(mol.K)].
-    real(dp), parameter :: GAS_CONSTANT = 8.31446261815324_dp
-
-    !! Stefan-Boltzmann constant W/(m².K⁴).
-    real(dp), parameter :: SIGMA = 5.6703744191844314e-08_dp
-
-    !! Water specific heat [J/(kg.K)].
-    real(dp), parameter :: WATER_SPECIFIC_HEAT = 4186.0_dp
-
-    !! Water latent heat of evaporation [J/kg].
-    real(dp), parameter :: WATER_LATENT_HEAT_EVAP = 2260000.0_dp
-
-    !! Tolerance applied to fraction checks.
-    real(dp), parameter :: SMALL_FRACTION = 1.0e-08_dp
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! FLAGS
@@ -56,28 +28,6 @@ module thermo
     !! If true, check if fractions add up to unity.
     logical :: check_fractions = .false.
 
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! thermo_base_t
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    type, abstract :: thermo_base_t
-        !! Base abstract type for any compound thermodynamic model.
-        character(:), allocatable :: name
-        real(dp)                  :: molar_mass
-      contains
-        procedure (thermo_eval), deferred :: specific_heat
-        procedure (thermo_eval), deferred :: enthalpy
-        ! procedure (thermo_eval), deferred :: entropy
-    end type thermo_base_t
-
-    abstract interface
-        function thermo_eval(self, T) result(p)
-            import thermo_base_t, dp
-            class(thermo_base_t), intent(in) :: self
-            real(dp),             intent(in) :: T
-            real(dp)                         :: p
-        end function thermo_eval
-    end interface
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! thermo_nasa7_t
@@ -96,34 +46,6 @@ module thermo
     interface thermo_nasa7_t
         procedure :: new_thermo_nasa7
     end interface thermo_nasa7_t
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! thermo_shomate_t
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    ! type, public, extends(thermo_base_t) :: thermo_shomate_t
-    !     real(dp) :: coefs_lo(8)
-    !     real(dp) :: coefs_hi(8)
-    !   contains
-    ! end type thermo_shomate_t
-
-    ! interface thermo_shomate_t
-    !     procedure :: new_thermo_shomate
-    ! end interface thermo_shomate_t
-
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    ! thermo_maierkelley_t
-    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    ! type, public, extends(thermo_base_t) :: thermo_maierkelley_t
-    !     real(dp) :: coefs_lo(5)
-    !     real(dp) :: coefs_hi(5)
-    !   contains
-    ! end type thermo_maierkelley_t
-
-    ! interface thermo_maierkelley_t
-    !     procedure :: new_thermo_maierkelley
-    ! end interface thermo_maierkelley_t
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! solution_nasa7_t

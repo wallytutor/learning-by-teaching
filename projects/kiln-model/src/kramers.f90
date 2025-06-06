@@ -1,5 +1,5 @@
 module kramers
-    use, intrinsic :: iso_fortran_env, only : dp => real64
+    use constant
 
     !============
     implicit none
