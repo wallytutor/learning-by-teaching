@@ -32,6 +32,7 @@ module mixture
 
     public mass_to_mole_fraction
     public mole_to_mass_fraction
+    public normalize_fractions
     ! public set_flag_mass_basis
     ! public set_flag_verbose_thermo
     ! public set_flag_check_fractions
@@ -66,13 +67,21 @@ module mixture
         Y = X * W / M
     end subroutine
 
-    subroutine normalize_fractions(A)
+    subroutine normalize_fractions(A, small)
         real(dp), intent(inout) :: A(:)
+        real(dp), intent(in), optional :: small
         real(dp) :: total
+        real(dp) :: tol
 
         total = sum(A)
 
-        if (abs(total - 1.0_dp) >= SMALL_FRACTION) then
+        if (.not.present(small)) then
+            tol = SMALL_FRACTION
+        else
+            tol = small
+        end if
+        
+        if (abs(total - 1.0_dp) >= tol) then
             A = A / total
         end if
     end subroutine
@@ -186,43 +195,29 @@ module ideal_gas
         rho = rho / 1000.0_dp
     end function
 
-    function set_mass_fractions(self, Y) result(p)
+    subroutine set_mass_fractions(self, Y)
         class(ideal_gas_t), intent(inout) :: self
-        real(dp),                intent(in)    :: Y(self%n_species)
-        logical :: p
+        real(dp),           intent(in)    :: Y(self % n_species)
 
-        p = .true.
-        self%mass_fractions = Y
+        self % mass_fractions = Y
 
-        ! Only activate check fractions for checking algorithm
-        ! debug or other operations requiring robustness.
-        ! if (check_fractions) then
-        !     p = normalize_fractions(self%mass_fractions)
-        ! end if
+        call normalize_fractions(self % mass_fractions)
+        call mass_to_mole_fraction(self % molar_masses,   &
+                                   self % mass_fractions, &
+                                   self % mole_fractions)
+    end subroutine
 
-        call mass_to_mole_fraction(self%molar_masses,   &
-                                   self%mass_fractions, &
-                                   self%mole_fractions)
-    end function
-
-    function set_mole_fractions(self, X) result(p)
+    subroutine set_mole_fractions(self, X)
         class(ideal_gas_t), intent(inout) :: self
-        real(dp),                intent(in)    :: X(self%n_species)
-        logical :: p
+        real(dp),           intent(in)    :: X(self % n_species)
 
-        p = .true.
-        self%mole_fractions = X
+        self % mole_fractions = X
 
-        ! Only activate check fractions for checking algorithm
-        ! debug or other operations requiring robustness.
-        ! if (check_fractions) then
-        !     p = normalize_fractions(self%mole_fractions)
-        ! end if
-        
-        call mole_to_mass_fraction(self%molar_masses,   &
-                                   self%mole_fractions, &
-                                   self%mass_fractions)
-    end function
+        call normalize_fractions(self % mole_fractions)
+        call mole_to_mass_fraction(self % molar_masses,   &
+                                   self % mole_fractions, &
+                                   self % mass_fractions)
+    end subroutine
 
     function specific_heat(self, T) result(p)
         !! Mass-weighted specific heat of solution [J/(kg.K)].
@@ -299,6 +294,8 @@ module methane_air_1step
     private
     !============
 
+    public create_species
+    
     type, public :: methane_air_1step_t
         type(ideal_gas_t) :: solution
       contains
@@ -316,14 +313,9 @@ module methane_air_1step
 
     type(methane_air_1step_t) function new_solution()
         type(nasa7_t) :: species(5)
-        integer :: i
+
         call create_species(species)
         new_solution % solution = ideal_gas_t(species)
-
-        do i = 1, new_solution % solution % n_species
-            print *, new_solution % solution % species(i) % name
-            print *, len(new_solution % solution % species(i) % name)
-        end do
     end function new_solution
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

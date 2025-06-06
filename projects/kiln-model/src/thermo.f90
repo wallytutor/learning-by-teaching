@@ -8,8 +8,11 @@ module thermo_base
 
     type, public, abstract :: thermo_base_t
         !! Base abstract type for any compound thermodynamic model.
-        character(:), allocatable :: name
-        real(dp)                  :: molar_mass
+        ! XXX: still struggling with getting the names in memory, so for
+        ! now, fall-back to constant sized character arrays.
+        ! character(:), allocatable :: name
+        character(20) :: name
+        real(dp)      :: molar_mass
       contains
         procedure (thermo_eval), deferred :: specific_heat
         procedure (thermo_eval), deferred :: enthalpy
