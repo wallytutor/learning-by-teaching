@@ -27,14 +27,14 @@ module my_module
 
     ...
 
-contains
+  contains
 
     ...
 
 end module my_module ! Add its name in this closing line.
 ```
 
-- Module contents before and after `contains` keywords are indended by 4 spaces.
+- Module contents before and after `contains` keywords are indended by 4 spaces, while `contains` is indented with 2 spaces exceptionally (in all its use context, `module`, `type`, `program`).
 
 ### Thermo
 
