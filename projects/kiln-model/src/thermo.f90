@@ -140,7 +140,7 @@ module nasa7
     ! PURE IMPLEMENTATIONS BY DEFINITION
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    subroutine eval_specific_heat(T, c, p)
+    pure subroutine eval_specific_heat(T, c, p)
         real(dp), intent(in)  :: T
         real(dp), intent(in)  :: c(7)
         real(dp), intent(out) :: p
@@ -153,7 +153,7 @@ module nasa7
         p = GAS_CONSTANT * p
     end subroutine
 
-    subroutine eval_enthalpy(T, c, p)
+    pure subroutine eval_enthalpy(T, c, p)
         real(dp), intent(in)  :: T
         real(dp), intent(in)  :: c(7)
         real(dp), intent(out) :: p
@@ -166,7 +166,7 @@ module nasa7
         p = GAS_CONSTANT * T * (p + c(6) / T)
     end subroutine
 
-    subroutine eval_entropy(T, c, p)
+    pure subroutine eval_entropy(T, c, p)
         real(dp), intent(in)  :: T
         real(dp), intent(in)  :: c(7)
         real(dp), intent(out) :: p
@@ -189,32 +189,108 @@ module shomate
     private
     !============
 
-    ! type, public, extends(thermo_base_t) :: thermo_shomate_t
-    !     real(dp) :: coefs_lo(8)
-    !     real(dp) :: coefs_hi(8)
-    !   contains
-    ! end type thermo_shomate_t
+    ! Currently Shomate data supports a single range; its intended use
+    ! is the representation of materials inside the kiln, which must
+    ! have composition computed externally, thus implying single range
+    ! of data. Traditionally, *e.g.* one represents Shomate data for
+    ! a solid and its liquid or other alotropic forms as a sequence of
+    ! data ranges, what is avoided here.
+    type, public, extends(thermo_base_t) :: shomate_t
+        real(dp) :: coefs(8)
+      contains
+        procedure :: specific_heat
+        procedure :: enthalpy
+        procedure :: entropy
+    end type
 
-    ! interface thermo_shomate_t
-    !     procedure :: new_thermo_shomate
-    ! end interface thermo_shomate_t
+    interface shomate_t
+        procedure :: new_thermo
+    end interface shomate_t
 
   contains
 
-    ! function [p] = shomate_specific_heat(T, c)
-    !     % Molar specific heat with Shomate equation [J/(mol.K)].
-    !     p = T.*(c(2)+T.*(c(3)+c(4).*T))+c(5)./T.^2+c(1);
-    ! endfunction
-    !
-    ! function [p] = shomate_enthalpy(T, c)
-    !     % Molar enthalpy with Shomate equation [J/mol].
-    !     p = T.*(c(1)+T.*(c(2)/2+T.*(c(3)/3+c(4)/4.*T)))-c(5)./T+c(6)-c(8);
-    ! endfunction
-    !
-    ! function [p] = shomate_entropy(T, c)
-    !     % Entropy with Shomate equation [J/K].
-    !     p = c(1).*log(T)+T.*(c(2)+T.*(c(3)/2+c(4)/3.*T))+c(5)./(2.*T.^2)+c(7);
-    ! endfunction
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ! CONSTRUCTOR (OVERRIDE)
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    type(shomate_t) function new_thermo(name, molar_mass, coefs)
+        character(len=*), intent(in) :: name
+        real(dp),         intent(in) :: molar_mass
+        real(dp),         intent(in) :: coefs(8)
+
+        new_thermo % name = name
+        new_thermo % molar_mass = molar_mass
+        new_thermo % coefs = coefs
+    end function
+
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ! REQUIRED INTERFACES
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    function specific_heat(self, T) result(p)
+        !! Specific heat from Shomate polynomial [J/(mol.K)].
+        class(shomate_t), intent(in) :: self
+        real(dp),         intent(in) :: T
+        real(dp) :: p
+
+        call eval_specific_heat(T / 1000.0_dp, self % coefs, p)
+    end function
+
+    function enthalpy(self, T) result(p)
+        !! Enthalpy from Shomate polynomial [J/mol].
+        class(shomate_t), intent(in) :: self
+        real(dp),         intent(in) :: T
+        real(dp) :: p
+
+        call eval_enthalpy(T / 1000.0_dp, self % coefs, p)
+    end function
+
+    function entropy(self, T) result(p)
+        !! Entropy from Shomate polynomial [J/(mol.K)].
+        class(shomate_t), intent(in) :: self
+        real(dp),         intent(in) :: T
+        real(dp) :: p
+
+        call eval_entropy(T / 1000.0_dp, self % coefs, p)
+    end function
+
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ! PURE IMPLEMENTATIONS BY DEFINITION
+    !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    pure subroutine eval_specific_heat(T, c, p)
+        real(dp), intent(in)  :: T
+        real(dp), intent(in)  :: c(8)
+        real(dp), intent(out) :: p
+
+        p = c(4)
+        p = c(3) + T * p
+        p = c(2) + T * p
+        p = T * p + c(5) / T**2 + c(1)
+    end subroutine
+
+    pure subroutine eval_enthalpy(T, c, p)
+        real(dp), intent(in)  :: T
+        real(dp), intent(in)  :: c(8)
+        real(dp), intent(out) :: p
+
+        p = c(4) / 4.0_dp
+        p = c(3) / 3.0_dp + T * p
+        p = c(2) / 2.0_dp + T * p
+        p = c(1) / 1.0_dp + T * p
+        p = T * p - c(5) / T + c(6) - c(8)
+    end subroutine
+
+    pure subroutine eval_entropy(T, c, p)
+        real(dp), intent(in)  :: T
+        real(dp), intent(in)  :: c(7)
+        real(dp), intent(out) :: p
+
+        p = c(4) / 3.0_dp
+        p = c(3) / 2.0_dp + T * p
+        p = c(2) / 1.0_dp + T * p
+        p = c(1) * log(T) + T * p + c(5) / (2*T**2) + c(7)
+    end subroutine
 
 end module shomate
 
@@ -227,15 +303,15 @@ module maier_kelley
     private
     !============
 
-    ! type, public, extends(thermo_base_t) :: thermo_maierkelley_t
+    ! type, public, extends(thermo_base_t) :: maierkelley_t
     !     real(dp) :: coefs_lo(5)
     !     real(dp) :: coefs_hi(5)
     !   contains
-    ! end type thermo_maierkelley_t
+    ! end type maierkelley_t
 
-    ! interface thermo_maierkelley_t
-    !     procedure :: new_thermo_maierkelley
-    ! end interface thermo_maierkelley_t
+    ! interface maierkelley_t
+    !     procedure :: new_thermo
+    ! end interface maierkelley_t
 
   contains
 

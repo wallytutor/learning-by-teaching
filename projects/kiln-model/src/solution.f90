@@ -234,6 +234,9 @@ module ideal_gas
             prop = prop / self % species(i) % molar_mass
             p = p + self % mass_fractions(i) * prop
         end do
+
+        ! Molar mass is stored in g/mol => x1000 g / kg.
+        p = 1000.00_dp * p
     end function
 
     function enthalpy(self, T) result(p)
@@ -377,3 +380,30 @@ module methane_air_1step
     end subroutine
 
 end module methane_air_1step
+
+module pure_silica
+    !! Provides pure silica data mainly for model testing.
+    ! https://webbook.nist.gov/cgi/cbook.cgi?ID=C14808607
+    use constant
+
+    !============
+    implicit none
+    private
+    !============
+
+    type, public :: pure_silica_t
+        ! type(ideal_gas_t) :: solution
+      contains
+    end type pure_silica_t
+
+    interface pure_silica_t
+        procedure :: new_solution
+    end interface pure_silica_t
+
+  contains
+
+    type(pure_silica_t) function new_solution()
+    
+    end function
+
+end module pure_silica
