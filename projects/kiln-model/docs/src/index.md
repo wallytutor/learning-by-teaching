@@ -6,7 +6,7 @@ email:       walter.dalmazsilva@gmail.com
 display:     public protected
 license:     mit
 doc_license: mit
-src_dir:     ../../src/core/
+src_dir:     ../../src/
              ../../test/
 output_dir:  ../build/
 exclude:     ../src/kiln/*
