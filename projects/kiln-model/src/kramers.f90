@@ -3,6 +3,7 @@ module kramers
 
     !============
     implicit none
+    private
     !============
     
 contains

@@ -4,9 +4,9 @@ module kinetics
 
     !============
     implicit none
+    private
     !============
 
-    private
 
     !\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ! methane_air_one_step_t

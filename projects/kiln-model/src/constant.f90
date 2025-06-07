@@ -2,9 +2,8 @@ module constant
 
     !============
     implicit none
-    !============
-
     public
+    !============
 
     !! Default real type for project.
     integer, parameter :: dp = selected_real_kind(15)
