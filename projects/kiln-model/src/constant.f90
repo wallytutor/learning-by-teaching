@@ -32,4 +32,7 @@ module constant
     !! Tolerance applied to fraction checks.
     real(dp), parameter :: SMALL_FRACTION = 1.0e-08_dp
 
+    !! Definition of pi.
+    real(dp), parameter :: PI = 4.0 * ATAN(1.0)
+
 end module constant

@@ -1,6 +1,6 @@
 program check
     use constant
-    
+
     ! thermo.f90
     use nasa7
     use shomate
@@ -9,6 +9,11 @@ program check
     use ideal_gas
     use methane_air_1step
     use pure_silica
+
+    ! numerical.f90
+    use sample_ode
+    use integ_rkf45
+    use ode_rkf
 
     !============
     implicit none
@@ -20,6 +25,8 @@ program check
     call test002()
     call test003()
     call test004()
+    call test005()
+    call testdev()
 
 contains
 
@@ -49,6 +56,15 @@ contains
         end if
     end subroutine
 
+    function sample_ode(t, x) result(y)
+        real(dp), intent(in) :: t
+        real(dp), intent(in) :: x
+        real(dp) :: y
+
+        ! Example ODE: dy/dt = x - t^2 + 1
+        y = x - t**2 + 1.0
+    end function
+
     subroutine test001()
         ! The goal of this test is to check the correct computation of
         ! density and specific heat of a simplified composition of air.
@@ -73,11 +89,11 @@ contains
         X_ref = [0.0000000000000000_dp, 0.20999999999999999_dp, &
                  0.0000000000000000_dp, 0.00000000000000000_dp, &
                  0.7900000000000000_dp]
-        
+
         Y_ref = [0.0000000000000000_dp, 0.23290921795842306_dp, &
                  0.0000000000000000_dp, 0.00000000000000000_dp, &
                  0.7670907820415768_dp]
-        
+
         ! STEP 1: using mole fractions as input composition:
         call solution % set_mole_fractions(X_ref)
         rho_num = solution % density(T_NORMAL, ONE_ATM)
@@ -93,7 +109,7 @@ contains
 
         rho_ref = 1.2871722_dp
         cp_ref  = 1007.3328253_dp
-    
+
         ! Confirm density / cp match expected values:
         call check_result(rho_num, rho_ref, atol, rtol, 'rho')
         call check_result(cp_num,  cp_ref,  atol, rtol, 'cp')
@@ -213,7 +229,7 @@ contains
         ! TODO: scan a range of temperatures, recover the full table.
         type(shomate_t) :: sio2
         real(dp) :: atol, rtol, T, props(3), truth(3)
-    
+
         print *, 'TEST: Shomate properties'
 
         T = 600.0_dp
@@ -234,6 +250,60 @@ contains
         call check_result(props(1), truth(1), atol, rtol, 'cp')
         call check_result(props(2), truth(2), atol, rtol, 'hm')
         call check_result(props(3), truth(3), atol, rtol, 'sm')
+    end subroutine
+
+    subroutine test005()
+        real(dp) :: t, x, h, tol
+        integer :: i, n
+
+        print *, 'TEST: ODE integration RK45'
+
+        ! Initial conditions
+        t = 0.0
+        x = 1.0
+        h = 0.1
+        tol = 1.0e-6
+        n = 10
+
+        print *, "t", "x"
+        do i = 1, n
+            call rk45(sample_ode, t, x, h, tol)
+            print '(ES15.6,ES15.6)', t, x
+        end do
+    end subroutine
+
+    subroutine testdev()
+        type(sample_ode_t)    :: ode
+        type(integ_rkf45_t)   :: integ
+        real(dp)              :: t
+        real(dp), allocatable :: u(:)
+        ! real(dp) :: h, tol
+        ! integer :: i, n
+
+        print *, 'TEST: devel'
+
+        allocate(u(1))
+
+        ! Initial conditions
+        t = 0.0
+        u(1) = 2.0
+    
+        ode = sample_ode_t()
+        integ = integ_rkf45_t(ode)
+
+        call integ % rhs % initialize(t, u)
+        call integ % rhs % evaluate(2.0_dp)
+        print *, integ % rhs % du
+
+        ! h = 0.1
+        ! tol = 1.0e-6
+        ! n = 10
+
+        ! print *, "t", "x"
+        ! do i = 1, n
+        !     call rk45(sample_ode, t, x, h, tol)
+        !     print '(ES15.6,ES15.6)', t, x
+        ! end do
     end subroutine
 
 end program check
