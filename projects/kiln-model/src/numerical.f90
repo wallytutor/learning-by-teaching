@@ -210,8 +210,13 @@ module sample_ode
     subroutine delete(self)
         type(sample_ode_t) :: self
 
-        deallocate(self % du)
-        deallocate(self % u)
+        if (allocated(self % du)) then
+            deallocate(self % du)
+        end if
+
+        if (allocated(self % u)) then
+            deallocate(self % u)
+        end if
     end subroutine
 
 end module sample_ode
