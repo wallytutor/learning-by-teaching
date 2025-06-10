@@ -61,6 +61,8 @@ module integ_rkf45
 
     type, public :: integ_rkf45_t
         class(rhs_base_t), pointer :: rhs
+        ! real(dp) :: h
+        ! real(dp) :: tol
     end type
 
     interface integ_rkf45_t
@@ -96,14 +98,6 @@ module ode_rkf
         (1.000e+00_dp / 1.000e+00_dp), &
         (1.000e+00_dp / 2.000e+00_dp)]
 
-    ! type, public :: ode_t
-    !     procedure(ode_rhs), pointer :: rhs
-    ! end type
-
-    ! interface ode_t
-    !     procedure :: new_ode
-    ! end interface
-
     interface
         function ode_rhs(t, x) result(y)
             import dp
@@ -114,12 +108,6 @@ module ode_rkf
     end interface
 
   contains
-
-    ! type(ode_t) function new_ode(rhs)
-    !     procedure(ode_rhs), pointer :: rhs
-
-    !     new_ode % rhs => rhs
-    ! end function
 
     subroutine rk45(f, t, x, h, tol)
         procedure(ode_rhs) :: f
