@@ -102,9 +102,20 @@ function eval_htc_shell_rd(T_shell, T_env, eps_shell)
 end
 
 # ╔═╡ 940abd03-111b-4406-8a4e-de419e542c46
-function eval_htc_shell_cv()
+function eval_htc_shell_cv(k_a, Re_w, Gr, Pr)
 	# Li (2005), section 5
 	# TO BE CLARIFIED!
+	# Kreith page 251!
+	# GE handbook 511.2 eq 21 is for LIQUIDS!
+	r = Re_w / sqrt(Gr)
+
+	if (r >= 0.2)
+		f = (0.5 * Re_w^2 + Re_a^2 + Gr)^(0.35)
+		return 0.11 * k_a * Pr^(0.36) * f / D
+	end
+
+	# C? N?
+	return C * k_a * Pr^(0.3) * Re_a^N
 end
 
 # ╔═╡ 71fdb17e-793a-4fad-9fef-42f86799f4fa
