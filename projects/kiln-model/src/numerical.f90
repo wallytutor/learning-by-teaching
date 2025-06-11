@@ -281,17 +281,61 @@ module integ_rkf45
         real(dp) :: error
 
         !--------------------------------------------------------------
+        ! COEFFICIENTS
+        !--------------------------------------------------------------
+
+        real(dp), parameter :: ct1  = 0.0000e+00_dp / 1.0000e+00_dp
+        real(dp), parameter :: ct2  = 1.0000e+00_dp / 4.0000e+00_dp
+        real(dp), parameter :: ct3  = 3.0000e+00_dp / 8.0000e+00_dp
+        real(dp), parameter :: ct4  = 1.2000e+01_dp / 1.3000e+01_dp
+        real(dp), parameter :: ct5  = 1.0000e+00_dp / 1.0000e+00_dp
+        real(dp), parameter :: ct6  = 1.0000e+00_dp / 2.0000e+00_dp
+
+        real(dp), parameter :: ck12 = 1.0000e+00_dp / 4.0000e+00_dp
+        real(dp), parameter :: ck13 = 3.0000e+00_dp / 3.2000e+01_dp
+        real(dp), parameter :: ck14 = 1.9320e+03_dp / 2.1970e+03_dp
+        real(dp), parameter :: ck15 = 4.3900e+02_dp / 2.1600e+02_dp
+        real(dp), parameter :: ck16 = 8.0000e+00_dp / 2.7000e+01_dp
+        real(dp), parameter :: ce14 = 2.5000e+01_dp / 2.1600e+02_dp
+        real(dp), parameter :: ce15 = 1.6000e+01_dp / 1.3500e+02_dp
+
+        real(dp), parameter :: ck23 = 9.0000e+00_dp / 3.2000e+01_dp
+        real(dp), parameter :: ck24 = 7.2000e+03_dp / 2.1970e+03_dp
+        real(dp), parameter :: ck25 = 8.0000e+00_dp / 1.0000e+00_dp
+        real(dp), parameter :: ck26 = 2.0000e+00_dp / 1.0000e+00_dp
+
+        real(dp), parameter :: ck34 = 7.2960e+03_dp / 2.1970e+03_dp
+        real(dp), parameter :: ck35 = 3.6800e+03_dp / 5.1300e+02_dp
+        real(dp), parameter :: ck36 = 3.5440e+03_dp / 2.5650e+03_dp
+        real(dp), parameter :: ce34 = 1.4080e+03_dp / 2.5650e+03_dp
+        real(dp), parameter :: ce35 = 6.6560e+03_dp / 1.2825e+04_dp
+
+        real(dp), parameter :: ck45 = 8.4500e+02_dp / 4.1040e+03_dp
+        real(dp), parameter :: ck46 = 1.8590e+03_dp / 4.1040e+03_dp
+        real(dp), parameter :: ce44 = 2.1970e+03_dp / 4.1040e+03_dp
+        real(dp), parameter :: ce45 = 2.8561e+04_dp / 5.6430e+04_dp
+
+        real(dp), parameter :: ck56 = 1.1000e+01_dp / 4.0000e+01_dp
+        real(dp), parameter :: ce54 = 1.0000e+00_dp / 5.0000e+00_dp
+        real(dp), parameter :: ce55 = 9.0000e+00_dp / 5.0000e+01_dp
+
+        real(dp), parameter :: ce65 = 2.0000e+00_dp / 5.5000e+01_dp
+
+        real(dp), parameter :: cr1  = 0.9_dp
+        real(dp), parameter :: cr2  = 0.2_dp
+
+        !--------------------------------------------------------------
         ! INITIALIZE
         !--------------------------------------------------------------
 
         self % totfevs = self % totfevs + 1
 
-        self % mem % t1 = self % t_now + h * (0.000e+00_dp / 1.000e+00_dp)
-        self % mem % t2 = self % t_now + h * (1.000e+00_dp / 4.000e+00_dp)
-        self % mem % t3 = self % t_now + h * (3.000e+00_dp / 8.000e+00_dp)
-        self % mem % t4 = self % t_now + h * (1.200e+01_dp / 1.300e+01_dp)
-        self % mem % t5 = self % t_now + h * (1.000e+00_dp / 1.000e+00_dp)
-        self % mem % t6 = self % t_now + h * (1.000e+00_dp / 2.000e+00_dp)
+        self % mem % t1 = self % t_now + h * ct1
+        self % mem % t2 = self % t_now + h * ct2
+        self % mem % t3 = self % t_now + h * ct3
+        self % mem % t4 = self % t_now + h * ct4
+        self % mem % t5 = self % t_now + h * ct5
+        self % mem % t6 = self % t_now + h * ct6
 
         self % mem % x0 = self % rhs % u
         self % mem % x1 = self % rhs % u
@@ -311,13 +355,13 @@ module integ_rkf45
         call self % rhs % evaluate(self % mem % t1, self % mem % x1)
         self % mem % k1 = h * self % rhs % du
 
-        self % mem % x2 = self % mem % x2 + (1.0000e+00_dp / 4.0000e+00_dp) * self % mem % k1
-        self % mem % x3 = self % mem % x3 + (3.0000e+00_dp / 3.2000e+01_dp) * self % mem % k1
-        self % mem % x4 = self % mem % x4 + (1.9320e+03_dp / 2.1970e+03_dp) * self % mem % k1
-        self % mem % x5 = self % mem % x5 + (4.3900e+02_dp / 2.1600e+02_dp) * self % mem % k1
-        self % mem % x6 = self % mem % x6 - (8.0000e+00_dp / 2.7000e+01_dp) * self % mem % k1
-        self % mem % e4 = self % mem % e4 + (2.5000e+01_dp / 2.1600e+02_dp) * self % mem % k1
-        self % mem % e5 = self % mem % e5 + (1.6000e+01_dp / 1.3500e+02_dp) * self % mem % k1
+        self % mem % x2 = self % mem % x2 + ck12 * self % mem % k1
+        self % mem % x3 = self % mem % x3 + ck13 * self % mem % k1
+        self % mem % x4 = self % mem % x4 + ck14 * self % mem % k1
+        self % mem % x5 = self % mem % x5 + ck15 * self % mem % k1
+        self % mem % x6 = self % mem % x6 - ck16 * self % mem % k1
+        self % mem % e4 = self % mem % e4 + ce14 * self % mem % k1
+        self % mem % e5 = self % mem % e5 + ce15 * self % mem % k1
 
         !--------------------------------------------------------------
         ! STEP 2
@@ -326,10 +370,10 @@ module integ_rkf45
         call self % rhs % evaluate(self % mem % t2, self % mem % x2)
         self % mem % k2 = h * self % rhs % du
 
-        self % mem % x3 = self % mem % x3 + (9.0000e+00_dp / 3.2000e+01_dp) * self % mem % k2
-        self % mem % x4 = self % mem % x4 - (7.2000e+03_dp / 2.1970e+03_dp) * self % mem % k2
-        self % mem % x5 = self % mem % x5 - (8.0000e+00_dp / 1.0000e+00_dp) * self % mem % k2
-        self % mem % x6 = self % mem % x6 + (2.0000e+00_dp / 1.0000e+00_dp) * self % mem % k2
+        self % mem % x3 = self % mem % x3 + ck23 * self % mem % k2
+        self % mem % x4 = self % mem % x4 - ck24 * self % mem % k2
+        self % mem % x5 = self % mem % x5 - ck25 * self % mem % k2
+        self % mem % x6 = self % mem % x6 + ck26 * self % mem % k2
 
         !--------------------------------------------------------------
         ! STEP 3
@@ -338,11 +382,11 @@ module integ_rkf45
         call self % rhs % evaluate(self % mem % t3, self % mem % x3)
         self % mem % k3 = h * self % rhs % du
 
-        self % mem % x4 = self % mem % x4 + (7.2960e+03_dp / 2.1970e+03_dp) * self % mem % k3
-        self % mem % x5 = self % mem % x5 + (3.6800e+03_dp / 5.1300e+02_dp) * self % mem % k3
-        self % mem % x6 = self % mem % x6 - (3.5440e+03_dp / 2.5650e+03_dp) * self % mem % k3
-        self % mem % e4 = self % mem % e4 + (1.4080e+03_dp / 2.5650e+03_dp) * self % mem % k3
-        self % mem % e5 = self % mem % e5 + (6.6560e+03_dp / 1.2825e+04_dp) * self % mem % k3
+        self % mem % x4 = self % mem % x4 + ck34 * self % mem % k3
+        self % mem % x5 = self % mem % x5 + ck35 * self % mem % k3
+        self % mem % x6 = self % mem % x6 - ck36 * self % mem % k3
+        self % mem % e4 = self % mem % e4 + ce34 * self % mem % k3
+        self % mem % e5 = self % mem % e5 + ce35 * self % mem % k3
 
         !--------------------------------------------------------------
         ! STEP 4
@@ -351,10 +395,10 @@ module integ_rkf45
         call self % rhs % evaluate(self % mem % t4, self % mem % x4)
         self % mem % k4 = h * self % rhs % du
 
-        self % mem % x5 = self % mem % x5 - (8.4500e+02_dp / 4.1040e+03_dp) * self % mem % k4
-        self % mem % x6 = self % mem % x6 + (1.8590e+03_dp / 4.1040e+03_dp) * self % mem % k4
-        self % mem % e4 = self % mem % e4 + (2.1970e+03_dp / 4.1040e+03_dp) * self % mem % k4
-        self % mem % e5 = self % mem % e5 + (2.8561e+04_dp / 5.6430e+04_dp) * self % mem % k4
+        self % mem % x5 = self % mem % x5 - ck45 * self % mem % k4
+        self % mem % x6 = self % mem % x6 + ck46 * self % mem % k4
+        self % mem % e4 = self % mem % e4 + ce44 * self % mem % k4
+        self % mem % e5 = self % mem % e5 + ce45 * self % mem % k4
 
         !--------------------------------------------------------------
         ! STEP 5
@@ -363,9 +407,9 @@ module integ_rkf45
         call self % rhs % evaluate(self % mem % t5, self % mem % x5)
         self % mem % k5 = h * self % rhs % du
 
-        self % mem % x6 = self % mem % x6 - (1.1000e+01_dp / 4.0000e+01_dp) * self % mem % k5
-        self % mem % e4 = self % mem % e4 - (1.0000e+00_dp / 5.0000e+00_dp) * self % mem % k5
-        self % mem % e5 = self % mem % e5 - (9.0000e+00_dp / 5.0000e+01_dp) * self % mem % k5
+        self % mem % x6 = self % mem % x6 - ck56 * self % mem % k5
+        self % mem % e4 = self % mem % e4 - ce54 * self % mem % k5
+        self % mem % e5 = self % mem % e5 - ce55 * self % mem % k5
 
         !--------------------------------------------------------------
         ! STEP 6
@@ -374,7 +418,7 @@ module integ_rkf45
         call self % rhs % evaluate(self % mem % t6, self % mem % x6)
         self % mem % k6 = h * self % rhs % du
 
-        self % mem % e5 = self % mem % e5 + (2.0000e+00_dp / 5.5000e+01_dp) * self % mem % k6
+        self % mem % e5 = self % mem % e5 + ce65 * self % mem % k6
 
         !--------------------------------------------------------------
         ! ERROR
@@ -383,7 +427,7 @@ module integ_rkf45
         error = maxval(abs(self % mem % e5 - self % mem % e4))
 
         if (error > self % atol) then
-            h = h * 0.9 * (self % atol / error)**0.2
+            h = h * cr1 * (self % atol / error)**cr2
         else
             self % t_now = self % t_now + h
             self % rhs % u = self % mem % x0 + self % mem % e5
