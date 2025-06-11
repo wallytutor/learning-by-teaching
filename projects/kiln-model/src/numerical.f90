@@ -90,14 +90,6 @@ module ode_rkf
 
     public rk45
 
-    real(dp), parameter :: A(6) = [    &
-        (0.000e+00_dp / 1.000e+00_dp), &
-        (1.000e+00_dp / 4.000e+00_dp), &
-        (3.000e+00_dp / 8.000e+00_dp), &
-        (1.200e+01_dp / 1.300e+01_dp), &
-        (1.000e+00_dp / 1.000e+00_dp), &
-        (1.000e+00_dp / 2.000e+00_dp)]
-
     interface
         function ode_rhs(t, x) result(y)
             import dp
@@ -113,34 +105,47 @@ module ode_rkf
         procedure(ode_rhs) :: f
         real(dp), intent(inout) :: t, x, h
         real(dp), intent(in) :: tol
+
         real(dp) :: t1, t2, t3, t4, t5, t6
+        real(dp) :: x1, x2, x3, x4, x5, x6
         real(dp) :: k1, k2, k3, k4, k5, k6
-        real(dp) ::x4, x5, error
+        real(dp) :: e4, e5, error
 
-        t1 = t + h * A(1)
-        t2 = t + h * A(2)
-        t3 = t + h * A(3)
-        t4 = t + h * A(4)
-        t5 = t + h * A(5)
-        t6 = t + h * A(6)
+        t1 = t + h * (0.000e+00_dp / 1.000e+00_dp)
+        t2 = t + h * (1.000e+00_dp / 4.000e+00_dp)
+        t3 = t + h * (3.000e+00_dp / 8.000e+00_dp)
+        t4 = t + h * (1.200e+01_dp / 1.300e+01_dp)
+        t5 = t + h * (1.000e+00_dp / 1.000e+00_dp)
+        t6 = t + h * (1.000e+00_dp / 2.000e+00_dp)
 
-        k1 = h * f(t1, x)
-        k2 = h * f(t2, x + 0.25000*k1)
-        k3 = h * f(t3, x + 0.09375*k1 + 0.28125*k2)
-        k4 = h * f(t4, x + 0.87938*k1 - 3.2772*k2 + 3.32089*k3)
-        k5 = h * f(t5, x + 2.0324*k1 - 8.0*k2 + 7.1735*k3 - 0.2059*k4)
-        k6 = h * f(t6, x - 0.2963*k1 + 2.0*k2 - 1.3817*k3 + 0.45297*k4 - 0.275*k5)
+        x1 = x
+        k1 = h * f(t1, x1)
 
-        x4 = x + (0.11574*k1 + 0.54893*k3 + 0.53533*k4 - 0.2*k5)
-        x5 = x + (0.11852*k1 + 0.51899*k3 + 0.50613*k4 - 0.18*k5 + 0.03636*k6)
+        x2 = x + 0.25000*k1
+        k2 = h * f(t2, x2)
 
-        error = abs(x5 - x4)
+        x3 = x + 0.09375*k1 + 0.28125*k2
+        k3 = h * f(t3, x3)
+
+        x4 = x + 0.87938*k1 - 3.2772*k2 + 3.32089*k3
+        k4 = h * f(t4, x4)
+
+        x5 = x + 2.0324*k1 - 8.0*k2 + 7.1735*k3 - 0.2059*k4
+        k5 = h * f(t5, x5)
+
+        x6 = x - 0.2963*k1 + 2.0*k2 - 1.3817*k3 + 0.45297*k4 - 0.275*k5
+        k6 = h * f(t6, x6)
+
+        e4 = 0.11574*k1 + 0.54893*k3 + 0.53533*k4 - 0.2*k5
+        e5 = 0.11852*k1 + 0.51899*k3 + 0.50613*k4 - 0.18*k5 + 0.03636*k6
+
+        error = abs(e5 - e4)
 
         if (error > tol) then
             h = h * 0.9 * (tol / error)**0.25
         else
             t = t + h
-            x = x5
+            x = x + e5
         end if
     end subroutine rk45
 

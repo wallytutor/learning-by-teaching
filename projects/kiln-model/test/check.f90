@@ -265,10 +265,9 @@ contains
         tol = 1.0e-6
         n = 10
 
-        print *, "t", "x"
         do i = 1, n
             call rk45(sample_ode, t, x, h, tol)
-            print '(ES15.6,ES15.6)', t, x
+            print '(ES15.6,ES15.6,ES15.6)', t, h, x
         end do
     end subroutine
 
