@@ -2,8 +2,8 @@ module test_sample_ode
     use constant
     use test_utils
     use numutils
-    use rhs_base
-    use integ_rkf45
+    use ode_rhs
+    use ode_rkf45
 
     !============
     implicit none
@@ -14,7 +14,7 @@ module test_sample_ode
 
     integer, parameter :: STATE_SIZE = 1
 
-    type, extends(rhs_base_t) :: sample_ode_t
+    type, extends(rhs_t) :: sample_ode_t
       contains
         procedure :: initialize
         procedure :: evaluate
@@ -29,7 +29,7 @@ module test_sample_ode
 
     subroutine test()
         type(sample_ode_t)    :: ode
-        type(integ_rkf45_t)   :: integ
+        type(ode_rkf45_t)     :: integ
         real(dp)              :: t, x, y
         real(dp), allocatable :: u(:)
         real(dp), allocatable :: times(:)
@@ -50,7 +50,7 @@ module test_sample_ode
         ode = sample_ode_t()
         call ode % initialize(t, u)
 
-        integ = integ_rkf45_t(ode)
+        integ = ode_rkf45_t(ode)
         integ % atol = 1.0e-08
         integ % tmin = 1.0e-06
 

@@ -1,7 +1,7 @@
 module test_kramers_general
     use constant
     use test_utils
-    use integ_rkf45
+    use ode_rkf45
 
     !============
     implicit none

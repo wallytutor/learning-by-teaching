@@ -1,4 +1,3 @@
-
 module kiln_geometry
     use constant
 
@@ -161,8 +160,8 @@ end module kiln_grid
 
 module kramers
     use constant
-    use rhs_base
-    use integ_rkf45
+    use ode_rhs
+    use ode_rkf45
     use kiln_geometry, only: bed_section
 
     !============
@@ -172,7 +171,7 @@ module kramers
     
     integer, parameter :: STATE_SIZE = 2
 
-    type, extends(rhs_base_t) :: kramers_ode_t
+    type, extends(rhs_t) :: kramers_ode_t
       contains
         procedure :: initialize
         procedure :: evaluate
