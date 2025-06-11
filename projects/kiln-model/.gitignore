@@ -1,5 +1,6 @@
 # Ignore binaries
-/bin/
+/build/
+/dist/
 
 # Generated documentation
 /docs/build/

@@ -1,12 +1,15 @@
+FC      := /usr/bin/gfortran
+PROFILE := "debug"
+
 VENV := venv
 
 .PHONY: all
 all:
-	fpm build
+	fpm build --compiler $(FC) --profile $(PROFILE) --no-prune
 
 .PHONY: dist
-dist:
-	echo "Under development"
+dist: all
+	fpm install --prefix dist --bindir /
 
 $(VENV): docs/requirements.txt
 	python3 -m venv $(VENV)
@@ -20,11 +23,11 @@ docs: $(VENV) docs/src/*.md
 .PHONY: test
 test: all
 	fpm test
-
+	
 .PHONY: clean
 clean:
 	fpm clean --all
 
 .PHONY: dist-clean
 dist-clean: clean
-	rm -rf docs/build/ $(VENV)
+	rm -rf dist/ docs/build/ $(VENV)
