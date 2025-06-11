@@ -11,9 +11,9 @@ program check
     use pure_silica
 
     ! numerical.f90
+    use numutils
     use sample_ode
     use integ_rkf45
-    use ode_rkf
 
     !============
     implicit none
@@ -55,15 +55,6 @@ contains
                 name, ares, rres
         end if
     end subroutine
-
-    function sample_ode(t, x) result(y)
-        real(dp), intent(in) :: t
-        real(dp), intent(in) :: x
-        real(dp) :: y
-
-        ! Example ODE: dy/dt = x - t^2 + 1
-        y = x - t**2 + 1.0
-    end function
 
     subroutine test001()
         ! The goal of this test is to check the correct computation of
@@ -253,67 +244,46 @@ contains
     end subroutine
 
     subroutine test005()
-        real(dp) :: t, x, h, tol
-        integer :: i, n
-
-        print *, 'TEST: ODE integration RK45'
-
-        ! Initial conditions
-        t = 0.0
-        x = 1.0
-        h = 0.1
-        tol = 1.0e-6
-        n = 10
-
-        do i = 1, n
-            call rk45(sample_ode, t, x, h, tol)
-            print '(ES15.6,ES15.6,ES15.6)', t, h, x
-        end do
-
-        !    1.000000E-01   1.000000E-01   1.210000E+00
-        !    2.000000E-01   1.000000E-01   1.440000E+00
-        !    3.000000E-01   1.000000E-01   1.690000E+00
-        !    4.000000E-01   1.000000E-01   1.960000E+00
-        !    5.000000E-01   1.000000E-01   2.250000E+00
-        !    6.000000E-01   1.000000E-01   2.560000E+00
-        !    7.000000E-01   1.000000E-01   2.890000E+00
-        !    8.000000E-01   1.000000E-01   3.240000E+00
-        !    9.000000E-01   1.000000E-01   3.610000E+00
-        !    1.000000E+00   1.000000E-01   4.000000E+00
-    end subroutine
-
-    subroutine testdev()
         type(sample_ode_t)    :: ode
         type(integ_rkf45_t)   :: integ
-        real(dp)              :: t
+        real(dp)              :: t, x, y
         real(dp), allocatable :: u(:)
-        ! real(dp) :: h, tol
-        ! integer :: i, n
+        real(dp), allocatable :: times(:)
+        integer               :: i, n
 
-        print *, 'TEST: devel'
+        print *, 'TEST: check RK45 integration'
 
         allocate(u(1))
 
+        ! Array of time points
+        n = 10+1
+        times = linspace(0.0_dp, 1.0_dp, n)
+
         ! Initial conditions
-        t = 0.0
-        u(1) = 2.0
-    
+        t = times(1)
+        u(1) = 1.0
+
         ode = sample_ode_t()
+        call ode % initialize(t, u)
+
         integ = integ_rkf45_t(ode)
+        integ % atol = 1.0e-08
+        integ % tmin = 1.0e-06
 
-        call integ % rhs % initialize(t, u)
-        call integ % rhs % evaluate(2.0_dp)
-        print *, integ % rhs % du
+        call integ % integrate(times)
 
-        ! h = 0.1
-        ! tol = 1.0e-6
-        ! n = 10
+        ! print *, 'Function evaluations', integ % totfevs
 
-        ! print *, "t", "x"
-        ! do i = 1, n
-        !     call rk45(sample_ode, t, x, h, tol)
-        !     print '(ES15.6,ES15.6)', t, x
-        ! end do
+        do i = 1, n
+            t = integ % sol(i, 1)
+            x = integ % sol(i, 2)
+            y = t**2 + 2*t + 1
+            ! print '(ES15.6,ES15.6,ES15.6)', t, x, y
+            call check_result(x, y, 1.0e-08_dp, 1.0e-09_dp, 'point')
+        end do
+    end subroutine
+
+    subroutine testdev()
     end subroutine
 
 end program check
