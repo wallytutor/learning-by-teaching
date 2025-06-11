@@ -1,69 +1,30 @@
-program check
+module test_thermo_properties
     use constant
-
-    ! thermo.f90
+    use test_utils
     use nasa7
     use shomate
-
-    ! solution.f90
     use ideal_gas
     use methane_air_1step
     use pure_silica
 
-    ! numerical.f90
-    use sample_ode
-    use integ_rkf45
-    use ode_rkf
-
     !============
     implicit none
+    private
     !============
 
-    print *, 'STARTING TESTS'
+    public test
 
-    call test001()
-    call test002()
-    call test003()
-    call test004()
-    call test005()
-    call testdev()
+  contains
 
-contains
+    subroutine test()
+        print *, ''
+        print *, 'test_thermo'
 
-    function get_solution() result(solution)
-        type(methane_air_1step_t) :: phase
-        type(ideal_gas_t) :: solution
-
-        phase = methane_air_1step_t()
-        solution = phase % solution
-    end function
-
-    subroutine check_result(val, ref, atol, rtol, name)
-        real(dp), intent(in)         :: val
-        real(dp), intent(in)         :: ref
-        real(dp), intent(in)         :: atol
-        real(dp), intent(in)         :: rtol
-        character(len=*), intent(in) :: name
-
-        real(dp) :: ares, rres
-
-        ares = abs(val - ref)
-        rres = ares / max(abs(ref), abs(val))
-
-        if ((ares > atol).or.(rres > rtol)) then
-            print '("Failed to compute ",A20," : ",ES15.6, ES15.6)', &
-                name, ares, rres
-        end if
+        call test001()
+        call test002()
+        call test003()
+        call test004()
     end subroutine
-
-    function sample_ode(t, x) result(y)
-        real(dp), intent(in) :: t
-        real(dp), intent(in) :: x
-        real(dp) :: y
-
-        ! Example ODE: dy/dt = x - t^2 + 1
-        y = x - t**2 + 1.0
-    end function
 
     subroutine test001()
         ! The goal of this test is to check the correct computation of
@@ -230,7 +191,7 @@ contains
         type(shomate_t) :: sio2
         real(dp) :: atol, rtol, T, props(3), truth(3)
 
-        print *, 'TEST: Shomate properties'
+        print *, 'TEST: check Shomate properties'
 
         T = 600.0_dp
         atol = 1.0e-05
@@ -252,57 +213,30 @@ contains
         call check_result(props(3), truth(3), atol, rtol, 'sm')
     end subroutine
 
-    subroutine test005()
-        real(dp) :: t, x, h, tol
-        integer :: i, n
+    function get_solution() result(solution)
+        type(methane_air_1step_t) :: phase
+        type(ideal_gas_t) :: solution
 
-        print *, 'TEST: ODE integration RK45'
+        phase = methane_air_1step_t()
+        solution = phase % solution
+    end function
 
-        ! Initial conditions
-        t = 0.0
-        x = 1.0
-        h = 0.1
-        tol = 1.0e-6
-        n = 10
+end module test_thermo_properties
 
-        do i = 1, n
-            call rk45(sample_ode, t, x, h, tol)
-            print '(ES15.6,ES15.6,ES15.6)', t, h, x
-        end do
+module test_thermo
+    use test_thermo_properties, only: run_test_thermo_properties => test
+
+    !============
+    implicit none
+    private
+    !============
+
+    public test
+
+  contains
+
+    subroutine test()
+        call run_test_thermo_properties()
     end subroutine
 
-    subroutine testdev()
-        type(sample_ode_t)    :: ode
-        type(integ_rkf45_t)   :: integ
-        real(dp)              :: t
-        real(dp), allocatable :: u(:)
-        ! real(dp) :: h, tol
-        ! integer :: i, n
-
-        print *, 'TEST: devel'
-
-        allocate(u(1))
-
-        ! Initial conditions
-        t = 0.0
-        u(1) = 2.0
-    
-        ode = sample_ode_t()
-        integ = integ_rkf45_t(ode)
-
-        call integ % rhs % initialize(t, u)
-        call integ % rhs % evaluate(2.0_dp)
-        print *, integ % rhs % du
-
-        ! h = 0.1
-        ! tol = 1.0e-6
-        ! n = 10
-
-        ! print *, "t", "x"
-        ! do i = 1, n
-        !     call rk45(sample_ode, t, x, h, tol)
-        !     print '(ES15.6,ES15.6)', t, x
-        ! end do
-    end subroutine
-
-end program check
+end module test_thermo
