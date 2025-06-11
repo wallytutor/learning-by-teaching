@@ -185,9 +185,7 @@ module kramers
   contains
     
     type(kramers_ode_t) function new_ode()
-        new_ode % neqs = STATE_SIZE
-        allocate(new_ode % du(STATE_SIZE))
-        allocate(new_ode % u(STATE_SIZE))
+        call new_ode % set_num_equations(STATE_SIZE)
     end function
 
     subroutine initialize(self, t, u)

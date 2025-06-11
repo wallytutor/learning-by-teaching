@@ -52,7 +52,7 @@ module test_sample_ode
 
         integ = ode_rkf45_t(ode)
         integ % atol = 1.0e-08
-        integ % tmin = 1.0e-06
+        integ % ttol = 1.0e-06
 
         call integ % integrate(times)
 
@@ -68,9 +68,7 @@ module test_sample_ode
     end subroutine
 
     type(sample_ode_t) function new_ode()
-        new_ode % neqs = STATE_SIZE
-        allocate(new_ode % du(STATE_SIZE))
-        allocate(new_ode % u(STATE_SIZE))
+        call new_ode % set_num_equations(STATE_SIZE)
     end function
 
     subroutine initialize(self, t, u)
@@ -91,6 +89,7 @@ module test_sample_ode
         self % u = u
 
         call self % evaluate(t, u)
+        call self % set_state_ready(.true.)
     end subroutine
 
     subroutine evaluate(self, t, u)

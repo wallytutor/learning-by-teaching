@@ -35,6 +35,10 @@ module ode_rkf45
 
         real(dp), allocatable :: e4(:)
         real(dp), allocatable :: e5(:)
+
+        class(rhs_t), pointer :: rhs
+      contains
+         procedure :: step
     end type
 
     type, public :: ode_rkf45_t
@@ -42,18 +46,13 @@ module ode_rkf45
         integer  :: totfevs
         real(dp) :: atol
         real(dp) :: ttol
-        real(dp) :: tmin
-        real(dp) :: t_now
-        real(dp) :: t_out
         real(dp) :: h_now
         real(dp) :: h_last
         real(dp), allocatable :: sol(:, :)
-        class(rhs_t), pointer :: rhs
         class(ode_rkf45_mem_t), allocatable :: mem
       contains
         procedure :: integrate
         procedure :: advance
-        procedure :: step
     end type
 
     interface ode_rkf45_mem_t
@@ -66,8 +65,17 @@ module ode_rkf45
 
   contains
 
-    type(ode_rkf45_mem_t) function new_mem(n)
-        integer, intent(in) :: n
+    type(ode_rkf45_mem_t) function new_mem(rhs)
+        class(rhs_t), target, intent(inout) :: rhs
+        integer :: n, m
+
+        if (.not.rhs % get_state_ready()) then
+            print *, 'Error: RHS function not initialized!'
+            stop "Failed to create RKF45 ODE solver!"
+        end if
+
+        n = rhs % get_num_equations()
+        new_mem % rhs => rhs
 
         allocate(new_mem % x0(n))
         allocate(new_mem % x1(n))
@@ -93,10 +101,8 @@ module ode_rkf45
         new_integ % maxfevs = 10
         new_integ % atol = 1.0e-06
         new_integ % ttol = 1.0e-12
-        new_integ % tmin = 1.0e-10
 
-        new_integ % rhs => rhs
-        new_integ % mem = ode_rkf45_mem_t(rhs % neqs)
+        new_integ % mem = ode_rkf45_mem_t(rhs)
     end function
 
     subroutine integrate(self, times)
@@ -107,7 +113,7 @@ module ode_rkf45
 
         ! Allocate solution table:
         n = size(times)
-        m = 1 + self % rhs % neqs
+        m = 1 + self % mem % rhs % get_num_equations()
 
         if (.not.allocated(self % sol)) then
             allocate(self % sol(n, m))
@@ -115,40 +121,40 @@ module ode_rkf45
 
         ! Initialize solution table:
         self % sol(1, 1) = times(1)
-        self % sol(1, 2:m) = self % rhs % u
+        self % sol(1, 2:m) = self % mem % rhs % u
 
         ! A *high* value for *last* step initially:
         self % h_last = times(size(times))
 
         do i = 2, n
             ! Update time points and global step:
-            self % t_now = times(i-1)
-            self % t_out = times(i)
+            ! XXX: this should have been done in initialize!
+            !self % mem % rhs % t = times(i-1)
 
             ! Try to advance to current *t_out*:
-            call self % advance(self % t_out)
+            call self % advance(times(i))
 
             ! Store current time and results:
-            self % sol(i, 1)  = self % t_out
-            self % sol(i, 2:) = self % rhs % u
+            self % sol(i, 1)  = self % mem % rhs % t
+            self % sol(i, 2:) = self % mem % rhs % u
         end do
     end
 
     subroutine advance(self, t_out)
         class(ode_rkf45_t), intent(inout) :: self
-        real(dp), intent(inout)           :: t_out
+        real(dp),           intent(in)    :: t_out
 
         integer  :: maxfevs
-        real(dp) :: t_last, h_incr
+        real(dp) :: t_last
         real(dp) :: h
 
         ! Initialize counter:
         maxfevs = 0
 
         ! Compure required step to reach `t_out`:
-        self % h_now = t_out - self % t_now
+        self % h_now = t_out - self % mem % rhs % t
 
-        ! Enforce first `t_now` < `t_out`:
+        ! Enforce first `t` < `t_out`:
         h = self % h_now * 2.0_dp / 3.0_dp
 
         ! Use a smaller step if that was already the case:
@@ -157,16 +163,18 @@ module ode_rkf45
         end if
 
         ! Keep track of last output time:
-        t_last = self % t_now
+        t_last = self % mem % rhs % t
 
-        do while (abs(self % t_out - self % t_now) > self % ttol)
-            call self % step(h)
+        do while (abs(t_out - self % mem % rhs % t) > self % ttol)
+            ! Increment counter and call stepper:
+            self % totfevs = self % totfevs + 1
+            call self % mem % step(h, self % atol, self % ttol)
 
             ! Update last tentative step:
             self % h_last = h
 
             ! Last call to step did not progress, try again:
-            if (abs(self % t_now - t_last) < self % ttol) then
+            if (abs(self % mem % rhs % t - t_last) < self % ttol) then
                 maxfevs = maxfevs + 1
                 cycle
             end if
@@ -178,17 +186,17 @@ module ode_rkf45
                 stop "Advancement failed to progress!"
             end if
 
-            ! How much does it take to reach exit?
-            h_incr = self % t_out - self % t_now
-
-            ! Step to exit may be less than current `h`
-            h = min(h_incr, self % h_last)
+            ! How much does it take to reach exit? Keep in mind
+            ! that the step to exit may be less than current `h`:
+            h = min(t_out - self % mem % rhs % t, self % h_last)
         end do
     end
 
-    subroutine step(self, h)
-        class(ode_rkf45_t), intent(inout) :: self
-        real(dp), intent(inout)             :: h
+    subroutine step(self, h, atol, ttol)
+        class(ode_rkf45_mem_t), intent(inout) :: self
+        real(dp),               intent(inout) :: h
+        real(dp),               intent(in)    :: atol
+        real(dp),               intent(in)    :: ttol
 
         real(dp) :: error
 
@@ -240,117 +248,115 @@ module ode_rkf45
         ! INITIALIZE
         !--------------------------------------------------------------
 
-        self % totfevs = self % totfevs + 1
+        self % t1 = self % rhs % t + h * ct1
+        self % t2 = self % rhs % t + h * ct2
+        self % t3 = self % rhs % t + h * ct3
+        self % t4 = self % rhs % t + h * ct4
+        self % t5 = self % rhs % t + h * ct5
+        self % t6 = self % rhs % t + h * ct6
 
-        self % mem % t1 = self % t_now + h * ct1
-        self % mem % t2 = self % t_now + h * ct2
-        self % mem % t3 = self % t_now + h * ct3
-        self % mem % t4 = self % t_now + h * ct4
-        self % mem % t5 = self % t_now + h * ct5
-        self % mem % t6 = self % t_now + h * ct6
+        self % x0 = self % rhs % u
+        self % x1 = self % rhs % u
+        self % x2 = self % rhs % u
+        self % x3 = self % rhs % u
+        self % x4 = self % rhs % u
+        self % x5 = self % rhs % u
+        self % x6 = self % rhs % u
 
-        self % mem % x0 = self % rhs % u
-        self % mem % x1 = self % rhs % u
-        self % mem % x2 = self % rhs % u
-        self % mem % x3 = self % rhs % u
-        self % mem % x4 = self % rhs % u
-        self % mem % x5 = self % rhs % u
-        self % mem % x6 = self % rhs % u
-
-        self % mem % e4 = 0.0_dp
-        self % mem % e5 = 0.0_dp
+        self % e4 = 0.0_dp
+        self % e5 = 0.0_dp
 
         !--------------------------------------------------------------
         ! STEP 1
         !--------------------------------------------------------------
 
-        call self % rhs % evaluate(self % mem % t1, self % mem % x1)
-        self % mem % k1 = h * self % rhs % du
+        call self % rhs % evaluate(self % t1, self % x1)
+        self % k1 = h * self % rhs % du
 
-        self % mem % x2 = self % mem % x2 + ck12 * self % mem % k1
-        self % mem % x3 = self % mem % x3 + ck13 * self % mem % k1
-        self % mem % x4 = self % mem % x4 + ck14 * self % mem % k1
-        self % mem % x5 = self % mem % x5 + ck15 * self % mem % k1
-        self % mem % x6 = self % mem % x6 - ck16 * self % mem % k1
-        self % mem % e4 = self % mem % e4 + ce14 * self % mem % k1
-        self % mem % e5 = self % mem % e5 + ce15 * self % mem % k1
+        self % x2 = self % x2 + ck12 * self % k1
+        self % x3 = self % x3 + ck13 * self % k1
+        self % x4 = self % x4 + ck14 * self % k1
+        self % x5 = self % x5 + ck15 * self % k1
+        self % x6 = self % x6 - ck16 * self % k1
+        self % e4 = self % e4 + ce14 * self % k1
+        self % e5 = self % e5 + ce15 * self % k1
 
         !--------------------------------------------------------------
         ! STEP 2
         !--------------------------------------------------------------
 
-        call self % rhs % evaluate(self % mem % t2, self % mem % x2)
-        self % mem % k2 = h * self % rhs % du
+        call self % rhs % evaluate(self % t2, self % x2)
+        self % k2 = h * self % rhs % du
 
-        self % mem % x3 = self % mem % x3 + ck23 * self % mem % k2
-        self % mem % x4 = self % mem % x4 - ck24 * self % mem % k2
-        self % mem % x5 = self % mem % x5 - ck25 * self % mem % k2
-        self % mem % x6 = self % mem % x6 + ck26 * self % mem % k2
+        self % x3 = self % x3 + ck23 * self % k2
+        self % x4 = self % x4 - ck24 * self % k2
+        self % x5 = self % x5 - ck25 * self % k2
+        self % x6 = self % x6 + ck26 * self % k2
 
         !--------------------------------------------------------------
         ! STEP 3
         !--------------------------------------------------------------
 
-        call self % rhs % evaluate(self % mem % t3, self % mem % x3)
-        self % mem % k3 = h * self % rhs % du
+        call self % rhs % evaluate(self % t3, self % x3)
+        self % k3 = h * self % rhs % du
 
-        self % mem % x4 = self % mem % x4 + ck34 * self % mem % k3
-        self % mem % x5 = self % mem % x5 + ck35 * self % mem % k3
-        self % mem % x6 = self % mem % x6 - ck36 * self % mem % k3
-        self % mem % e4 = self % mem % e4 + ce34 * self % mem % k3
-        self % mem % e5 = self % mem % e5 + ce35 * self % mem % k3
+        self % x4 = self % x4 + ck34 * self % k3
+        self % x5 = self % x5 + ck35 * self % k3
+        self % x6 = self % x6 - ck36 * self % k3
+        self % e4 = self % e4 + ce34 * self % k3
+        self % e5 = self % e5 + ce35 * self % k3
 
         !--------------------------------------------------------------
         ! STEP 4
         !--------------------------------------------------------------
 
-        call self % rhs % evaluate(self % mem % t4, self % mem % x4)
-        self % mem % k4 = h * self % rhs % du
+        call self % rhs % evaluate(self % t4, self % x4)
+        self % k4 = h * self % rhs % du
 
-        self % mem % x5 = self % mem % x5 - ck45 * self % mem % k4
-        self % mem % x6 = self % mem % x6 + ck46 * self % mem % k4
-        self % mem % e4 = self % mem % e4 + ce44 * self % mem % k4
-        self % mem % e5 = self % mem % e5 + ce45 * self % mem % k4
+        self % x5 = self % x5 - ck45 * self % k4
+        self % x6 = self % x6 + ck46 * self % k4
+        self % e4 = self % e4 + ce44 * self % k4
+        self % e5 = self % e5 + ce45 * self % k4
 
         !--------------------------------------------------------------
         ! STEP 5
         !--------------------------------------------------------------
 
-        call self % rhs % evaluate(self % mem % t5, self % mem % x5)
-        self % mem % k5 = h * self % rhs % du
+        call self % rhs % evaluate(self % t5, self % x5)
+        self % k5 = h * self % rhs % du
 
-        self % mem % x6 = self % mem % x6 - ck56 * self % mem % k5
-        self % mem % e4 = self % mem % e4 - ce54 * self % mem % k5
-        self % mem % e5 = self % mem % e5 - ce55 * self % mem % k5
+        self % x6 = self % x6 - ck56 * self % k5
+        self % e4 = self % e4 - ce54 * self % k5
+        self % e5 = self % e5 - ce55 * self % k5
 
         !--------------------------------------------------------------
         ! STEP 6
         !--------------------------------------------------------------
 
-        call self % rhs % evaluate(self % mem % t6, self % mem % x6)
-        self % mem % k6 = h * self % rhs % du
+        call self % rhs % evaluate(self % t6, self % x6)
+        self % k6 = h * self % rhs % du
 
-        self % mem % e5 = self % mem % e5 + ce65 * self % mem % k6
+        self % e5 = self % e5 + ce65 * self % k6
 
         !--------------------------------------------------------------
         ! ERROR
         !--------------------------------------------------------------
 
-        error = maxval(abs(self % mem % e5 - self % mem % e4))
+        error = maxval(abs(self % e5 - self % e4))
 
-        if (error > self % atol) then
-            h = h * cr1 * (self % atol / error)**cr2
+        if (error > atol) then
+            h = h * cr1 * (atol / error)**cr2
         else
-            self % t_now = self % t_now + h
-            self % rhs % u = self % mem % x0 + self % mem % e5
+            self % rhs % t = self % rhs % t + h
+            self % rhs % u = self % x0 + self % e5
         end if
 
         ! TODO: increase step if tolerance was respected for a while...
 
         ! Check if minimum step was reached:
-        if (h.lt.self % tmin) then
+        if (h.le.ttol) then
             print *, 'Error: reached minimum time step!'
-            print '(5X,"got ",ES12.6," < ",ES12.6)', h, self % tmin
+            print '(5X,"got ",ES12.6," < ",ES12.6)', h, ttol
             stop "Advancement failed to progress!"
         end if
     end
