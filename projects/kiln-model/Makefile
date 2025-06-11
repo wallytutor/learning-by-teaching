@@ -30,4 +30,4 @@ clean:
 
 .PHONY: dist-clean
 dist-clean: clean
-	rm -rf dist/ docs/build/ $(VENV)
+	rm -rf dist/ docs/build/ $(VENV) src/*.mod test/*.mod

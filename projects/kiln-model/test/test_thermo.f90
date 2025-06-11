@@ -1,59 +1,29 @@
-program check
+module test_thermo_properties
     use constant
-
-    ! thermo.f90
+    use test_utils
     use nasa7
     use shomate
-
-    ! solution.f90
     use ideal_gas
     use methane_air_1step
     use pure_silica
 
-    ! numerical.f90
-    use numutils
-    use sample_ode
-    use integ_rkf45
-
     !============
     implicit none
+    private
     !============
 
-    print *, 'STARTING TESTS'
+    public test
 
-    call test001()
-    call test002()
-    call test003()
-    call test004()
-    call test005()
-    call testdev()
+  contains
 
-contains
+    subroutine test()
+        print *, ''
+        print *, 'test_thermo'
 
-    function get_solution() result(solution)
-        type(methane_air_1step_t) :: phase
-        type(ideal_gas_t) :: solution
-
-        phase = methane_air_1step_t()
-        solution = phase % solution
-    end function
-
-    subroutine check_result(val, ref, atol, rtol, name)
-        real(dp), intent(in)         :: val
-        real(dp), intent(in)         :: ref
-        real(dp), intent(in)         :: atol
-        real(dp), intent(in)         :: rtol
-        character(len=*), intent(in) :: name
-
-        real(dp) :: ares, rres
-
-        ares = abs(val - ref)
-        rres = ares / max(abs(ref), abs(val))
-
-        if ((ares > atol).or.(rres > rtol)) then
-            print '("Failed to compute ",A20," : ",ES15.6, ES15.6)', &
-                name, ares, rres
-        end if
+        call test001()
+        call test002()
+        call test003()
+        call test004()
     end subroutine
 
     subroutine test001()
@@ -221,7 +191,7 @@ contains
         type(shomate_t) :: sio2
         real(dp) :: atol, rtol, T, props(3), truth(3)
 
-        print *, 'TEST: Shomate properties'
+        print *, 'TEST: check Shomate properties'
 
         T = 600.0_dp
         atol = 1.0e-05
@@ -243,47 +213,30 @@ contains
         call check_result(props(3), truth(3), atol, rtol, 'sm')
     end subroutine
 
-    subroutine test005()
-        type(sample_ode_t)    :: ode
-        type(integ_rkf45_t)   :: integ
-        real(dp)              :: t, x, y
-        real(dp), allocatable :: u(:)
-        real(dp), allocatable :: times(:)
-        integer               :: i, n
+    function get_solution() result(solution)
+        type(methane_air_1step_t) :: phase
+        type(ideal_gas_t) :: solution
 
-        print *, 'TEST: check RK45 integration'
+        phase = methane_air_1step_t()
+        solution = phase % solution
+    end function
 
-        allocate(u(1))
+end module test_thermo_properties
 
-        ! Array of time points
-        n = 10+1
-        times = linspace(0.0_dp, 1.0_dp, n)
+module test_thermo
+    use test_thermo_properties, only: run_test_thermo_properties => test
 
-        ! Initial conditions
-        t = times(1)
-        u(1) = 1.0
+    !============
+    implicit none
+    private
+    !============
 
-        ode = sample_ode_t()
-        call ode % initialize(t, u)
+    public test
 
-        integ = integ_rkf45_t(ode)
-        integ % atol = 1.0e-08
-        integ % tmin = 1.0e-06
+  contains
 
-        call integ % integrate(times)
-
-        ! print *, 'Function evaluations', integ % totfevs
-
-        do i = 1, n
-            t = integ % sol(i, 1)
-            x = integ % sol(i, 2)
-            y = t**2 + 2*t + 1
-            ! print '(ES15.6,ES15.6,ES15.6)', t, x, y
-            call check_result(x, y, 1.0e-08_dp, 1.0e-09_dp, 'point')
-        end do
+    subroutine test()
+        call run_test_thermo_properties()
     end subroutine
 
-    subroutine testdev()
-    end subroutine
-
-end program check
+end module test_thermo
