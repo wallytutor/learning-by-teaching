@@ -16,7 +16,7 @@ outputs/*.pdf
 */**/*.pdf
 
 # But keep my CV
-!curriculum/*.pdf
+!curriculum/2025-07/*.pdf
 
 # Any sandbox files
 sandbox*
