@@ -55,8 +55,7 @@
 
 \newcommand{\myAcademic}[5]{%
   \ecvtitle{#1}{#2}%
-  \ecvitem{#3}{#4}%
-  \ecvitem{Advisor}{#5}%
+  \ecvitem{#3}{#4 (supervisor: #5)}%
 }
 
 \newtcolorbox{skillbox}[1][]{%
