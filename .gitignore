@@ -37,3 +37,6 @@ octave-workspace
 
 # Any log
 *.log
+
+# Temporary backup
+*~
