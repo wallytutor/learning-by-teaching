@@ -17,4 +17,21 @@
 
 - [Approche du refuge (23/04)](https://www.gaiagps.com/datasummary/track/ab735332-5f7c-4c81-9718-a446bae65353/) (4 km / 900 m+, [GPX](2025-08-24-rifugio.gpx))
 - [Course (24/08)](https://www.gaiagps.com/datasummary/track/fc4db2b5-3816-479a-b38f-05d3d3ab0998/) (3 km / 600 m+, [GPX](2024-08-24-course.gpx))
-    
+
+## Matériel
+
+Individuel :
+
+- pantalon imperméable, veste *hardshell*, couches intermédiaires
+- crampons et piolet classique (non-technique)
+- casque et baudrier, et 1 mousqueton directionnel
+- 3 dégaines rallongeables et 2-3 anneaux >120 mm
+- assureur muni de deux mousquetons pour relais
+- kit de crevasse (autobloquant, poulie, microtraxion, 2 broches à glace)
+- kit avalanche (pelle, sonde, DVA avec **PILES** chargées)
+- kit survie (à minima frontale et couverture de survie)
+- (optionnel) bâtons de marche
+
+Collectif :
+
+- corde 60 m
