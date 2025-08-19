@@ -1,10 +1,13 @@
 # Castor
 
+# Infos pratiques
+
+- [Réfuge Quintino Sella](https://www.rifugioquintinosella.com)
+
 ## Infos techniques
 
 - [Topo Camptocamp - Castor : Arête SE (voie normale du Felikjoch)](https://www.camptocamp.org/routes/56031/fr/castor-arete-se-voie-normale-du-felikjoch-)
 - [Altavia - Conditions au Castor](https://www.alta-via.fr/guide/conditions-alpinisme-escalade/traversee-castor-mont-rose.html)
-- [Réfuge Quintino Sella](https://www.rifugioquintinosella.com)
 
 ## État de la méteo
 
@@ -23,7 +26,7 @@
 Individuel :
 
 - pantalon imperméable, veste *hardshell*, couches intermédiaires
-- crampons et piolet classique (non-technique)
+- crampons (et chaussures compatibles) et piolet classique (non-technique)
 - casque et baudrier, et 1 mousqueton directionnel
 - 3 dégaines rallongeables et 2-3 anneaux >120 mm
 - assureur muni de deux mousquetons pour relais
@@ -35,3 +38,4 @@ Individuel :
 Collectif :
 
 - corde 60 m
+- trousse de secours
