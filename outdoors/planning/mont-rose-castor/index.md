@@ -1,6 +1,6 @@
 # Castor
 
-# Infos pratiques
+## Infos pratiques
 
 - [Réfuge Quintino Sella](https://www.rifugioquintinosella.com)
 
@@ -13,6 +13,8 @@
 
 - [Felikjoch - meteoblue](https://www.meteoblue.com/it/tempo/settimana/felikjoch_italia_11074552)
 - [Rifugio Quintino Sella - 3B Meteo](https://www.3bmeteo.com/meteo/rifugio+quintino+sella)
+
+**2025-08-20 (update):** moins de chute de neige que les prognostiques d'hier, pas de changement par rapport au risque avalanche. L'isotherme 0 °C reste autour de 3200 m.
 
 **2025-08-19 (update):** selon CampToCamp (YETI) le risque avalanche se trouve au niveau 2 aujourd'hui; pour les prochains 2-3 jours on doit recevoir 50-60 cm de neige précipitée. L'isotherme 0 °C reste à l'hauteur du refuge jusqu'à la fin de matinée d'ici dimanche.
 
