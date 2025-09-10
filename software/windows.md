@@ -45,3 +45,13 @@ This is equivalent to Linux `tail -f <file-path>`:
 ```bash
 Get-Content -Path "<file-path>" -Wait
 ```
+
+## Finding a process handle
+
+This is useful when Windows won't let you move a file or folder because *it is already open somewhere*. First, download and extract [Handle](https://learn.microsoft.com/en-us/sysinternals/downloads/handle); from PowerShell run the following:
+
+```bash
+./handle.exe -u -nobanner "C:\Path\To\File.txt"
+```
+
+Notice that your file might have started another process and some research might be required.
