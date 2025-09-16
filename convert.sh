@@ -30,8 +30,8 @@ pandoc --standalone                \
     -M date="${DATE}"              \
     --toc                          \
     --citeproc                     \
-    --csl=template/nature.csl      \
+    --csl=nature.csl               \
     --bibliography="${REFERENCES}" \
     -o outputs/combustion.pdf      \
     ${COMBUSTION[@]}               \
-    template/references.md
+    references.md

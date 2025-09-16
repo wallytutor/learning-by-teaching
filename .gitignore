@@ -65,3 +65,6 @@ fluent-*.log
 *.pdf
 *.qmd
 # *.tex
+
+# Downloaded videos:
+downloads/*

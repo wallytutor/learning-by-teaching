@@ -587,7 +587,7 @@ end
 
 Your task:
 
-- Read [newton_cooling.dat](programming/media/newton_cooling.dat) as a data frame
+- Read [newton_cooling.dat](media/newton_cooling.dat) as a data frame
 - Clean data as required and establish a proper visualization
 - Propose a model to fit the data and identify a package to find its parameters
 
@@ -599,7 +599,7 @@ Your tools:
 
 Your goal:
 
-![Newton cooling](programming/media/newton_cooling.png)
+![Newton cooling](media/newton_cooling.png)
 
 #### Going further
 

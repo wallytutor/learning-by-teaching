@@ -22,11 +22,11 @@ pandoc --standalone              ^
     -M date=%DATE%               ^
     --toc                        ^
     --citeproc                   ^
-    --csl=template/nature.csl    ^
+    --csl=nature.csl             ^
     --bibliography=%REFERENCES%  ^
     --highlight-style=pygments   ^
     software.md                  ^
     programming.md               ^
     knowledge.md                 ^
     -o outputs/bible.pdf         ^
-    template/references.md
+    references.md
