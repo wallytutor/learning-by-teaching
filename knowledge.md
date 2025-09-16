@@ -4,7 +4,6 @@
 
 Based on [Bierlaire (2015) Optimization: principles and algorithms](https://transp-or.epfl.ch/books/optimization/html/about.html) and the professors channel [Michel Bierlaire - YouTube](https://www.youtube.com/@MichelBierlaire/videos).
 
-
 ## Linear algebra
 
 - [Advanced LAFF - YouTube](https://www.youtube.com/@advancedlaff6453/playlists)
