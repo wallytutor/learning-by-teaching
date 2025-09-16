@@ -149,14 +149,14 @@ L'objectif de cette page est de fournir le minimum d'informations pour l'organis
 
 <figure align="center">
     <iframe 
-        src   = "media/via-ferrata"
+        src   = "outdoors/media/via-ferrata"
         width = "90%"
         height= "500px"
         title = "Adventure Track"
         >
     </iframe>
     <figcaption>
-    Cliquez <a href="media/via-ferrata" target="_blank">ici</a> pour voir la carte dans un nouveau onglet.
+    Cliquez <a href="outdoors/media/via-ferrata" target="_blank">ici</a> pour voir la carte dans un nouveau onglet.
     </figcaption>
 </figure>
 
@@ -385,7 +385,7 @@ Dans les cas des courses comprenant des passages de neige ou glace, des équipem
 
 <figure align="center">
     <iframe 
-        src   = "media/2024/04-30-Gravel-Boulot-Maison"
+        src   = "outdoors/media/2024/04-30-Gravel-Boulot-Maison"
         width = "90%"
         height= "300px"
         title = "Adventure Track"
