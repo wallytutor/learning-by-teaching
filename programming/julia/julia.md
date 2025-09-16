@@ -1,4 +1,40 @@
-# Julia 101
+---
+title: Julia
+author: Walter Dal'Maz Silva
+
+toc: true
+number-sections: true
+highlight-style: pygments
+
+format:
+  html:
+    code-fold: true
+    html-math-method: katex
+  pdf:
+    geometry:
+      - top=30mm
+      - left=30mm
+  docx: default
+
+jupyter:
+  jupytext:
+    cell_metadata#_filter: -all
+    formats: md,qmd,ipynb
+    main_language: python
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.16.6
+  kernelspec:
+    display_name: Julia 1.11.3
+    language: julia
+    name: julia-1.11
+---
+
+# Julia
+
+## Julia 101
 
 Welcome to Julia 101!
 
@@ -12,9 +48,9 @@ In this first course you will be introduced to the [Julia programming languange]
 
 Our goal in this course is not to master Julia or even pretend you have learned it; we will open the gates so that you can go out there and solve problems by yourself (or maybe open Pandora's box...).
 
-This is probably your first time learning Julia. If you got here by other means than the main index, please consider reading [this](../../README.md). Next, you can launch a terminal and try running Julia by simply typing `julia` and pressing return. For this introductory course I assume you are using [VS Code](../../../software/vscode.md) for which you might also wish to install the recommended extensions.
+This is probably your first time learning Julia. If you got here by other means than the main index, please consider reading [this](../../../programming.md). Next, you can launch a terminal and try running Julia by simply typing `julia` and pressing return. For this introductory course I assume you are using [VS Code](../../../software/vscode.md) for which you might also wish to install the recommended extensions.
 
-## REPL basics
+### REPL basics
 
 Julia's REPL (read-eval-print loop) is an interactive environment where you execute code as you write. It's main goal is to manage Julia, test code snippets, get help, and launch larger chunks of code.
 
@@ -53,7 +89,7 @@ search: methods Method methodswith hasmethod
 
 Try by yourself and run `add Polynomials` from package manager mode (we will need it later); what do you get if you check the `status` again?
 
-## Julia as a calculator
+### Julia as a calculator
 
 The following example should speak by itself:
 
@@ -209,7 +245,7 @@ julia> 1 + eps()
 1.0000000000000002
 ```
 
-## Vectors and matrices
+### Vectors and matrices
 
 Let's start once again with no words:
 
@@ -272,7 +308,7 @@ julia> LinRange(0, 100, 101)
  0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, …, 93.0, 94.0, 95.0, 96.0, 97.0, 98.0, 99.0, 100.0
 ```
 
-## Representing text
+### Representing text
 
 The uninformed think the numerical people need not to know how to manipulate text; that is completely wrong. An important amount of time in the conception of a simulation code or data analysis is simply *string* manipulation.
 
@@ -309,7 +345,7 @@ julia> @info("""
 └ You can also display the value of x = 2.3
 ```
 
-## Tuples and dictionaries
+### Tuples and dictionaries
 
 Tuples are immutable data containers; they consist *their own type*.
 
@@ -352,7 +388,7 @@ Dict{String, Float64} with 3 entries:
   "N2"  => 0.02
 ```
 
-## A first function
+### A first function
 
 A function can be created in a single line:
 
@@ -420,7 +456,7 @@ normal(x; mu, sigma)
      @ Main REPL[108]:1
 ```
 
-## Using modules
+### Using modules
 
 One can import all functionalities from a given module with `using ModuleName`; that is generally not what we want in complex programs (because of name clashes). If only a few functionalities of a given module will be used, then proceed as follows:
 
@@ -448,7 +484,7 @@ julia> ST.mean(rand(1000))
 
 By the way, we used built-in random number generation in the above example.
 
-## Calling Python
+### Calling Python
 
 ```julia-repl
 julia> using PythonCall
@@ -512,7 +548,7 @@ julia> println(gas.report())
      [  +33 minor]        3.0931e-14        1.9711e-14
 ```
 
-## Things to learn
+### Things to learn
 
 - Regular expressions and text parsing
 - Annotating types in functions
@@ -523,7 +559,7 @@ julia> println(gas.report())
 	- [For Loop (for...end)](https://www.youtube.com/watch?v=4cg9UuG2G4g&list=PLhQ2JMBcfAsiu2BjeDuj0OXxD1Or_FjID&index=20)
 	- [For Loop over collection](https://www.youtube.com/watch?v=2ixUMtFttsI&list=PLhQ2JMBcfAsiu2BjeDuj0OXxD1Or_FjID&index=21)
 
-## Pluto environment
+### Pluto environment
 
 Before going further, learn some Markdown! Please notice that Markdown has no standard and not all of GitHub's markdown works in Pluto (although most of it will be just fine). Here you find some recommendations:
 
@@ -564,7 +600,7 @@ Your goal:
 
 ![Newton cooling](media/newton_cooling.png)
 
-## Going further
+### Going further
 
 - [Julia Documentation](https://docs.julialang.org/en/v1/): in this page you find the whole documentation of Julia.
 
@@ -590,7 +626,7 @@ Your goal:
 
 - [JuliaHub](https://juliahub.com/): this company proposes a cloud platform (non-free) for performing computations with Julia. In its page you find a few useful and good quality learning materials.
 
-## A few Julia organizations
+### A few Julia organizations
 
 - [SciML](https://sciml.ai/): don't be tricked by its name, its field of application goes way beyond what we understand by Machine Learning. SciML is probably the best curated set of open source scientific tools out there. Take a look at the list of available packages [here](https://docs.sciml.ai/Overview/stable/overview/). This last link is probably the best place to search for a generic package for Scientific Computing.
 
@@ -602,8 +638,398 @@ Your goal:
 
 - [JuliaMolsim](https://juliamolsim.github.io/): molecular simulation in Julia, from DFT to Molecular dynamics.
 
-## Getting help in the wild
+### Getting help in the wild
 
 - [Julialang Discourse](https://discourse.julialang.org/): instead of Stackoverflow, most Julia discussion threads are hosted in this page.
 
 - [Zulipchat Julialang](https://julialang.zulipchat.com/): some discussion (specially regarding development) is hold at Zulipchat.
+
+## Julia 102
+
+Hello again! Hope you have enjoyed *Julia 101*!
+
+This second course of the series will extend your Julia skills to the next level. In the previous session we have focused on using Julia from the REPL, but that's not how things work in the *real world*. Now we move towards creating reusable code, packaging it, and calling it from elsewhere. This will include the following topics:
+
+- Types and structures
+- Functions and multiple dispatch
+- Wrapping up code in modules
+- Creating a package
+
+### User-defined types
+
+### Writing your own functions
+
+### Creating reusable modules
+
+### Packaging code
+
+## Julia 201
+
+Hello again! Hope you have enjoyed *Julia 102*!
+
+Let's go straight to what matters, the topics discussed here:
+
+- Performance and benchmarking
+- Linear algebra and vectorization
+- Interoperability with C and Fortran
+
+## Julia 202
+
+Hello again! Hope you have enjoyed *Julia 201*!
+
+Let's go straight to what matters, the topics discussed here:
+
+- Multi-threading and multi-processing
+- GPU programming
+- Metaprogramming
+
+
+### Multi-threading
+
+```python
+versioninfo()
+```
+
+### Multi-processing
+
+
+### Metaprogramming
+
+
+### Recommended contents
+
+- [(08x03) Intro to Julia Multi-Threading | How to use the Threads.@threads macro](https://www.youtube.com/watch?v=kX6_iY_BtG8&list=PLhQ2JMBcfAsjQzwp2j97uZjNOMi7Ed4CG&index=3)
+- [(08x04) Intro to Julia Multi-Processing (It's not the same as Multi-Threading!)](https://www.youtube.com/watch?v=uKdpY6Je6Oc&list=PLhQ2JMBcfAsjQzwp2j97uZjNOMi7Ed4CG&index=4)
+- [(06x10) High-Level, Conceptual Introduction to Julia GPGPU using CUDA.jl (CUDA.jl 101 Part 1 of 3)](https://www.youtube.com/watch?v=VpbMiCG2Tz0&list=PLhQ2JMBcfAshxbsVbBDY6pj3K41XzdJDy&index=3)
+- [(06x11) How to Write CUDA Kernels and Use CUDA Libraries using CUDA.jl (CUDA.jl 101 Part 2 of 3)](https://www.youtube.com/watch?v=YwHGnHI5UxA&list=PLhQ2JMBcfAshxbsVbBDY6pj3K41XzdJDy&index=4)
+- [(06x12) How to use your GPU for Machine Learning using CUDA.jl and Flux.jl (CUDA.jl 101 Part 3 of 3)](https://www.youtube.com/watch?v=4PmcxUKSRww&list=PLhQ2JMBcfAshxbsVbBDY6pj3K41XzdJDy&index=5)
+
+## Selected Julia packages
+
+### General
+
+<table>
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://julialang.org/assets/infra/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://docs.julialang.org/en/v1/" target="_blank">
+          Julia Programming
+      </a>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://juliagraphs.org/Graphs.jl/dev/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://juliagraphs.org/Graphs.jl/dev/" target="_blank">
+          Graphs.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://julialang.org/assets/infra/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://jverzani.github.io/Mustache.jl/dev/" target="_blank">
+          Mustache.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://julialang.org/assets/infra/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://julialang.github.io/PackageCompiler.jl/stable/index.html" target="_blank">
+          PackageCompiler.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://timholy.github.io/Revise.jl/stable/assets/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://timholy.github.io/Revise.jl/stable/" target="_blank">
+          Revise.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+</table>
+
+### Plotting and graphics
+
+<table>
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://docs.makie.org/v0.22/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://docs.makie.org/stable/" target="_blank">
+          Makie.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://docs.juliaplots.org/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://docs.juliaplots.org/stable/" target="_blank">
+          Plots.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://julialang.org/assets/infra/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://winston.readthedocs.io/en/latest/" target="_blank">
+          Winston.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://juliagraphics.github.io/Luxor.jl/stable/assets/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://juliagraphics.github.io/Luxor.jl/stable/" target="_blank">
+          Luxor.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+</table>
+
+### Numerical methods
+
+<table>
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://ferrite-fem.github.io/Ferrite.jl/stable/assets/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://ferrite-fem.github.io/Ferrite.jl/stable/" target="_blank">
+          Ferrite.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://xiaotianbai.com/Kinetic.jl/dev/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://xiaotianbai.com/Kinetic.jl/dev/" target="_blank">
+          Kinetic.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://docs.sciml.ai/ModelingToolkit/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://docs.sciml.ai/ModelingToolkit/stable/" target="_blank">
+          ModelingToolkit.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://juliamath.github.io/Roots.jl/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://juliamath.github.io/Roots.jl/stable/" target="_blank">
+          Roots.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://symbolics.juliasymbolics.org/stable/assets/logo-dark.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://symbolics.juliasymbolics.org/stable/" target="_blank">
+          Symbolics.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://julialang.org/assets/infra/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://j-fu.github.io/VoronoiFVM.jl/dev/" target="_blank">
+          VoronoiFVM.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+</table>
+
+### Kinetics and Thermodynamics
+
+<table>
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://docs.sciml.ai/Catalyst/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://docs.sciml.ai/Catalyst/stable/" target="_blank">
+          Catalyst.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://clapeyronthermo.github.io/Clapeyron.jl/dev/assets/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://clapeyronthermo.github.io/Clapeyron.jl/dev/" target="_blank">
+          Clapeyron.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://docs.dftk.org/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://docs.dftk.org/stable/" target="_blank">
+          DFTK.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://julialang.org/assets/infra/logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://github.com/braamvandyk/SteamTables.jl" target="_blank">
+          SteamTables.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+</table>
+
+### Machine learning
+
+
+<table>
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://fluxml.ai/Flux.jl/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://fluxml.ai/Flux.jl/stable/" target="_blank">
+          Flux.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://lux.csail.mit.edu/lux-logo.svg" alt="logo" />
+    </td>
+    <td>
+      <a href="https://lux.csail.mit.edu/" target="_blank">
+          Lux.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://docs.sciml.ai/NeuralPDE/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://docs.sciml.ai/NeuralPDE/stable/" target="_blank">
+          NeuralPDE.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://fluxml.ai/Zygote.jl/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://fluxml.ai/Zygote.jl/stable/" target="_blank">
+          Zygote.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+</table>
+
+### GPU Programming
+
+<table>
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://cuda.juliagpu.org/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://cuda.juliagpu.org/stable/" target="_blank">
+          CUDA.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="64px" height="64px" style="vertical-align: middle;">
+        <img src="https://cuda.juliagpu.org/stable/assets/logo.png" alt="logo" />
+    </td>
+    <td>
+      <a href="https://github.com/JuliaGPU/Adapt.jl" target="_blank">
+          Adapt.jl
+      </a>
+      <hr style="padding: 0pt; margin: 5pt"/>
+    </td>
+  </tr>
+</table>
+
+## Plotting in Julia
+
+*Upcoming...*

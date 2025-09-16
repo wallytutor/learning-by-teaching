@@ -2,7 +2,7 @@
 
 This page provides access to programming learning materials and related links. If this subject is new to you, to be able to successfully follow the contents you might learn a bit about the environment we will use, [VS Code](../software/vscode.md) and the minimum about [command prompt](../software/cli.md). If you are planning to start a career in scientific computing, there is also a short introduction [here](../software/README.md) that might help you find your way through this broad field.
 
-Sample projects are found [here](../projects/README.md).
+Sample projects are found [here](projects/README.md).
 
 ## Coding practices
 
@@ -31,16 +31,9 @@ Python code documentation is generally done with [Sphinx](https://www.sphinx-doc
 
 ## Julia
 
-Julia from zero to hero (for Scientific Computing)!
+[Julia from zero to hero (for Scientific Computing)!](programming/julia/julia.md)
 
-**Important:** the following courses may assume you are using a redistributable version of Julia packaged as described [here](https://github.com/wallytutor/julia101/tree/main). This might be useful for instructors willing to work without internet access.
-
-1. [Julia 101](julia/101/README.md)
-2. [Julia 102](julia/102/README.md)
-3. [Julia 201](julia/201/README.md)
-4. [Julia 202](julia/202/README.md)
-5. [Plotting in Julia](julia/plotting.md)
-6. [Selected packages](julia/packages.md)
+**Important:** the following course may assume you are using a redistributable version of Julia packaged as described [here](https://github.com/wallytutor/julia101/tree/main). This might be useful for instructors willing to work without internet access.
 
 ## Python
 
@@ -139,18 +132,7 @@ end program program_name
 
 ## Rust
 
-For learning and reviewing the basics of Rust I recommend the following videos; start with the first for a crash course and then take more time to repeat everything and learn in more depth with the second.
-
-- [Rust Programming (3h)](https://www.youtube.com/watch?v=rQ_J9WH6CGk)
-- [Learn Rust Programming (13h)](https://www.youtube.com/watch?v=BpPEoZW5IiY)
-
-Not yet reviewed:
-
-- [Rust 101 Crash Course (6h)](https://www.youtube.com/watch?v=lzKeecy4OmQ)
-- [Parallel Programming in Rust (1h)](https://www.youtube.com/watch?v=zQgN75kdR9M)
-- [Clean Rust (playlist)](https://www.youtube.com/playlist?list=PLVbq-Dh4_0uyfA7FDduMjKp3L60WoQZgX)
-
-### Resources
+Standard resources:
 
 - [Rust Programming Language](https://www.rust-lang.org/)
 - [Rustlings hands on course](https://github.com/rust-lang/rustlings/)
@@ -161,6 +143,17 @@ A full set of documentation and web-books is available at [Learn Rust](https://w
 - [Rust Book](https://doc.rust-lang.org/book/)
 - [Rust By Example](https://doc.rust-lang.org/rust-by-example/)
 - [The Cargo Book](https://doc.rust-lang.org/cargo/index.html)
+
+For learning and reviewing the basics of Rust I recommend the following videos; start with the first for a crash course and then take more time to repeat everything and learn in more depth with the second.
+
+- [Rust Programming (3h)](https://www.youtube.com/watch?v=rQ_J9WH6CGk)
+- [Learn Rust Programming (13h)](https://www.youtube.com/watch?v=BpPEoZW5IiY)
+
+Not yet reviewed:
+
+- [Rust 101 Crash Course (6h)](https://www.youtube.com/watch?v=lzKeecy4OmQ)
+- [Parallel Programming in Rust (1h)](https://www.youtube.com/watch?v=zQgN75kdR9M)
+- [Clean Rust (playlist)](https://www.youtube.com/playlist?list=PLVbq-Dh4_0uyfA7FDduMjKp3L60WoQZgX)
 
 ### Beginner cheat-sheet
 
