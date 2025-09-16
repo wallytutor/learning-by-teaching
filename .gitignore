@@ -40,3 +40,6 @@ octave-workspace
 
 # Temporary backup
 *~
+
+# Trash
+.trash/
