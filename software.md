@@ -13,7 +13,7 @@ Notes related to my learning and teaching interests in several fields related to
 - Typesetting equations reports and presentations (beamer) in LaTeX.
 - Domain specific skills related to the field of study (CFD, DFT, MD, ML, ...).
 
-A sample setup of an operating system for scientific computing and practicing the above skills is provided [here](ubuntu.md).
+A sample setup of an operating system for scientific computing and practicing the above skills is provided in a section dedicated to Ubuntu.
 
 Some technologies have been mainstream or important in the past, but nowadays some of them have already died or are becoming too niche to be put in such a list. That is the case of SVN for version control. As for programming languages in science, that is the case of *matlabish* (MATLAB, Octave, Scilab) environments, which are still used by *controls and automation* people, but are mostly incompatible with good software practices and should be discouraged.
 
@@ -25,7 +25,7 @@ As a last word, I would like to remember that it is humanly impossible to master
 
 If this is you first time using the command prompt you might be interested by this section. The command prompt (often referred to as *terminal* in Linux world) is your interface to interact with the operating system and many available tools. To learn any useful scientific computing skills it is useful to get a grasp of its use because it is there that we will launch most applications. The illustrations below assume you are working under Windows, but the introductory commands are common to most operating systems. 
 
-Now let's launch a terminal. If you are working under [VS Code](vscode.md) you can use the shortcut to display the terminal `Ctrl+J`; the bottom of your window should display something as
+Now let's launch a terminal. If you are working under VS Code you can use the shortcut to display the terminal `Ctrl+J`; the bottom of your window should display something as
 
 ```console
 PS D:\Kompanion>
@@ -86,7 +86,7 @@ This is the minimum you need to know: navigate, know your address, inspect conte
 
 - [blender](https://www.blender.org/): the most powerful 3D (in the general sense) open source modeling tool; allows geometries to be exported to STL, which is compatible with most meshing software.
 
-- [FreeCAD](freecad/basics.md): contrarily to [blender](https://www.blender.org/), this is the most mature open source modeling tool in the technical sense. It supports both 3D conception and detailed drawing, among other features.
+- [FreeCAD](https://www.freecad.org/?lang=fr_FR): contrarily to [blender](https://www.blender.org/), this is the most mature open source modeling tool in the technical sense. It supports both 3D conception and detailed drawing, among other features.
 
 - [cadquery](https://github.com/CadQuery/cadquery?tab=readme-ov-file): a simple parametric geometry tool.
 
@@ -104,9 +104,9 @@ This is the minimum you need to know: navigate, know your address, inspect conte
 
 #### Simulation
 
-- [Elmer](elmer.md): multiphysics FEM toolkit.
+- [Elmer](https://docs.csc.fi/apps/elmer/): multiphysics FEM toolkit (see dedicated topic).
 
-- [OpenFOAM](openfoam/README.md): general purpose FVM CFD toolkit.
+- [OpenFOAM](https://openfoam.org/): general purpose FVM CFD toolkit (see dedicated topic).
 
 - [TRUST Platform](https://cea-trust-platform.github.io/):  the basis for [TrioCFD](https://github.com/cea-trust-platform/TrioCFD-code) code by CEA.
 
@@ -536,7 +536,7 @@ sudo firewall-cmd --reload
 
 ## Fresh Ubuntu
 
-This document provides the basic steps to setup a working Ubuntu system for scientific computing. It includes the general setup and customization steps. For more on #linux, please visit the dedicated [page](linux.md).
+This document provides the basic steps to setup a working Ubuntu system for scientific computing. It includes the general setup and customization steps. For more on #linux, please check the dedicated section.
 
 ### Getting started
 
@@ -643,7 +643,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install texlive-full pandoc
 ```
 
-- For containers (`podman`, `apptainer`), consider checking [this page](../containers/README.md).
+- For containers (`podman`, `apptainer`), consider checking the dedicated section.
 
 ### Personal configuration
 
@@ -756,7 +756,7 @@ cpufreq-info
 
 If you are reading this, you are probably using [VS Code](https://code.visualstudio.com/) for the first time or need a refresher! VS Code is Microsoft's open source text editor that has become the most popular editor in the past decade. It is portable (meaning it works in Windows, Linux, and Mac) and relatively light-weight (it won't use all you RAM as some proprietary tools would do). There are a few shortcuts you might want to keep in mind for using this tool in an efficient manner:
 
-- `Ctrl+J`: show/hide the [terminal](cli.md)
+- `Ctrl+J`: show/hide the terminal
 - `Ctrl+B`: show/hide the project tree
 - `Ctrl+Shift+V`: display this file in rendered mode
 - `Ctrl+Shift+P`: access the command pallet
@@ -1020,7 +1020,7 @@ wget -r -l 20 --no-parent           \
 
 #### Preprocessing steps
 
-- Other than the native `ElmerGrid`, several other software can be used for conceiving a geometry and mesh generation workflow. Users are encouraged to use external tools such as [gmsh](https://gmsh.info/) or [Salome](https://www.salome-platform.org/) to generate computational meshes, built-in support in Elmer bein limited to very simple geometries only. For complex geometries [FreeCAD](https://www.freecad.org/) is a standout alternative. For more consider reading [Geometry and Preprocessing](../Computing/04-Geometry-and-Preprocessing.md).
+- Other than the native `ElmerGrid`, several other software can be used for conceiving a geometry and mesh generation workflow. Users are encouraged to use external tools such as [gmsh](https://gmsh.info/) or [Salome](https://www.salome-platform.org/) to generate computational meshes, built-in support in Elmer bein limited to very simple geometries only. For complex geometries [FreeCAD](https://www.freecad.org/) is a standout alternative. For more consider reading *Geometry and Preprocessing*.
 
 - Not all `gmsh` standard mesh formats are supported, but only version 2 (as for OpenFOAM); that said, users are encouraged to export mesh in UNV format to avoid compatibility issues, and also because both proposed tools support it. You can control the element orders in command line using option `-order <N>`; gmsh operates this way so that the same script can generate any supported element type.
 
@@ -1032,7 +1032,7 @@ wget -r -l 20 --no-parent           \
 
 | Software                        | Notes                                                                                                                 |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| [FreeCAD](../freecad/basics.md) | Geometry only for now, probably the best in the list; good parametric modeling support. Has native Elmer integration. |
+| FreeCAD                         | Geometry only for now, probably the best in the list; good parametric modeling support. Has native Elmer integration. |
 | Salome                          | Can export UNV (8) meshes readable by Elmer. An extension to call Elmer directly from Salome is under development.    |
 | gmsh                            | Can export MSH2 (14) and UNV (8) formats readable by Elmer.                                                           |
 | netgen                          | Is able to write native Elmer linear meshes; can be used as a plug-in.                                                |
@@ -1559,7 +1559,7 @@ For more complex cases such as [this one](https://github.com/wallytutor/WallyToo
 
 #### Saving data modules
 
-**Note**: coupling to OpenFOAM is discussed separately in [this page](openfoam.md).
+**Note**: coupling to OpenFOAM is discussed separately in another section.
 
 - SaveData
 
