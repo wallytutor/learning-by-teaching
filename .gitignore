@@ -51,3 +51,8 @@ fluent-*.log
 # MFIX default tutorials run locally:
 # fb_gsp/*
 # fb_mi_gsp/*
+
+# Bibtex backups
+*.bib.sav
+*.bib.bkp
+*.bib.bak
