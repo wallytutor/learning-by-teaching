@@ -4,10 +4,6 @@ Elmer is a multiphysics finite element method (FEM) solver mainly developed by C
 
 The goal of this page is not to supersede the [documentation](https://www.research.csc.fi/web/elmer/documentation), but to make it (partially) available as a webpage where search and navigation become more intuitive. *Notice that this will be fed according to my personal projects and learning, so any contribution to accelerate the process is welcome.* Here you find a *user-guide-style* page with more details are provided below in the selected notes of Elmer documentation.
 
-## Table of contents
-
-1. [Elmer showcase](samples/README.md)
-
 ## Quick answers
 
 - [Is Elmer the adequate tool for my projects?](https://www.nic.funet.fi/pub/sci/physics/elmer/doc/ElmerOverview.pdf) In this document you find a short introduction to what Elmer can do and the main executables. 
@@ -552,3 +548,69 @@ For more complex cases such as [this one](https://github.com/wallytutor/WallyToo
 ## User-defined functions
 
 *Upcoming*
+
+### Derived fields
+
+#### StreamSolver
+
+#### FluxSolver
+
+#elmer/models/flux-solver 
+
+#### VorticitySolver
+
+#### DivergenceSolver
+
+#### ScalarPotentialSolver
+
+#### ArtificialCompressibility
+
+#### FluidicForce
+
+#### ElectricForce
+
+#### RigidBodyReduction
+
+#### FilterTimeSeries
+
+#### DataToFieldSolver
+
+#### ProjectToPlane
+
+#### StructureProjectToPlane
+
+#### FindOptimum
+
+### Saving data modules
+
+**Note**: coupling to OpenFOAM is discussed separately in [this page](openfoam.md).
+
+#### SaveData
+
+- SaveScalars
+
+#elmer/models/save-scalars
+
+- SaveLine
+
+#elmer/models/save-line 
+
+- SaveMaterials
+
+- SaveBoundaryValues
+
+#### ResultOutputSolve
+
+- ResultOutputSolver
+
+#elmer/models/result-output-solver 
+
+#### SaveGridData
+
+- SaveGridData
+
+#### Isosurface
+
+- IsosurfaceSolver
+
+### OpenFOAM coupling

@@ -104,7 +104,7 @@ This is the minimum you need to know: navigate, know your address, inspect conte
 
 #### Simulation
 
-- [Elmer](elmer/README.md): multiphysics FEM toolkit.
+- [Elmer](elmer.md): multiphysics FEM toolkit.
 
 - [OpenFOAM](openfoam/README.md): general purpose FVM CFD toolkit.
 
