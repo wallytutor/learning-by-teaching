@@ -28,5 +28,5 @@ pandoc --standalone              ^
     software.md                  ^
     programming.md               ^
     knowledge.md                 ^
-    -o outputs/bible.pdf         ^
+    -o bible.pdf                 ^
     references.md

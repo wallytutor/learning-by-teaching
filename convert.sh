@@ -32,6 +32,6 @@ pandoc --standalone                \
     --citeproc                     \
     --csl=nature.csl               \
     --bibliography="${REFERENCES}" \
-    -o outputs/combustion.pdf      \
+    -o combustion.pdf              \
     ${COMBUSTION[@]}               \
     references.md
