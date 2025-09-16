@@ -427,6 +427,15 @@ Host myserver
     IdentityFile ~/.ssh/id_rsa
 ```
 
+If the above fails to fill in your right user name (sometimes Windows username will appear) you can try the following workaround to enforce user:
+
+```bash
+Host yourusername@your.server.com
+    HostName your.server.com
+    User yourusername
+    IdentityFile ~/.ssh/id_rsa
+```
+
 ### Gnome 3
 
 Several recent Linux distributions use Gnome 3 as the default desktop manager. A few *innovations* introduced by this environment are not really interesting and falling back to classical modes is useful:
