@@ -92,13 +92,13 @@ This is the minimum you need to know: navigate, know your address, inspect conte
 
 #### Meshing
 
--  [gmsh](gmsh/basics.md): the *to-go* meshing tool for 2D geometries and visualization of many formats of 3D meshes; before trying to produce reliable structured meshes and geometry in 3D some ninja skills need to be developed. Its own scripting language makes parametric meshing easy.
+-  [gmsh](https://gmsh.info/): the *to-go* meshing tool for 2D geometries and visualization of many formats of 3D meshes; before trying to produce reliable structured meshes and geometry in 3D some ninja skills need to be developed. Its own scripting language makes parametric meshing easy.
 
 - [MeshLab](https://github.com/cnr-isti-vclab/meshlab): allows to manipulate triangulated grids generated in CAD; helpful for preparing patches for use with #OpenFOAM/snappyHexMesh .
 
 #### Rendering
 
-- [ParaView](paraview/basics.md): the *de facto* post-processing tool for many fields of application. 
+- [ParaView](https://www.paraview.org/): the *de facto* post-processing tool for many fields of application. 
  
 - [trame](https://kitware.github.io/trame/): rendering results in web-applications.
 
@@ -971,3 +971,43 @@ apptainer run -B $PWD /<path>/<to>/openfoam12-rockylinux9.sif
 ```
 
 **Note:** use `apptainer run` when you want to execute the container's default application or task; on the other hand, use `apptainer shell` when you need an interactive session to explore or debug the container. For the OpenFOAM example above, both are very similar as no default application is launched, but a shell session itself.
+
+## ParaView
+
+- [Getting Started](https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v5.13&type=data&os=Sources&downloadFile=ParaViewGettingStarted-5.13.2.pdf)
+- [Video tutorial by Cyprien Rusu](https://www.youtube.com/playlist?list=PLvkU6i2iQ2fpcVsqaKXJT5Wjb9_ttRLK-)
+- [Video tutorial at TuxRiders](https://www.youtube.com/playlist?list=PL6fjYEpJFi7W6ayU8zKi7G0-EZmkjtbPo)
+
+### For OpenFOAM
+
+#OpenFOAM/snappyHexMesh #OpenFOAM/snappyHexMesh/resolveFeatureAngle 
+
+An alternative way of extracting feature edges from a geometry for use with `OpenFOAM/snappyHexMesh` is to use filter `Feature Edges` (take care because the feature angle here is the complement, *i.e.* 180-angle, of `resolveFeatureAngle` then convert them to surfaces with filter `Extract Surface` and save results to ASCII #format/VTK format. The conversion to `eMesh` format is done as follows:
+
+```bash
+surfaceFeatureConvert constant/geometry/edges.obj constant/geometry/edges.eMesh
+```
+
+- #TODO I could not perform the above conversion with the #format/VTK file, but it worked smoothly with an #format/OBJ file (as documented.)
+
+- When creating a clip-plane (or slice) in #ParaView, use option *Crinkle clip* (or *Crinkle slice*) to display cells without actually cutting them (otherwise unreadable).
+
+##  FEniCSx
+
+- [FEniCS Project](https://fenicsproject.org/)
+- [FEniCSx Documentation](https://docs.fenicsproject.org/)
+- [The FEniCSx tutorial](https://jsdokken.com/dolfinx-tutorial/index.html)
+
+## gmsh
+
+Ongoing...
+
+## Ansys Fluent
+
+### License usage
+
+```shell
+export LMUTIL=/<path-to-ansys>/ansys_inc/<version>/licensingclient/linx64/lmutil
+"${LMUTIL}" lmstat -c 1055@<ip> -a | grep "Users of" | \
+    awk -F'[ ]' '{printf "%-25s %3s /%3s\n", $3, $13, $7}'
+```

@@ -136,7 +136,7 @@ Since the left-hand side matrix depends on the solution itself, solving the mode
 
 ## Running Elmer
 
-Under the model directory one finds a [`gmsh`](/software/gmsh/basics.md) file that can be converted into a `gmsh` grid with the following command (run from the project root directory):
+Under the model directory one finds a `gmsh` file that can be converted into a `gmsh` grid with the following command (run from the project root directory):
 
 ```julia
 cd("model") do

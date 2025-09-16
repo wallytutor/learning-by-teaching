@@ -1,6 +1,6 @@
 # Concept with GUI
 
-Although the recommended way to deal with Elmer setup is through [SIF](../../../sif.md) files, creating them by hand is sort of cumbersome if you do not dispose of a similar case to modify. Here we provide a guided workflow to create a case that we will later modify by hand. This will allow us to quickly produce a working version of the base operating version of SIF file.
+Although the recommended way to deal with Elmer setup is through [SIF](../../../README.md) files, creating them by hand is sort of cumbersome if you do not dispose of a similar case to modify. Here we provide a guided workflow to create a case that we will later modify by hand. This will allow us to quickly produce a working version of the base operating version of SIF file.
 
 In what follows we assume you have generated the computational grid with `gmsh` under the [2d](../2d/README.md) directory. To do so, navigate to that folder in a terminal and run
 
