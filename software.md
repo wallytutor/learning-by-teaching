@@ -152,10 +152,12 @@ jupyter-lab --no-browser --port=8080
 On the host side (the computer from where you wish to edit the notebooks) establish a ssh tunel exposing and mapping the port chose to serve Jupyter:
 
 ```bash
+# Notice that the ports below must be specified as:
+# ssh -L <local_port>:localhost:<remote_port> <REMOTE_USER>@<REMOTE_HOST>
 ssh -L 8080:localhost:8080 <REMOTE_USER>@<REMOTE_HOST>
 ```
 
-Now you can browse to `http://localhost:8080/` and add the token you copied earlier or your user-token you added to the configuration file.
+Now you can browse to `http://localhost:8080/` and add the token you copied earlier or your user-token you added to the configuration file. Notice that you need to keep the terminal you used to launch the port forwarding open while you work.
 
 ### Downloading from YouTube
 
