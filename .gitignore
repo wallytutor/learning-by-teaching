@@ -56,3 +56,12 @@ fluent-*.log
 *.bib.sav
 *.bib.bkp
 *.bib.bak
+
+# Quarto outputs
+*_files
+*.docx
+*.html
+*.ipynb
+*.pdf
+*.qmd
+# *.tex
