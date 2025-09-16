@@ -43,3 +43,11 @@ octave-workspace
 
 # Trash
 .trash/
+
+# Fluent
+cleanup-fluent-*.bat
+fluent-*.log
+
+# MFIX default tutorials run locally:
+# fb_gsp/*
+# fb_mi_gsp/*
