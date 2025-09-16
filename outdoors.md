@@ -392,6 +392,6 @@ Dans les cas des courses comprenant des passages de neige ou glace, des équipem
         >
     </iframe>
     <figcaption>
-    Click <a href="media/2024/04-30-Gravel-Boulot-Maison" target="_blank">here</a> to see the full map in a new tab or download the GPX <a href="media/2024/04-30-Gravel-Boulot-Maison/track.gpx" target="_blank">track</a>.
+    Click <a href="outdoors/media/2024/04-30-Gravel-Boulot-Maison" target="_blank">here</a> to see the full map in a new tab or download the GPX <a href="outdoors/media/2024/04-30-Gravel-Boulot-Maison/track.gpx" target="_blank">track</a>.
     </figcaption>
 </figure>
