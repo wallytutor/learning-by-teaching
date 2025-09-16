@@ -405,6 +405,18 @@ sudo mkdir /mnt/z
 sudo mount -t drvfs Z: /mnt/z
 ```
 
+Actually the same procedure can be used to access a SMB drive from within WSL temporarily with:
+
+```bash
+sudo mount -t drvfs '\\path\to\smb' /mnt/<mount-point>/
+```
+
+For automatic remount, consider adding the following to your `/etc/fstab`
+
+```bash
+//path/to/smb /mnt/<mount-point>/ drvfs auto,rw,nosuid,exec,uid=1000,gid=1000 0 0
+```
+
 ### Following the writing to a file
 
 This is equivalent to Linux `tail -f <file-path>`:
@@ -422,20 +434,6 @@ This is useful when Windows won't let you move a file or folder because *it is a
 ```
 
 Notice that your file might have started another process and some research might be required.
-
-### Mount SMB under WSL
-
-You can access a SMB drive from within WSL (Ubuntu) temporarily with:
-
-```bash
-sudo mount -t drvfs '\\path\to\smb' /mnt/<mount-point>/
-```
-
-For automatic remount, consider adding the following to your `/etc/fstab`
-
-```bash
-//path/to/smb /mnt/<mount-point>/ drvfs auto,rw,nosuid,exec,uid=1000,gid=1000 0 0
-```
 
 ## Working on Linux
 
