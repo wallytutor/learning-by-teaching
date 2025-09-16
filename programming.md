@@ -1056,21 +1056,21 @@ The following tools might be of interest for creating scientific content with em
 
 Code (with a few modifications in some cases) from tutorial provided [here](https://fortran-lang.org/learn/quickstart/). Recommended study order, as per the original source:
 
-1. [hello](fortran/src/quickstart/hello.f90)
-1. [variables](fortran/src/quickstart/variables.f90)
-1. [read_values](fortran/src/quickstart/read_values.f90)
-1. [arithmetic](fortran/src/quickstart/arithmetic.f90)
-1. [floatf](fortran/src/quickstart/floatf.f90)
-1. [floatc](fortran/src/quickstart/floatc.f90)
-1. [block](fortran/src/quickstart/block.f90)
-1. [arrays](fortran/src/quickstart/arrays.f90)
-1. [array_slice](fortran/src/quickstart/array_slice.f90)
-1. [allocatable](fortran/src/quickstart/allocatable.f90)
-1. [string](fortran/src/quickstart/string.f90)
-1. [allocatable_string](fortran/src/quickstart/allocatable_string.f90)
-1. [string_array](fortran/src/quickstart/string_array.f90)
-1. [control_if](fortran/src/quickstart/control_if.f90)
-1. [control_loop](fortran/src/quickstart/control_loop.f90)
+1. [hello](projects/lean-fortran/src/hello.f90)
+1. [variables](projects/lean-fortran/src/variables.f90)
+1. [read_values](projects/lean-fortran/src/read_values.f90)
+1. [arithmetic](projects/lean-fortran/src/arithmetic.f90)
+1. [floatf](projects/lean-fortran/src/floatf.f90)
+1. [floatc](projects/lean-fortran/src/floatc.f90)
+1. [block](projects/lean-fortran/src/block.f90)
+1. [arrays](projects/lean-fortran/src/arrays.f90)
+1. [array_slice](projects/lean-fortran/src/array_slice.f90)
+1. [allocatable](projects/lean-fortran/src/allocatable.f90)
+1. [string](projects/lean-fortran/src/string.f90)
+1. [allocatable_string](projects/lean-fortran/src/allocatable_string.f90)
+1. [string_array](projects/lean-fortran/src/string_array.f90)
+1. [control_if](projects/lean-fortran/src/control_if.f90)
+1. [control_loop](projects/lean-fortran/src/control_loop.f90)
 
 ### Cheat-sheet
 

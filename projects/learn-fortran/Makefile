@@ -4,7 +4,7 @@ FCFLAGS      = -O2 -Wall -Jbin
 SRC_DIR      = src
 BIN_DIR      = bin
 
-QUICK_DIR   = $(SRC_DIR)/quickstart
+QUICK_DIR   = $(SRC_DIR)/
 
 SOURCES_QUICK      = $(wildcard $(QUICK_DIR)/*.f90)
 EXECUTABLES_QUICK  = $(SOURCES_QUICK:.f90=.out)
