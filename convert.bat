@@ -14,7 +14,7 @@ set DATE=%year%-%month%-%day%
 
 set AUTHOR="Walter Dal'Maz Silva"
 
-set REFERENCES=references/references.bib
+set REFERENCES=references.bib
 
 pandoc --standalone              ^
     -M title="Computing bible"   ^

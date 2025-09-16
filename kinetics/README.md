@@ -1,8 +1,6 @@
-# References
+# Kinetics
 
-## Kinetics
-
-### Pyrolysis of Acetylene
+## Pyrolysis of Acetylene
 
 - `graf_2007_global`: global mechanism proposed by [@Graf2007] for the CFD simulation of acetylene pyrolysis.
 

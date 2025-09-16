@@ -4,7 +4,7 @@ AUTHOR="Walter Dal'Maz Silva"
 
 DATE="$(date)"
 
-REFERENCES=../Dossiers/programs/WallyToolbox.jl/data/bibtex/references.bib
+REFERENCES=references.bib
 
 COMBUSTION=(
     "combustion/combustion-fundamentals.md"
