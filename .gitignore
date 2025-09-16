@@ -32,6 +32,9 @@ venv/
 __pycache__/*
 *.pyc
 
+# Alternative environment name.
+venv*/
+
 # Octave
 octave-workspace
 
@@ -72,3 +75,6 @@ downloads/*
 # Dumped images:
 *.sif
 *.tar
+
+# Raw GPX tracks will all points.
+*.gpx.orig
