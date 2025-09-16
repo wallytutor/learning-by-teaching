@@ -68,3 +68,7 @@ fluent-*.log
 
 # Downloaded videos:
 downloads/*
+
+# Dumped images:
+*.sif
+*.tar
