@@ -7,4 +7,11 @@ pandoc --standalone                 \
     --citeproc                      \
     --csl=nature.csl                \
     --bibliography="references.bib" \
-    -o book.pdf book.md
+    book.md                         \
+    src/scientific-computing.md     \
+    src/operating-systems.md        \
+    src/using-containers.md         \
+    src/elmer-multiphysics.md       \
+    src/general-tips.md             \
+    -o book.pdf
+    # --pdf-engine=xelatex            \
