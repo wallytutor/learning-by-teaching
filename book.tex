@@ -41,6 +41,10 @@ $endfor$
 $after-header-includes.latex()$
 $hypersetup.latex()$
 
+% XXX: required for supporting Julia unicode.
+\usepackage{unicode-math}
+\setmathfont{Latin Modern Math}
+
 $if(title)$
 \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
 $endif$

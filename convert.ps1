@@ -5,11 +5,20 @@ param ([int]$CleanLevel = 2)
 ### CONVERT
 
 pandoc                           `
+    README.md                    `
     src/scientific-computing.md  `
     src/operating-systems.md     `
     src/using-containers.md      `
-    src/elmer-multiphysics.md    `
+    src/programming-intro.md     `
+    src/programming-julia.md     `
+    src/programming-other.md     `
+    src/simulation-elmer.md      `
+    src/simulation-openfoam.md   `
+    src/simulation-fluent.md     `
     src/general-tips.md          `
+    src/_entering-software.md    `
+    src/_entering-science.md     `
+    src/outdoors.md              `
     --metadata-file=book.yaml    `
     --template=book.tex          `
     --biblatex                   `

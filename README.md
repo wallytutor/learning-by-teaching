@@ -16,13 +16,10 @@ You can reach me through [Zulip Chat](https://wallytutor.zulipchat.com) or [e-ma
 
 ## Projects
 
-Currently I maintain three main projects:
+Currently I maintain two main projects:
 
+- [majordome](https://wallytutor.github.io/python-majordomo/)
 - [AuChimiste.jl](https://wallytutor.github.io/AuChimiste.jl/dev/)
-- [Taskforce.jl](https://github.com/wallytutor/Taskforce.jl)
-- [WallyToolbox.jl](https://wallytutor.github.io/WallyToolbox.jl/dev/)
-
-They are fundamentally different in the way they are managed.  The contents of `Taskforce` are experimental code for automating my daily activities; it will remain undocumented for now. `AuChimiste` is being worked on to be published as a Julia package, while `WallyToolbox` is where I work out my ideas before they reach maturity. So while the former is expected to be stable, the latter is constantly *melting* away.
 
 Because of the very specific nature of some of my research, I have been working on a few [VS Code extensions](software/vscode.md) for helping highlighting syntaxes.
 
