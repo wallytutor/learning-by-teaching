@@ -1,16 +1,6 @@
-# Ignore Obsidian workspace file
-.obsidian/workspace.json
-
-# Jupyter
-.ipynb_checkpoints/
-.virtual_documents/
-*.ipynb
-
-# CondaPkg
-.CondaPkg/
-
-# Generated PDF files
-outputs/*.pdf
+#######################################################################
+# LOCALS
+#######################################################################
 
 # Stored PDF files
 */**/*.pdf
@@ -21,23 +11,6 @@ outputs/*.pdf
 # Any sandbox files
 sandbox*
 
-# Any virtual environment
-venv/
-
-# FreeCAD files
-*.FCStd
-*.FCBak
-
-# Python cache
-__pycache__/*
-*.pyc
-
-# Alternative environment name.
-venv*/
-
-# Octave
-octave-workspace
-
 # Any log
 *.log
 
@@ -47,18 +20,62 @@ octave-workspace
 # Trash
 .trash/
 
-# Fluent
-cleanup-fluent-*.bat
-fluent-*.log
+# Downloaded videos:
+downloads/*
 
-# MFIX default tutorials run locally:
-# fb_gsp/*
-# fb_mi_gsp/*
+# Intermediate pandoc
+book_.tex
+
+#######################################################################
+# EDITORS
+#######################################################################
+
+# Ignore Obsidian workspace file
+.obsidian/workspace.json
+
+#######################################################################
+# JULIA AND RELATED
+#######################################################################
+
+# CondaPkg
+.CondaPkg/
+
+#######################################################################
+# PYTHON AND RELATED
+#######################################################################
+
+# Python cache
+__pycache__/*
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+.virtual_documents/
+*.ipynb
+
+# Alternative environment name.
+venv*/
+
+#######################################################################
+# LATEX
+#######################################################################
+
+# Intermediates
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.toc
 
 # Bibtex backups
 *.bib.sav
 *.bib.bkp
 *.bib.bak
+
+#######################################################################
+# OTHER
+#######################################################################
 
 # Quarto outputs
 *_files
@@ -67,10 +84,21 @@ fluent-*.log
 *.ipynb
 *.pdf
 *.qmd
-# *.tex
 
-# Downloaded videos:
-downloads/*
+# FreeCAD files
+*.FCStd
+*.FCBak
+
+# Octave
+octave-workspace
+
+# Fluent
+cleanup-fluent-*.bat
+fluent-*.log
+
+# MFIX default tutorials run locally:
+# fb_gsp/*
+# fb_mi_gsp/*
 
 # Dumped images:
 *.sif
@@ -78,3 +106,7 @@ downloads/*
 
 # Raw GPX tracks will all points.
 *.gpx.orig
+
+#######################################################################
+# EOF
+#######################################################################
