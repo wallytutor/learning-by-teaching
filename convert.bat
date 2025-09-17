@@ -25,8 +25,6 @@ pandoc --standalone              ^
     --csl=nature.csl             ^
     --bibliography=%REFERENCES%  ^
     --highlight-style=pygments   ^
-    software.md                  ^
-    programming.md               ^
-    knowledge.md                 ^
-    -o bible.pdf                 ^
+    book.md                      ^
+    -o book.pdf                  ^
     references.md
