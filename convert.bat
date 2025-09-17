@@ -17,7 +17,7 @@ set AUTHOR="Walter Dal'Maz Silva"
 set REFERENCES=references.bib
 
 pandoc --standalone              ^
-    -M title="Computing bible"   ^
+    -M title="Wally's Bible"     ^
     -M author=%AUTHOR%           ^
     -M date=%DATE%               ^
     --toc                        ^
