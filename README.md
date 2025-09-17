@@ -18,7 +18,7 @@ You can reach me through [Zulip Chat](https://wallytutor.zulipchat.com) or [e-ma
 
 Currently I maintain two main projects:
 
-- [majordome](https://wallytutor.github.io/python-majordomo/)
+- [majordome](https://wallytutor.github.io/python-majordome/)
 - [AuChimiste.jl](https://wallytutor.github.io/AuChimiste.jl/dev/)
 
 Because of the very specific nature of some of my research, I have been working on a few [VS Code extensions](software/vscode.md) for helping highlighting syntaxes.
