@@ -63,6 +63,12 @@ end program program_name
 
 - An array of strings keeps strings of a single size (which can be trimmed for display)
 
+## Scheme
+
+Scheme is a minimalist essence of Lisp; there are many *flavors* of Scheme, and that's exactly what the language is about: conceiving new domain specific languages. Here we have chosen to proceed with [Racket](https://racket-lang.org/).
+
+Full package for Windows does not seem to be provided as a compressed folder anymore (as the Minimal Racket tarball). No worries, just navigate to [Racket: Index](https://download.racket-lang.org/releases/), choose your version and download the installer. Instead of executing, right-click the file and select *Extract to...*; all the contents will be placed in the directory of your choice, where you find `DrRacket.exe`, the IDE for the language. It seems to work out of the box.
+
 ## LISP
 
 - [Recommended environment Portacle](https://portacle.github.io/)
