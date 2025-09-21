@@ -70,6 +70,19 @@ This is useful when Windows won't let you move a file or folder because *it is a
 
 Notice that your file might have started another process and some research might be required.
 
+### Identifying a proxy PEM
+
+```bash
+# List all root certs:
+Get-ChildItem -Path Cert:\LocalMachine\Root
+
+# Export a specific one:
+$cert = Get-ChildItem -Path Cert:\LocalMachine\Root | Where-Object {
+    $_.Subject -like "*<company-name-generally>*"
+}
+Export-Certificate -Cert $cert -FilePath "proxy.pem"
+```
+
 ## Working on Linux
 
 ### Gnome 3

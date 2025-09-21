@@ -1,4 +1,4 @@
-;; Start be selecting the language:
+;; Start by selecting the language:
 #lang slideshow
 
 ;; Expressions are printed directly:
