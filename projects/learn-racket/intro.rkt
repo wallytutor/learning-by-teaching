@@ -27,4 +27,3 @@
    (rectangle side side)))
 
 (square-with-hole 100)
- 
