@@ -176,6 +176,17 @@ In the tutorial directory, start an interactive session with `racket -i -f racke
                 [b (mapish f (rest lst))])
                 (cons a b))]))
 
+;; Multiple step (with lazy eval?):
+(define (maprest f lst)
+    (mapish f (rest lst)))
+(define (mapthis f lst)
+    (let ([a (f (first lst))]
+          [b (maprest f lst)])
+          (cons a b)))
+(define (mapish f lst)
+  (cond [(empty? lst) empty]
+        [else (mapthis f lst)]))
+
 (mapish (lambda (x) (* x x)) '(1 2 3))
 ```
 
