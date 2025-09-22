@@ -1,0 +1,5 @@
+;; Better interactive sessions:
+(require xrepl)
+
+;; Clear REPL terminal:
+(define (cls) (display "\033[2J\033[H"))

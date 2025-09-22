@@ -69,6 +69,65 @@ Scheme is a minimalist essence of Lisp; there are many *flavors* of Scheme, and 
 
 Full package for Windows does not seem to be provided as a compressed folder anymore (as the Minimal Racket tarball). No worries, just navigate to [Racket: Index](https://download.racket-lang.org/releases/), choose your version and download the installer. Instead of executing, right-click the file and select *Extract to...*; all the contents will be placed in the directory of your choice, where you find `DrRacket.exe`, the IDE for the language. It seems to work out of the box.
 
+Practical links:
+
+- [The Racket Guide](https://docs.racket-lang.org/guide/index.html)
+- [The Racket Reference](https://docs.racket-lang.org/reference/index.html)
+- [HTDP](https://htdp.org/)
+
+### Cheat-sheet
+
+In the tutorial directory, start an interactive session with `racket -i -f racketrc` (where `racketrc` is the local configurations file).
+
+```scheme
+;; Start program with language specification
+#racket
+
+;; Function calls syntax
+(substring "the boy out of the country" 4 7)
+
+;; Function definition
+(define (extract str)
+  (substring str 4 7))
+
+;; The above is just syntax sugar for this
+(define extract
+  (lambda (str) (substring str 4 7)))
+
+;; Include a script in REPL
+(enter! "script.rkt")
+
+;; Include a package
+(require xrepl)
+
+;; Clear REPL terminal:
+(display "\033[2J\033[H")
+
+;; Note on complex numbers (R+Ji) no spaces:
+1.0+2.3i
+
+;; Simple conditionals:
+(if (> 2 3) "2>3" "obviously not")
+
+;; To avoid nested conditionals use `and`/`or:
+(if (and  (> 2 3) (< 2 3)) "never" "obviously not")
+
+;; Use cond for multiple tests
+(cond
+  [(> 2 3) "2>3"]
+  [(< 2 3) "2<3"]
+  [else "2=3"])
+
+;; Lambda functions and maps at once:
+(map (lambda (x) (sqrt x)) '(1 2 3))
+
+;; You can also create closures:
+(define (add-to-x x) (lambda (s) (+ s x)))
+(map (add-to-x 2) '(3 4 5))
+
+(define m '(1 2 3))
+```
+
 ## LISP
 
 - [Recommended environment Portacle](https://portacle.github.io/)
