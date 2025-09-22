@@ -105,7 +105,9 @@ In the tutorial directory, start an interactive session with `racket -i -f racke
 
 ;; Note on complex numbers (R+Ji) no spaces:
 1.0+2.3i
+```
 
+```scheme
 ;; Simple conditionals:
 (if (> 2 3) "2>3" "obviously not")
 
@@ -125,7 +127,56 @@ In the tutorial directory, start an interactive session with `racket -i -f racke
 (define (add-to-x x) (lambda (s) (+ s x)))
 (map (add-to-x 2) '(3 4 5))
 
-(define m '(1 2 3))
+;; Racket is not pure-functional and scppe is lexical:
+(define (buzz-bing x)
+  (define (buzz x) (* x x))
+  (define (bing x) (+ x x))
+  (bing (buzz x)))
+(buzz-bing 2)
+
+;; Another example but using `let` binding:
+(define (mess-this x)
+    (let ([y (random x)]
+          [z (random x)])
+    (+ y z x)))
+(mess-this 5)
+
+;; Use `let*` for sequential evaluation:
+(define (re-mess-this x)
+    (let* ([y (* x x)]  ; 25
+           [z (+ y y)]) ; 50
+    (+ y z x)))         ; 25 + 50 + 5 = 80
+(re-mess-this 5)
+```
+
+```scheme
+;; List definitions:
+(define m (list 1 2 3))
+(define m '(3 2 1))
+
+;; Some operations on lists:
+(length m)
+(filter (lambda (x) (> x 1)) m)
+
+;; Accumulate with `foldl`:
+(define acc (lambda (elem v) (+ elem v)))
+(foldl acc 0 '(2 3 4)) ; -> 9
+
+;; empty, cons, first, rest:
+(define m (cons "a" empty))
+(define m (cons "c" (cons "b" m)))
+(first m)
+(rest m)
+
+;; Re-define `map` with the above:
+(define (mapish f lst)
+  (cond
+    [(empty? lst) empty]
+    [else (let ([a (f (first lst))]
+                [b (mapish f (rest lst))])
+                (cons a b))]))
+
+(mapish (lambda (x) (* x x)) '(1 2 3))
 ```
 
 ## LISP
