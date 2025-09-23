@@ -168,6 +168,15 @@ In the tutorial directory, start an interactive session with `racket -i -f racke
 (first m)
 (rest m)
 
+;; cons produce a pair if second element is not a list
+(cons 1  2)
+(define not-list (cons (list 1 2) 3))
+(car not-list)
+(cdr not-list)
+(pair? not-list)
+```
+
+```scheme
 ;; Re-define `map` with the above:
 (define (mapish f lst)
   (cond
