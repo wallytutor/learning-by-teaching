@@ -894,8 +894,8 @@ if study == "exSol":
     CompareExSol(nCells, 873., 293., [5000., 0., 0., 0.])
 
 # %%
-# if study == "realSim":
-SteadyCycle(nCells, 873., 293., [21600., 21600., 21600., 21600.])
+if study == "realSim":
+    SteadyCycle(nCells, 873., 293., [21600., 21600., 21600., 21600.])
 
 # %%
 Path("figures").mkdir(exist_ok=True)
