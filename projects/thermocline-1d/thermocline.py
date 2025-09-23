@@ -191,9 +191,8 @@ def VisualMotion(nCells, Temp_c, Temp_d, duration,
     PlotFigure("Motion_s.dat", "height", "temperature", labels, 5, nCells, stgArr_s)
 
 
-def CompareExSol(nCells, Temp_c, Temp_d, duration,
-                 height, dt,
-                 EvolveTemp, PointImplicitMethod, PlotFigure):
+def CompareExSol(nCells, Temp_c, Temp_d, duration):
+    #  height, dt, EvolveTemp, PointImplicitMethod, PlotFigure):
     """
     Python/Numpy translation of the Fortran CompareExSol subroutine.
 
@@ -883,19 +882,17 @@ if study == "OVS":
     # Order verification study with source term
     GridRefinement(waveNum, height, pt_i, pt_f, SteadyState,
                    ErrorNorms, VisualTemp, PlotFigure)
-
-# %%
-if study == "exSol":
+elif study == "exSol":
     # Visualize thermocline motions of one cycle
     VisualMotion(2**10, 873.0, 293.0, [21600.0, 21600., 21600., 21600],
                  height, dt, EvolveTemp, PointImplicitMethod, PlotFigure)
 
     # Compare with exact solutions
     CompareExSol(nCells, 873., 293., [5000., 0., 0., 0.])
-
-# %%
-if study == "realSim":
+elif study == "realSim":
     SteadyCycle(nCells, 873., 293., [21600., 21600., 21600., 21600.])
+else:
+    print("Error: 'study' does not have this option!")
 
 # %%
 Path("figures").mkdir(exist_ok=True)
@@ -963,8 +960,8 @@ def Plot_Line_2(fileName_1, fileName_2):
 	plt.close()
 
 #OVS & PIM
-Plot_Line("Temp_f.dat")
-Plot_Line("Temp_s.dat")
+# Plot_Line("Temp_f.dat")
+# Plot_Line("Temp_s.dat")
 Plot_Line("discErr_f.dat")
 Plot_Line("discErr_s.dat")
 Plot_LineSlope("discErr_f.dat")
@@ -981,6 +978,6 @@ Plot_Line_2("charge.dat", "sol-exact.dat")
 
 #StorageCycle
 Plot_Line("charge.dat")
-Plot_Line("dischg.dat")
+# Plot_Line("dischg.dat")
 
 # %%
