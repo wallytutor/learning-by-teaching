@@ -65,7 +65,7 @@ end program program_name
 
 ## Scheme
 
-Scheme is a minimalist essence of Lisp; there are many *flavors* of Scheme, and that's exactly what the language is about: conceiving new domain specific languages. Here we have chosen to proceed with [Racket](https://racket-lang.org/).
+Scheme is a minimalist essence of Lisp; there are many *flavors* of Scheme, and that's exactly what the language is about: conceiving new domain specific languages. Here we have chosen to proceed with [Racket](https://racket-lang.org/), which is a *language-oriented programming language*, what intends to express its suitability at providing a sanitized macro ecosystem for conceiving DSL (domain specific languages).
 
 Full package for Windows does not seem to be provided as a compressed folder anymore (as the Minimal Racket tarball). No worries, just navigate to [Racket: Index](https://download.racket-lang.org/releases/), choose your version and download the installer. Instead of executing, right-click the file and select *Extract to...*; all the contents will be placed in the directory of your choice, where you find `DrRacket.exe`, the IDE for the language. It seems to work out of the box.
 
@@ -74,6 +74,8 @@ Practical links:
 - [The Racket Guide](https://docs.racket-lang.org/guide/index.html)
 - [The Racket Reference](https://docs.racket-lang.org/reference/index.html)
 - [HTDP](https://htdp.org/)
+
+For the first steps, [this tutorial by Gavin Freeborn](https://youtu.be/n_7drg-R-YY) provides the basics for starting with Racket. Going further, there are two main videos by Matthew Flatt out there that worth watching, [DSL Embedding in Racket (1/2)](https://youtu.be/WQGh_NemRy4), which starts with a great introduction of Racket for programmers (assuming you already know something about programming in general), quickly presenting the built-in data types, from atomic to composed types, definitions, functions, lambdas, iteration, structures, and finally enters the macro overview which is the main subject of the talk, more specifically the second video of the series, [DSL Embedding in Racket (2/2)](https://youtu.be/JC3o87p_rBY)
 
 ### Cheat-sheet
 
@@ -197,6 +199,10 @@ In the tutorial directory, start an interactive session with `racket -i -f racke
         [else (mapthis f lst)]))
 
 (mapish (lambda (x) (* x x)) '(1 2 3))
+```
+
+```scheme
+(display (current-directory))
 ```
 
 ## LISP
