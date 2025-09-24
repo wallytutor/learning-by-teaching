@@ -34,6 +34,7 @@
     (print-format-error output-format))
   (void))
 
+; raco pkg install scribble-math
 ; raco pkg install scribble-slideshow
 (compile-scribble "--pdf"  "report.rkt")
 ; (compile-scribble "--htmls" "slides.rkt")
