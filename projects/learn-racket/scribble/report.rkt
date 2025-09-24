@@ -1,8 +1,6 @@
 #lang scribble/manual
 @; #lang scribble/acmart
 
-@(require scribble/latex-properties)
-
 @title{Why I am really learning this?}
 @author{Walter Dal'Maz Silva}
 
