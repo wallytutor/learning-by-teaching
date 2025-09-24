@@ -1,2 +1,5 @@
 # Backups from DrRacket
 *.bak
+
+# Output
+output/
