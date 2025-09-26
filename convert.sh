@@ -11,6 +11,7 @@ pandoc                           \
     src/using-containers.md      \
     src/programming-intro.md     \
     src/programming-julia.md     \
+    src/programming-lisp.md      \
     src/programming-other.md     \
     src/simulation-elmer.md      \
     src/simulation-openfoam.md   \
