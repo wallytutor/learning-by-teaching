@@ -83,7 +83,7 @@ In the tutorial directory, start an interactive session with `racket -i -f racke
 (define (add-to-x x) (lambda (s) (+ s x)))
 (map (add-to-x 2) '(3 4 5))
 
-;; Racket is not pure-functional and scppe is lexical:
+;; Racket is not pure-functional and scope is lexical:
 (define (buzz-bing x)
   (define (buzz x) (* x x))
   (define (bing x) (+ x x))
