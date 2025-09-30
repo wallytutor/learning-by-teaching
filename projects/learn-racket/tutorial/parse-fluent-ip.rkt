@@ -1,14 +1,17 @@
 #lang racket
 
+(define-syntax-rule (show-hash h key)
+  (printf "~a = ~a\n" 'key (hash-ref h 'key)))
+
 (define (make-ip-hash data-version dimensions num-points)
     (hash 'version    data-version
           'dimensions dimensions
           'points     num-points))
 
 (define (print-head h)
-  (printf "~a = ~a\n" 'version    (hash-ref h 'version))
-  (printf "~a = ~a\n" 'dimensions (hash-ref h 'dimensions))
-  (printf "~a = ~a\n" 'points     (hash-ref h 'points)))
+  (show-hash h version)
+  (show-hash h dimensions)
+  (show-hash h points))
 
 (define (parse-number fp)
   (string->number (string-trim (read-line fp))))
@@ -19,6 +22,14 @@
       (define data-version (read-line fp))
       (define dimensions   (parse-number fp))
       (define num-points   (parse-number fp))
+      (define num-vars     (parse-number fp))
+      ; (printf "~a \n" num-vars)
+
+      ; (define field-names
+      ;   (for/list ([i (in-range num-vars)])
+      ;     (read-line fp)))
+      ; (printf "~a \n" field-names)
+
       (make-ip-hash data-version dimensions num-points))))
 
 ;; (define h (make-ip-hash "3" 2 5))
