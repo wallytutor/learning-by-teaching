@@ -9,9 +9,9 @@
           'points     num-points))
 
 (define (print-head h)
-  (show-hash h version)
-  (show-hash h dimensions)
-  (show-hash h points))
+  (hash? h) ((show-hash h version)
+             (show-hash h dimensions)
+             (show-hash h points)))
 
 (define (parse-number fp)
   (string->number (string-trim (read-line fp))))
@@ -23,7 +23,7 @@
       (define dimensions   (parse-number fp))
       (define num-points   (parse-number fp))
       (define num-vars     (parse-number fp))
-      ; (printf "~a \n" num-vars)
+      (printf "~a \n" num-vars)
 
       ; (define field-names
       ;   (for/list ([i (in-range num-vars)])
@@ -62,4 +62,3 @@
 ;       'dimension dimension
 ;       'points coords
 ;       'fields (map cons field-names field-values)))))
-
