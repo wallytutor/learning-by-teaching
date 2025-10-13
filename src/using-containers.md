@@ -84,6 +84,15 @@ When working with Apptainer definition files, failures imply full rebuild of the
 
 After getting excited by the Apptainer definition files because they do not need chaining of commands with a `&& \` to make a shell block, I personally gave up on them after loosing a few days of my life recompiling again and again... so for now I stick with the container creation and conversion workflow discussed in more detail below.
 
+Another option with Apptainer is to run instances on the background, as follows:
+
+```bash
+apptainer instance start -B $PWD <file-name>.sif <instance-name>
+apptainer shell instance://<instance-name>
+```
+
+Other useful/relevant commands in this context are `apptainer instance list` and `apptainer instance stop <instance-name> `.
+
 ## Apptainer and environment
 
 Since `apptainer` makes use of *user space*, sourcing of applications is not done as root, so one must edit add to their `~/.bashrc` if path configuration is desired and re-source that file when activating a container. For instance, the required environment variables for #OpenFOAM are provided `FOAM_SOURCE` file given below; in the *host system* outside the container it does not exist, so adding a test in `~/.bashrc` is required. Once you activate the container with `apptainer run <image-name>.sif`, by calling `source ~/.bashrc` the environment will be properly set.
