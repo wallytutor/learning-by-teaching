@@ -11,65 +11,139 @@
 ```
 ## Jupyterhub
 
-[jupyterhub/jupyterhub: Multi-user server for Jupyter notebooks](https://github.com/jupyterhub/jupyterhub)
-[Step-by-Step: Build a Multi-User JupyterLab Server on Ubuntu with Docker & NVIDIA GPU For Machine Learning - PM Square Soft](https://pmsquaresoft.com/machine-learning-jupyterlab-docker-ubuntu-gpu-multiple-users/)
-[Installing the NVIDIA Container Toolkit — NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#with-dnf-rhel-centos-fedora-amazon-linux)
+### Useful links
+
+- [Step-by-step tutorial](https://pmsquaresoft.com/machine-learning-jupyterlab-docker-ubuntu-gpu-multiple-users/)
+- Ensure installation of [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#with-dnf-rhel-centos-fedora-amazon-linux)
+- Clone [Jupyterhub repository](https://github.com/jupyterhub/jupyterhub) for reference
+
+### Deployment checklist
+
+Simple workflow adapted from [jupyterhub/jupyterhub-deploy-docker](https://github.com/jupyterhub/jupyterhub-deploy-docker/tree/main).
+
+- Create a docker file with the minimum (consider pinning a version as below):
 
 ```dockerfile
-FROM quay.io/jupyterhub/jupyterhub
+FROM quay.io/jupyterhub/jupyterhub:5.4.0
 
-COPY jupyterhub_config.py .
+RUN python3 -m pip install --no-cache-dir \
+    dockerspawner \
+    jupyterhub-nativeauthenticator
+
+CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
 ```
 
-```yaml
-version: "3"
+- Create a minimal docker-compose file with the following and `docker compose build`
 
+```yaml
 services:
-  jupyterhub:
-    image: jupyterhub/jupyterhub:latest
-    container_name: jupyterhub
-    restart: always
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
-      - shared-data:/srv/shared   # shared space
-      - user-data:/home           # persistent user homes (optional)
-    environment:
-      DOCKER_JUPYTER_IMAGE: jupyter/base-notebook:latest
-      DOCKER_NETWORK_NAME: jupyterhub_network
-    networks:
-      - jupyterhub_network
+  hub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    image: jupyterhub
+    container_name: jupyterhub
+    networks:
+      - jupyterhub-network
+    volumes:
+      - "./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      - "jupyterhub-data:/mnt/beegfs/services/data/JUPYTER/shared"
+      - "user-data:/home_nfs"
+    ports:
+      - "8000:8000"
+    environment:
+      JUPYTERHUB_ADMIN: walter
+      DOCKER_NETWORK_NAME: jupyterhub-network
+      DOCKER_NOTEBOOK_IMAGE: quay.io/jupyter/base-notebook:latest
+      DOCKER_NOTEBOOK_DIR: /home/jovyan/work
 
 volumes:
-  shared-data:
+  jupyterhub-data:
   user-data:
 
 networks:
-  jupyterhub_network:
-    driver: bridge
+  jupyterhub-network:
+    name: jupyterhub-network
 ```
+
+- Create a configuration file as:
 
 ```python
-c = get_config()
+# -*- coding: utf-8 -*-
+import os
 
-from dockerspawner import DockerSpawner
+c = get_config()  # noqa: F821
 
-c.JupyterHub.spawner_class = DockerSpawner
-c.DockerSpawner.image = "jupyter/base-notebook:latest"
+# We rely on environment variables to configure JupyterHub so that we
+# avoid having to rebuild the JupyterHub container every time we change a
+# configuration parameter.
 
-# Mount shared volume into every user container
+# Spawn single-user servers as Docker containers
+c.JupyterHub.spawner_class = "dockerspawner.DockerSpawner"
+
+# Spawn containers from this image
+c.DockerSpawner.image = os.environ["DOCKER_NOTEBOOK_IMAGE"]
+
+# Connect containers to this Docker network
+network_name = os.environ["DOCKER_NETWORK_NAME"]
+c.DockerSpawner.use_internal_ip = True
+c.DockerSpawner.network_name = network_name
+
+# Explicitly set notebook directory because we'll be mounting a volume to it.
+# Most `jupyter/docker-stacks` *-notebook images run the Notebook server as
+# user `jovyan`, and set the notebook directory to `/home/jovyan/work`.
+# We follow the same convention.
+notebook_dir = os.environ.get("DOCKER_NOTEBOOK_DIR", "/home/jovyan/work")
+c.DockerSpawner.notebook_dir = notebook_dir
+
+# Mount the real user's Docker volume on the host to the notebook user's
+# notebook directory in the container
+# c.DockerSpawner.volumes = {"jupyterhub-user-{username}": notebook_dir}
+
 c.DockerSpawner.volumes = {
-    "shared-data": "/srv/shared",   # shared across all users
-    "user-{username}": "/home/jovyan/work"  # per-user space
+    "jupyterhub-data": f"{notebook_dir}/shared",
+    "jupyterhub-user-{username}": notebook_dir
 }
 
-# Authentication (simple PAM, or plug in LDAP/OAuth)
-c.JupyterHub.authenticator_class = "jupyterhub.auth.PAMAuthenticator"
+# Remove containers once they are stopped
+c.DockerSpawner.remove = True
+
+# For debugging arguments passed to spawned containers
+c.DockerSpawner.debug = True
+
+# User containers will access hub by container name on the Docker network
+c.JupyterHub.hub_ip = "jupyterhub"
+c.JupyterHub.hub_port = 5001
+c.JupyterHub.hub_bind_url = 'http://jupyterhub:5001'
+c.JupyterHub.bind_url = 'http://0.0.0.0:8000'
+
+
+# Persist hub data on volume mounted inside container
+c.JupyterHub.cookie_secret_file = "/mnt/beegfs/services/data/JUPYTER/shared/jupyterhub_cookie_secret"
+c.JupyterHub.db_url = "sqlite:////mnt/beegfs/services/data/JUPYTER/shared/jupyterhub.sqlite"
+
+# Allow all signed-up users to login
+c.Authenticator.allow_all = True
+
+# Authenticate users with Native Authenticator
+c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
+
+# Allow anyone to sign-up without approval
+c.NativeAuthenticator.open_signup = True
+
+# Allowed admins
+admin = os.environ.get("JUPYTERHUB_ADMIN")
+if admin:
+    c.Authenticator.admin_users = [admin]
 ```
+
+
 
 ```bash
 docker-compose up -d
+docker-compose down
 ```
 
 ```bash
