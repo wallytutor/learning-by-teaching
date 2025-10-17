@@ -4,11 +4,13 @@ Simulation of oxide growth over plain iron.
 
 ## Build
 
-The project is supported for GHC 8.10.6. Before running the build you must install the isolated dependencies with `stack setup` and `stack init`. To compile run `stack build`. If running from a Docker container you might be prompted to add the `--allow-different-user` build flag.
+Simply run `stack build` and it must work with a recent stack.
+
+If running from a Docker container you might be prompted to add the `--allow-different-user` build flag.
 
 ## Usage
 
-Run the program with `stack run --allow-different-user -- <arguments>`, where the arguments are provided according to the following interface:
+Run the program with `stack run -- <arguments>`, where the arguments are provided according to the following interface:
 
 ```bash
 Usage: oxyl-exe t tk tw l h tc tm yf dy
