@@ -395,7 +395,7 @@ class NitridingLayer:
         beta = self._beta(u, None, T=self._T_end)
 
         plt.close('all')
-        plt.style.use('seaborn-whitegrid')
+        plt.style.use('classic')
         fig = plt.figure(figsize=(12, 9))
 
         ax = plt.subplot(311)
