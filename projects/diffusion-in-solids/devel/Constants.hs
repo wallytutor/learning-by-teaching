@@ -2,7 +2,7 @@
 Module      : Constants
 Copyright   : (c) Walter Dal'Maz Silva, 2025
 License     : MIT
-Maintainer  : walte.dalmazsilva.managerr@gmail.com
+Maintainer  : walter.dalmazsilva.manager@gmail.com
 Stability   : experimental
 Portability : unknown, intended portable
 
@@ -36,3 +36,7 @@ molarMassNN = 14.0
 
 molarMassFe :: Double
 molarMassFe = 55.85
+
+---------------------------------------------------------------------------------------------------
+-- EOF
+---------------------------------------------------------------------------------------------------

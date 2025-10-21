@@ -1,8 +1,6 @@
-# Slycke's models for carbonitriding
+# Diffusion equation
 
-## Atmosphere
-
-## Diffusion
+## Finite volume formulation
 
 $$
 \dfrac{\partial{}c}{\partial{}t}=
