@@ -16,6 +16,7 @@ pandoc                           `
     src/simulation-elmer.md      `
     src/simulation-openfoam.md   `
     src/simulation-fluent.md     `
+    src/simulation-fluent-tui.md `
     src/general-tips.md          `
     src/_entering-software.md    `
     src/_entering-science.md     `
