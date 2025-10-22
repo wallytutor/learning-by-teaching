@@ -1,6 +1,6 @@
-# Diffusion equation
+# Diffusion equation in 1D
 
-## Finite volume formulation
+Assume a simple concentration-dependent diffusion in the absence of external driving forces; the time derivative of concentration $c$ at one location is given by the divergence - which collapses to the spatial derivative - of the negative of mass flux given by Fick's law. Diffusion coefficient $D$ being possibly dependent of coordinate $x$ or composition $c$, the derivative is not expanded. This form of the diffusion equation is discussed in what follows.
 
 $$
 \dfrac{\partial{}c}{\partial{}t}=
@@ -10,6 +10,8 @@ $$
     \dfrac{\partial{}c}{\partial{}x}
 \right)
 $$
+
+## Finite volume formulation
 
 $$
 \int_{w}^{e}
@@ -42,6 +44,8 @@ $$
 \left(D\dfrac{\partial{}c}{\partial{}x}\right)_{w}
 $$
 
+## Discretization of gradients
+
 $$
 \left(c_{P}^{\tau}-c_{P}^{0}\right)
 \dfrac{\delta}{\tau}
@@ -69,7 +73,7 @@ D_{k}=2\frac{D_{i}D_{j}}{D_{i}+D_{j}}
 \alpha_{k}=\dfrac{\tau{}D_{k}}{\delta^2}
 $$
 
-### West boundary
+## Boundary conditions
 
 <!-- $$
 \left(c_{P}^{\tau}-c_{P}^{0}\right)
@@ -78,8 +82,6 @@ $$
 D_{e}\dfrac{c_{E}-c_{P}}{\delta}-
 h(c_{s}-c_{P})
 $$ -->
-
-### East boundary
 
 <!-- $$
 \left(c_{P}^{\tau}-c_{P}^{0}\right)
