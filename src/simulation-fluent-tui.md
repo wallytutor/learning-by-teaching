@@ -2,6 +2,15 @@
 
 ## Setup of a case
 
+### Configuration
+
+```scheme
+/file/set-batch-options
+    no ; Do you want to confirm overwrite? [yes]
+    no ; Do you want to exit on error? [no]
+    no ; Do you want to hide questions? [no]
+```
+
 ### Loading and checking a mesh
 
 ```scheme
@@ -43,6 +52,7 @@
 ; Activate DPM calculations
 /define/models/dpm/interaction/coupled-calculations yes
 /define/models/dpm/interaction/dpm-iteration-interval 10
+/define/models/dpm/options/two-way-coupling yes
 ```
 
 ### Modify materials
@@ -67,6 +77,9 @@
 
 /define/boundary-conditions/set/mass-flow-inlet
     "inlet"  () mass-flow no "mdot_inlet"  ()
+
+/define/boundary-conditions/set/wall "gluish-wall" ()
+    dpm-bc-type yes trap ()
 ```
 
 ### Creating a DPM injection
@@ -100,6 +113,17 @@
     yes 1 0.15 no no no no 0.000976 20 0.028
 
 /define/materials/change-create/anthracite "fibers" yes constant 2800 no yes
+```
+
+```scheme
+/define/models/dpm/injections/properties/set/pick-injections-to-set
+    no     ; List all available injections before picking one or more of them?
+    fibers ; pick injections:(1) [()]
+    ()     ; pick injections:(2) [()]
+    no     ; Review list of picked injections?
+
+/define/models/dpm/injections/injection-properties/set/physical-models
+    drag-parameters nonspherical 0.1
 ```
 
 ### Report definitions
@@ -173,9 +197,9 @@
 
 ## Postprocessing
 
-```scheme
-; Options for view name:
+### Figures in graphical mode only
 
+```scheme
 /display/display-states/create state-right
     "disable"      ; Front face transparent ("enable" "disable" "dont-save")
     "orthographic" ; Projection ("perspective" "orthographic" "dont-save")
@@ -193,6 +217,10 @@
     "right"        ; View name ("active" "dont-save" "wf-view" "front" "back"
                    ;            "right" "left" "top" "bottom" "isometric" "view-0")
     "0"            ; (dont-save 0) ["0"]
+
+
+; Produces an .stt file (do not add exension in the command!).
+/display/display-states/write "journaling/display-states" state-right ()
 ```
 
 ```scheme
@@ -228,6 +256,38 @@
         add "contour-total-pressure" () ()
     display-state-name state-right ()
 ```
+
+### Exporting for external processing
+
+```scheme
+/surface/plane-surface plane-symmetry
+    yz-plane ; (yz-plane zx-plane xy-plane point-and-normal three-points)
+    0.01     ; x (in [m])
+```
+
+```scheme
+/file/export/ascii "results.csv"
+    plane-symmetry ()  ; Surfaces ()
+    yes                ; Delimiter/Comma?
+    total-pressure
+    dynamic-pressure
+    velocity-magnitude ()
+    no
+```
+
+```scheme
+; XXX: `history` seems to be broken!
+; XXX: options change depending on the export type!
+/file/export/particle-history-data
+    fieldview             ; cfdpost, fieldview, history, ensight, geometry
+    "results-particles"   ; File name
+    "fibers" ()           ; Injections ()
+    particle-time-step () ; Variables ()
+    20                    ; Skip tracks
+    2000                  ; Coarsen path by
+```
+
+## Saving results
 
 ```scheme
 /file/write-case-data "model-final.cas.h5" yes
