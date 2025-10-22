@@ -85,32 +85,25 @@
 ### Creating a DPM injection
 
 ```scheme
-; XXX: notice that shape factor for nonspherical particles cannot be set from
-; TUI, you must provide the value of 0.077 at the GUI
-
-; /define/models/dpm/injections/create-injection/fibers
-; Particle type [inert]: Change current value? [no]
-; Injection type [single]: Change current value? [no] yes
-; Injection type [single]> surface
-; Injection Material [anthracite]: Change current value? [no]
-; Surface(1) [()] injection
-; Surface(2) [()] ()
-; Scale Flow Rate by Face Area [no] no
-; Use Face Normal for Velocity Components [no] yes
-; Stochastic Tracking? [no] yes
-; Random Eddy Lifetime? [no] yes
-; Number of Tries [1]
-; Time Scale Constant [0.15]
-; Modify Laws? [no]
-; Set user defined initialization function? [no]
-; Cloud Tracking? [no]
-; Rosin Rammler diameter distribution? [no]
-; Diameter (in [m]) [0.0001] 0.000976
-; Velocity Magnitude (in [m/s]) [0] 20
-; Total Flow Rate (in [kg/s]) [9.999999999999999e-21] 0.027777777777777776
 /define/models/dpm/injections/create-injection/fibers
-    no yes surface no injection () no yes yes
-    yes 1 0.15 no no no no 0.000976 20 0.028
+    no           ; Particle type [inert]: Change current value? [no]
+    yes          ; Injection type [single]: Change current value? [no] yes
+    surface      ; Injection type [single]> surface
+    no           ; Injection Material [anthracite]: Change current value? [no]
+    injection () ; Surface(1) [()] injection ()
+    no           ; Scale Flow Rate by Face Area [no] no
+    yes          ; Use Face Normal for Velocity Components [no] yes
+    yes          ; Stochastic Tracking? [no] yes
+    yes          ; Random Eddy Lifetime? [no] yes
+    1            ; Number of Tries [1]
+    0.15         ; Time Scale Constant [0.15]
+    no           ; Modify Laws? [no]
+    no           ; Set user defined initialization function? [no]
+    no           ; Cloud Tracking? [no]
+    no           ; Rosin Rammler diameter distribution? [no]
+    0.000976     ; Diameter (in [m]) [0.0001] 0.000976
+    20           ; Velocity Magnitude (in [m/s]) [0] 20
+    (/ 50 3600)  ; Total Flow Rate (in [kg/s]) [9.999999999999999e-21]
 
 /define/materials/change-create/anthracite "fibers" yes constant 2800 no yes
 ```
