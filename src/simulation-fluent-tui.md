@@ -270,6 +270,19 @@
 ```
 
 ```scheme
+/file/export/cgns "results"
+    surface-select     ; Scope: (full-domain volume-select surface-select)
+    plane-symmetry ()  ; Surfaces ()
+    no                 ; Cell-Centered [no]
+    yes                ; Format/HDF5?, if HDF5 not chosen, ADF format is set [yes]
+    total-pressure     ; CGNS scalar(1)> ...
+    dynamic-pressure
+    viscosity-ratio
+    velocity-magnitude ()
+    () ()
+```
+
+```scheme
 ; XXX: `history` seems to be broken!
 ; XXX: options change depending on the export type!
 /file/export/particle-history-data
