@@ -58,15 +58,16 @@
 ### Modify materials
 
 ```scheme
-; TODO add comments for each line!
 /define/materials/change-create "air" "air"
-    yes expression "dens"
-    no
-    no
-    yes expression "visc"
-    no
-    no
-    no
+    yes                  ; change Density? [no]
+    expression "gas_rho" ; Density
+    no                   ; change Cp (Specific Heat)? [no]
+    no                   ; change Thermal Conductivity? [no]
+    yes                  ; change Viscosity? [no]
+    expression "gas_mu"  ; Viscosity
+    no                   ; change Molecular Weight? [no]
+    no                   ; change Thermal Expansion Coefficient? [no]
+    no                   ; change Speed of Sound? [no]
 ```
 
 ### Setting boundary conditions
