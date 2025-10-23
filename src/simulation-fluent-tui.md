@@ -81,6 +81,9 @@
 
 /define/boundary-conditions/set/wall "gluish-wall" ()
     dpm-bc-type yes trap ()
+
+/define/boundary-conditions/modify-zones/zone-type
+    "environment-entry" wall ()
 ```
 
 ### Creating a DPM injection
