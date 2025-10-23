@@ -1,0 +1,4 @@
+FROM haskell:9.2
+
+WORKDIR /opt/work
+
