@@ -8,6 +8,11 @@
 - [Functional Programming in Haskell by Graham Hutton](https://www.youtube.com/playlist?list=PLF1Z-APd9zK7usPMx3LGMZEHrECUGodd3)
 - [Advanced Functional Programming in Haskell by Graham Hutton](https://www.youtube.com/playlist?list=PLF1Z-APd9zK5uFc8FKr_di9bfsYv8-lbc)
 
+## Learning path
+
+- [ ] x
+- [ ] x
+
 ## Using GHCi
 
 ## Creating a stack project
