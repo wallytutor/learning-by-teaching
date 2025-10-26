@@ -127,6 +127,13 @@ This is the minimum you need to know: navigate, know your address, inspect conte
 
 - [TortoiseGIT](https://tortoisegit.org/): for Windows users, this applications add the possibility of managing version control and other features directly from the file explorer.
 
+### First configuration
+
+```bash
+git config --global user.email "walter.dalmazsilva@gmail.com"
+git config --global user.name "Walter Dal'Maz Silva"
+```
+
 ### Creating gh-pages branch
 
 To create a GitHub pages branch with no history do the following

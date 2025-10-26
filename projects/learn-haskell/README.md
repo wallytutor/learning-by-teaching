@@ -8,10 +8,24 @@
 - [Functional Programming in Haskell by Graham Hutton](https://www.youtube.com/playlist?list=PLF1Z-APd9zK7usPMx3LGMZEHrECUGodd3)
 - [Advanced Functional Programming in Haskell by Graham Hutton](https://www.youtube.com/playlist?list=PLF1Z-APd9zK5uFc8FKr_di9bfsYv8-lbc)
 
+<<<<<<< HEAD
 ## Learning path
 
 - [ ] x
 - [ ] x
+=======
+## Running from a container
+
+Use the [Containerfile](Containerfile) provided in this directory for a start (or pull an image directly from [Docker Hub](https://hub.docker.com/) if you prefer).
+
+```bash
+# Build from the provided container:
+podman build -t learn-haskell -f Containerfile .
+
+# Run from current working directory:
+podman run -it -v $(realpath $(pwd)):/opt/work:Z learn-haskell
+```
+>>>>>>> 47da0da06c5ef25e43c9c3c418bc0240d84deba5
 
 ## Using GHCi
 
