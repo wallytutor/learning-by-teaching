@@ -24,43 +24,6 @@
 
 - [Configuring builds in VS Code with LaTeX Workshop](https://tex.stackexchange.com/questions/478865/vs-code-latex-workshop-custom-recipes-file-location) for building with `pdflatex`. Finally I ended creating my own workflows in this [file](https://github.com/wallytutor/WallyToolbox.jl/blob/main/tools/vscode/user-data/User/settings.json).
 
-## Visual Studio Code
-
-### Basics
-
-If you are reading this, you are probably using [VS Code](https://code.visualstudio.com/) for the first time or need a refresher! VS Code is Microsoft's open source text editor that has become the most popular editor in the past decade. It is portable (meaning it works in Windows, Linux, and Mac) and relatively light-weight (it won't use all you RAM as some proprietary tools would do). There are a few shortcuts you might want to keep in mind for using this tool in an efficient manner:
-
-- `Ctrl+J`: show/hide the terminal
-- `Ctrl+B`: show/hide the project tree
-- `Ctrl+Shift+V`: display this file in rendered mode
-- `Ctrl+Shift+P`: access the command pallet
-- `Ctrl+K Ctrl+T`: change color theme
-- `Alt+Z`: toggle column wrapping
-
-A few more tips concerning the terminal:
-
-- `Ctrl+L` gives you a clean terminal (also works inside Julia prompt)
-- `Ctrl+D` breaks a program execution (*i.e.* use to quit Julia prompt)
-
-If you copied a command from a tutorial, you **CANNOT** use `Ctrl+V` to paste it into the terminal; in Windows simply right-click the command prompt and it will paste the copied contents. Linux users can `Ctrl+Shift+V` instead.
-
-Notice that `Ctrl+M` will toggle the visibility of the integrated terminal; if you accidentally press it, autocompletion will stop working in terminal. Just press it again and normal behavior will be recovered.
-
-### Extensions
-
-VS Code supports a number of extensions to facilitate coding and data analysis, among other tasks. Local (user-created) extensions can be manually installed by placing their folder under `%USERPROFILE%/.vscode/extensions` or in the equivalent directory documented [here](https://code.visualstudio.com/docs/editor/extension-marketplace#_where-are-extensions-installed). Below you find my recommended extensions for different purposes and languages.
-
-#### Julia
-
-- [Julia](https://github.com/julia-vscode/julia-vscode)
-- [Julia Color Themes](https://github.com/CameronBieganek/julia-color-themes)
-
-#### Personal
-
-I have also developed a few (drag-and-drop) extensions; in the future I plan to provided them through the extension manager.
-
-- [wallytutor/elmer-sif-vscode: VS Code extension for Elmer Multiphysics SIF](https://github.com/wallytutor/elmer-sif-vscode)
-
 ## ParaView
 
 - [Getting Started](https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v5.13&type=data&os=Sources&downloadFile=ParaViewGettingStarted-5.13.2.pdf)
@@ -69,7 +32,7 @@ I have also developed a few (drag-and-drop) extensions; in the future I plan to 
 
 ### For OpenFOAM
 
-#OpenFOAM/snappyHexMesh #OpenFOAM/snappyHexMesh/resolveFeatureAngle 
+#OpenFOAM/snappyHexMesh #OpenFOAM/snappyHexMesh/resolveFeatureAngle
 
 An alternative way of extracting feature edges from a geometry for use with `OpenFOAM/snappyHexMesh` is to use filter `Feature Edges` (take care because the feature angle here is the complement, *i.e.* 180-angle, of `resolveFeatureAngle` then convert them to surfaces with filter `Extract Surface` and save results to ASCII #format/VTK format. The conversion to `eMesh` format is done as follows:
 
